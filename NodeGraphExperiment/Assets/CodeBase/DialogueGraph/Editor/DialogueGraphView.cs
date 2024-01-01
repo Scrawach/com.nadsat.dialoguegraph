@@ -47,30 +47,37 @@ namespace CodeBase.DialogueGraph.Editor
 
         private void CreateRedirectNode(Vector2 position, Edge target)
         {
-            Debug.Log($"{position}");
-            
-            var previousA = target.input;
-            var previousB = target.output;
-            
-            previousA.Disconnect(target);
-            previousB.Disconnect(target);
+            var (redirectNode, input, output) = CreateNode2();
+            position = contentViewContainer.WorldToLocal(position);
+            redirectNode.SetPosition(position);
 
-            var a = new Edge();
-
-            var (node, input, output) = CreateNode2();
-            node.SetPosition(new Rect(position, Vector2.one));
-            input.Connect(a);
-            previousA.Connect(a);
+            var edgeInput = target.input;
+            var edgeOutput = target.output;
             
-            var b = new Edge();
-            output.Connect(b);
-            previousB.Connect(b);
-            
-            AddElement(node);
-            AddElement(a);
-            AddElement(b);
-
+            target.input.Disconnect(target);
+            target.output.Disconnect(target);
             target.Clear();
+
+            var tempEdge1 = Connect(edgeInput, output);
+            var tempEdge2 = Connect(input, edgeOutput);
+            
+            AddElement(redirectNode);
+            AddElement(tempEdge1);
+            AddElement(tempEdge2);
+        }
+
+        public Edge Connect(Port a, Port b)
+        {
+            var edge = new Edge()
+            {
+                input = a,
+                output = b
+            };
+            
+            edge.input.Connect(edge);
+            edge.output.Connect(edge);
+            edge.RegisterCallback<MouseDownEvent>(OnMouseDown);
+            return edge;
         }
         
         public Node CreateEmptyNode()
