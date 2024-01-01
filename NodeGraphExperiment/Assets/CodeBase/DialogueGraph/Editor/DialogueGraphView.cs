@@ -49,7 +49,7 @@ namespace CodeBase.DialogueGraph.Editor
         {
             var (redirectNode, input, output) = CreateNode2();
             position = contentViewContainer.WorldToLocal(position);
-            redirectNode.SetPosition(position);
+            redirectNode.SetPosition(new Rect(position, Vector2.zero));
 
             var edgeInput = target.input;
             var edgeOutput = target.output;
@@ -60,6 +60,18 @@ namespace CodeBase.DialogueGraph.Editor
 
             var tempEdge1 = Connect(edgeInput, output);
             var tempEdge2 = Connect(input, edgeOutput);
+            
+            redirectNode.title = "";
+            redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
+            VisualElement contents = redirectNode.mainContainer.Q("contents");
+            VisualElement divider = contents?.Q("divider");
+
+            if (divider != null)
+            {
+                divider.RemoveFromHierarchy();
+            }
+            redirectNode.RefreshPorts();
+            redirectNode.RefreshExpandedState();
             
             AddElement(redirectNode);
             AddElement(tempEdge1);
@@ -133,10 +145,8 @@ namespace CodeBase.DialogueGraph.Editor
             };
 
             var port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(float));
-            port.name = "input";
             dialogueNode.inputContainer.Add(port);
             var port2 = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
-            port2.name = "output";
             dialogueNode.outputContainer.Add(port2);
 
             dialogueNode.RefreshPorts();
