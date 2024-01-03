@@ -16,6 +16,7 @@ namespace CodeBase.DialogueGraph.Editor
             
             AddElement(CreateNode());
             AddElement(CreateNode());
+            AddElement(CreateNode());
 
             graphViewChanged = OnGraphViewChanged;
         }
@@ -95,8 +96,8 @@ namespace CodeBase.DialogueGraph.Editor
         public Node CreateEmptyNode()
         {
             var node = new DialogueNode();
-            var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(float));
-            var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
+            var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
+            var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
             node.mainContainer.Add(input);
             node.expanded = false;
             
@@ -124,10 +125,10 @@ namespace CodeBase.DialogueGraph.Editor
                 Guid = Guid.NewGuid().ToString()
             };
 
-            var port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(float));
+            var port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
             port.name = "input";
             dialogueNode.inputContainer.Add(port);
-            port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
+            port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
             port.name = "output";
             dialogueNode.outputContainer.Add(port);
 
@@ -144,9 +145,9 @@ namespace CodeBase.DialogueGraph.Editor
                 Guid = Guid.NewGuid().ToString()
             };
 
-            var port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(float));
+            var port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
             dialogueNode.inputContainer.Add(port);
-            var port2 = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
+            var port2 = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
             dialogueNode.outputContainer.Add(port2);
 
             dialogueNode.RefreshPorts();
