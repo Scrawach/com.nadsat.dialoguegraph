@@ -92,26 +92,6 @@ namespace CodeBase.DialogueGraph.Editor
             edge.RegisterCallback<MouseDownEvent>(OnMouseDown);
             return edge;
         }
-        
-        public Node CreateEmptyNode()
-        {
-            var node = new DialogueNode();
-            var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
-            var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
-            node.mainContainer.Add(input);
-            node.expanded = false;
-            
-            VisualElement contents = node.mainContainer.Q("contents");
-            VisualElement divider = contents?.Q("divider");
-            if (divider != null)
-            {
-                Debug.Log(divider);
-                divider.RemoveFromHierarchy();
-            }
-            node.RefreshPorts();
-            node.RefreshExpandedState();
-            return node;
-        }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
