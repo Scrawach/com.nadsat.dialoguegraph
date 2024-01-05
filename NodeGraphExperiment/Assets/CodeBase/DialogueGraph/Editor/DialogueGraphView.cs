@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,8 +9,11 @@ namespace CodeBase.DialogueGraph.Editor
 {
     public class DialogueGraphView : GraphView
     {
+        public new class UxmlFactory : UxmlFactory<DialogueGraphView, GraphView.UxmlTraits> { }
+
         public void Initialize()
         {
+            Insert(0, new GridBackground());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
@@ -19,6 +23,9 @@ namespace CodeBase.DialogueGraph.Editor
             AddElement(CreateNode());
 
             graphViewChanged = OnGraphViewChanged;
+
+            //var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueGraph.uss");
+            //styleSheets.Add(stylesheet);
         }
 
         private void Update()

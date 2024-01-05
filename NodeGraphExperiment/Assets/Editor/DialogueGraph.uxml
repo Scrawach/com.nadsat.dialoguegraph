@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/DialogueGraph.uss?fileID=7433441132597879392&amp;guid=1ed620feaebf5bf4c938ef43a5a0657e&amp;type=3#DialogueGraph" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="File" />
+    </uie:Toolbar>
+    <Editor.SplitView fixed-pane-initial-dimension="300">
+        <ui:VisualElement name="LeftPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+            <ui:Label tabindex="-1" text="Inspector" display-tooltip-when-elided="true" name="InspectorTitle" style="background-color: rgb(40, 40, 40); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 6px; padding-right: 0; padding-top: 0; padding-bottom: 0; color: rgb(190, 190, 190); -unity-text-align: upper-left; font-size: 10px;" />
+            <Editor.InspectorView style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="RightPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+            <ui:Label tabindex="-1" text="Dialogue Graph View" display-tooltip-when-elided="true" name="InspectorTitle" style="background-color: rgb(40, 40, 40); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 6px; padding-right: 0; padding-top: 0; padding-bottom: 0; color: rgb(190, 190, 190); -unity-text-align: upper-left; font-size: 10px;" />
+            <Editor.DialogueGraphView focusable="true" name="DialogueGraphView" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </Editor.SplitView>
+</ui:UXML>

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Styles/test.uss?fileID=7433441132597879392&amp;guid=89ad2afc052439247ba0e8d77761030f&amp;type=3#test" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); justify-content: flex-start; align-items: stretch; align-self: auto; flex-direction: row;">
+        <CodeBase.DialogueGraph.Editor.DialogueGraphView focusable="true" style="align-self: auto; width: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>
