@@ -8,12 +8,15 @@ namespace Editor
     {
         [SerializeField]
         private VisualTreeAsset m_VisualTreeAsset = default;
+
+        private DialogueGraphView _dialogueGraphView;
+        private InspectorView _inspectorView;
         
         [MenuItem("Dialogue Graph/Open")]
         public static void OpenWindow()
         {
             var window = GetWindow<DialogueGraphWindow>();
-            window.titleContent = new GUIContent("DialogueGraph");
+            window.titleContent = new GUIContent(nameof(DialogueGraphWindow));
         }
 
         public void CreateGUI()
@@ -23,6 +26,9 @@ namespace Editor
             
             tree.StretchToParentSize();
             root.Add(tree);
+
+            _dialogueGraphView = root.Q<DialogueGraphView>();
+            _inspectorView = root.Q<InspectorView>();
         }
     }
 }
