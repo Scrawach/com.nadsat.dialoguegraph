@@ -9,7 +9,7 @@ namespace Editor
         [SerializeField]
         private VisualTreeAsset m_VisualTreeAsset = default;
         
-        [MenuItem("Window/Dialogue Graph")]
+        [MenuItem("Dialogue Graph/Open")]
         public static void OpenWindow()
         {
             var window = GetWindow<DialogueGraphWindow>();
@@ -22,7 +22,6 @@ namespace Editor
             VisualElement tree = m_VisualTreeAsset.Instantiate();
             
             tree.StretchToParentSize();
-            tree.Q("LeftPanel").style.display = DisplayStyle.None;
             root.Add(tree);
         }
     }
