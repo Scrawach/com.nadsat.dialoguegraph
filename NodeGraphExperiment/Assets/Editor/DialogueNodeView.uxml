@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/DialogueNodeView.uss?fileID=7433441132597879392&amp;guid=76791f0c9ccf3c04ca42f3651935991e&amp;type=3#DialogueNodeView" />
+    <ui:VisualElement name="node-border" style="background-color: rgb(56, 56, 56); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
+        <ui:VisualElement name="content" style="justify-content: flex-start; align-items: auto; align-self: auto; opacity: 1; flex-grow: 1; flex-wrap: wrap; flex-basis: auto;">
+            <ui:VisualElement name="header" picking-mode="Ignore" style="background-color: rgb(255, 0, 0); flex-grow: 1; height: auto; width: 100%; min-height: 32px; max-height: 32px;" />
+            <ui:VisualElement name="center" picking-mode="Ignore" style="flex-grow: 1; height: auto; min-height: 32px; width: 100%; max-height: 32px;">
+                <ui:VisualElement name="body" style="flex-direction: row; flex-grow: 1; flex-shrink: 1; flex-basis: 10%;">
+                    <ui:VisualElement name="input" style="flex-grow: 1; justify-content: center; align-items: flex-start; flex-shrink: 1;" />
+                    <ui:VisualElement name="title" style="align-items: center; justify-content: center; flex-grow: 1; flex-wrap: wrap;">
+                        <ui:Label name="title-label" text="Dialogue Node" display-tooltip-when-elided="false" class="unity-text-element unity-label" style="-unity-font-style: bold; white-space: nowrap; -unity-text-align: upper-center;" />
+                        <ui:VisualElement name="title-button-container">
+                            <ui:VisualElement name="collapse-button">
+                                <ui:VisualElement name="icon" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="output" style="flex-grow: 1; align-items: flex-end; justify-content: center;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="bottom" style="flex-grow: 2; width: 100%; min-height: 32px; flex-direction: column; flex-wrap: nowrap; -unity-text-align: upper-left; white-space: nowrap; max-height: none; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                <ui:Label tabindex="-1" text="This is description" display-tooltip-when-elided="true" name="description-label" style="flex-wrap: wrap; flex-grow: 2; flex-shrink: 1; margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 4px; padding-top: 0; padding-right: 4px; padding-bottom: 0; padding-left: 4px; font-size: 11px; white-space: normal; flex-basis: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="selection-border" picking-mode="Ignore" />
+</ui:UXML>

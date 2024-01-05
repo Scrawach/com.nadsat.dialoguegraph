@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,6 +20,18 @@ namespace Editor
             window.titleContent = new GUIContent(nameof(DialogueGraphWindow));
         }
 
+        [OnOpenAsset]
+        public static bool OnOpenAsset(int instanceId, int line)
+        {
+            /*if (Selection.activeObject is DialogueGraph)
+            {
+                OpenWindow();
+                return true;
+            }*/
+
+            return false;
+        }
+        
         public void CreateGUI()
         {
             var root = rootVisualElement;
