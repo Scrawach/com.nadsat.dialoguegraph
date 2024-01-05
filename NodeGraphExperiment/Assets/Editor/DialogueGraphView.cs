@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -9,6 +10,10 @@ namespace Editor
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, GraphView.UxmlTraits> { }
 
+        public event Action<DialogueNodeView> OnNodeSelected; 
+
+        private readonly DialogueNodeViewFactory _factory;
+        
         public DialogueGraphView()
         {
             Insert(0, new GridBackground());
@@ -20,6 +25,14 @@ namespace Editor
             
             var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueGraph.uss");
             styleSheets.Add(stylesheet);
+
+            _factory = new DialogueNodeViewFactory();
+            graphViewChanged = OnGraphViewChanged;
+        }
+
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+        {
+            return graphViewChange;
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -35,20 +48,9 @@ namespace Editor
 
         private void CreateNodeView()
         {
-            var node = new DialogueNodeView();
-            node.title = "Dialogue Node";
-
-            var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
-            input.portName = "";
-            node.inputContainer.Add(input);
-
-            var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
-            output.portName = "";
-            node.outputContainer.Add(output);
-            
-            node.RefreshPorts();
-            node.RefreshExpandedState();
-            AddElement(node);
+            var dialogueNode = _factory.CreateDialogueNode();
+            dialogueNode.OnNodeSelected += (node) => OnNodeSelected?.Invoke(node);
+            AddElement(dialogueNode);
         }
     }
 }

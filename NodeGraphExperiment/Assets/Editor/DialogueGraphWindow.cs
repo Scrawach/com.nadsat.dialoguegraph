@@ -29,6 +29,8 @@ namespace Editor
 
             _dialogueGraphView = root.Q<DialogueGraphView>();
             _inspectorView = root.Q<InspectorView>();
+
+            _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(node);
         }
     }
 }

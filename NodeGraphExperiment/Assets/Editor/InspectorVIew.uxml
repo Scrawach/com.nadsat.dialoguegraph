@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Editor.InspectorView style="flex-grow: 1;">
+        <ui:VisualElement name="Title" style="flex-grow: 0; flex-direction: row; flex-shrink: 1;">
+            <ui:Label tabindex="-1" text="Guid: " display-tooltip-when-elided="true" name="GuidTitle" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; font-size: 8px; color: rgb(190, 190, 190); background-color: rgba(40, 40, 40, 0); padding-right: 0; padding-left: 4px;" />
+            <ui:Label tabindex="-1" text="&lt;none&gt;" display-tooltip-when-elided="true" name="GuidLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; font-size: 8px; color: rgb(190, 190, 190); background-color: rgba(40, 40, 40, 0); flex-grow: 1;" />
+        </ui:VisualElement>
+    </Editor.InspectorView>
+</ui:UXML>
