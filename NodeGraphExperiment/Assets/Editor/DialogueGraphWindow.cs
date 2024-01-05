@@ -23,6 +23,8 @@ namespace Editor
         [OnOpenAsset]
         public static bool OnOpenAsset(int instanceId, int line)
         {
+            Foldout
+            
             /*if (Selection.activeObject is DialogueGraph)
             {
                 OpenWindow();
