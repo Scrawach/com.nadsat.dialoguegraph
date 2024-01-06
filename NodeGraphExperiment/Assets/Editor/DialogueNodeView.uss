@@ -57,7 +57,7 @@
 
 .node {
     min-width: 160px;
-    min-height: 100px;
+    min-height: auto;
     max-width: 160px;
-    max-height: 200px;
+    max-height: none;
 }
