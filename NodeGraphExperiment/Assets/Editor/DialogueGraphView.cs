@@ -29,7 +29,7 @@ namespace Editor
             var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueGraph.uss");
             styleSheets.Add(stylesheet);
 
-            _factory = new DialogueNodeViewFactory();
+            _factory = new DialogueNodeViewFactory(this);
             graphViewChanged = OnGraphViewChanged;
 
             foreach (var item in TestItems()) 
@@ -65,73 +65,11 @@ namespace Editor
         
         private void OnMouseDown(MouseDownEvent evt)
         {
-            if (evt is { target: Edge edge }) 
-                CreateRedirectNode(evt.mousePosition, edge);
-        }
-
-
-        private void CreateRedirectNode(Vector2 position, Edge target)
-        {
-            var (redirectNode, input, output) = CreateNode2();
-            position = contentViewContainer.WorldToLocal(position);
-            redirectNode.SetPosition(new Rect(position, Vector2.zero));
-
-            var edgeInput = target.input;
-            var edgeOutput = target.output;
-            
-            target.input.Disconnect(target);
-            target.output.Disconnect(target);
-            target.Clear();
-
-            var tempEdge1 = Connect(edgeInput, output);
-            var tempEdge2 = Connect(input, edgeOutput);
-            
-            redirectNode.title = "";
-            redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
-            VisualElement contents = redirectNode.mainContainer.Q("contents");
-            VisualElement divider = contents?.Q("divider");
-
-            if (divider != null)
+            if (evt is { target: Edge edge })
             {
-                divider.RemoveFromHierarchy();
+                var worldPosition = contentViewContainer.WorldToLocal(evt.mousePosition);
+                _factory.CreateRedirectNode(worldPosition, edge, OnMouseDown);
             }
-            redirectNode.RefreshPorts();
-            redirectNode.RefreshExpandedState();
-            
-            AddElement(redirectNode);
-            AddElement(tempEdge1);
-            AddElement(tempEdge2);
-        }
-        
-        public Edge Connect(Port a, Port b)
-        {
-            var edge = new Edge()
-            {
-                input = a,
-                output = b
-            };
-            
-            edge.input.Connect(edge);
-            edge.output.Connect(edge);
-            edge.RegisterCallback<MouseDownEvent>(OnMouseDown);
-            return edge;
-        }
-        
-        public (Node, Port input, Port output) CreateNode2()
-        {
-            var dialogueNode = new RedirectNode()
-            {
-            };
-
-            var port = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
-            dialogueNode.inputContainer.Add(port);
-            var port2 = dialogueNode.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
-            dialogueNode.outputContainer.Add(port2);
-
-            dialogueNode.RefreshPorts();
-            dialogueNode.RefreshExpandedState();
-            
-            return (dialogueNode, port, port2);
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
