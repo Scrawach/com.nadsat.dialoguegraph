@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,6 +45,19 @@ namespace Editor
             _inspectorView = root.Q<InspectorView>();
 
             _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(node);
+            _dialogueGraphView.graphViewChanged += OnChange;
+        }
+
+        private GraphViewChange OnChange(GraphViewChange graphViewChange)
+        {
+            hasUnsavedChanges = true;
+            return graphViewChange;
+        }
+
+        public override void SaveChanges()
+        {
+            base.SaveChanges();
+            // Save data to asset or something else idk
         }
     }
 }
