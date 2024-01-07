@@ -31,24 +31,25 @@ namespace Editor
 
             _factory = new DialogueNodeViewFactory();
             graphViewChanged = OnGraphViewChanged;
-            
-            AddElement(_factory.From(NodeFactory.Elena("tutor_elena_001", "911, оператор службы спасения Елена. Чем могу помочь?")));
+
+            foreach (var item in TestItems()) 
+                AddElement(item);
+        }
+
+        private IEnumerable<DialogueNodeView> TestItems()
+        {
+            yield return _factory.From(NodeFactory.Elena("tutor_elena_001", "911, оператор службы спасения Елена. Чем могу помочь?"));
             var mark = NodeFactory.Mark("tutor_mark_001", "Приветствую, Елена! Это начальство беспокоит. Вы уже на рабочем месте?");
             mark.PathToImage = "Assets/mark_001.jpg";
             mark.HasSound = true;
-            
-            AddElement(_factory.From(mark));
-            AddElement(_factory.From(NodeFactory.Elena("tutor_elena_002", "Здравствуйте, мистер Уильямс. Так точно.")));
-
-            var mark2 = NodeFactory.Mark("tutor_mark_002",
-                "Дальше просто Марк, пожалуйста. Вы пришли раньше, чем нужно, взяли трубку сразу... Может, вам ещё и кофе здешний нравится? Ладно, шучу — его никто не любит.");
-            mark2.PathToImage = "Assets/mark_002.jpg";
-            mark2.HasError = true;
-            AddElement(_factory.From(mark2));
+            yield return _factory.From(mark);
+            yield return _factory.From(NodeFactory.Elena("tutor_elena_002", "Здравствуйте, мистер Уильямс. Так точно."));
+            mark = NodeFactory.Mark("tutor_mark_002", "Дальше просто Марк, пожалуйста. Вы пришли раньше, чем нужно, взяли трубку сразу... Может, вам ещё и кофе здешний нравится? Ладно, шучу — его никто не любит.");
+            mark.PathToImage = "Assets/mark_002.jpg";
+            mark.HasError = true;
+            yield return _factory.From(mark);
         }
 
-
-        
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
             if (graphViewChange.edgesToCreate != null)
