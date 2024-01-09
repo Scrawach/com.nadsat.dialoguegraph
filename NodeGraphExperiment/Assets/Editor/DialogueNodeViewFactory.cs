@@ -9,11 +9,13 @@ namespace Editor
     {
         private readonly DialogueGraphView _canvas;
         private readonly DialoguePersonDatabase _personDatabase;
+        private readonly PhraseRepository _phraseRepository;
 
-        public DialogueNodeViewFactory(DialogueGraphView canvas, DialoguePersonDatabase personDatabase)
+        public DialogueNodeViewFactory(DialogueGraphView canvas, DialoguePersonDatabase personDatabase, PhraseRepository phraseRepository)
         {
             _canvas = canvas;
             _personDatabase = personDatabase;
+            _phraseRepository = phraseRepository;
         }
 
         public RedirectNode CreateRedirectNode(Vector2 position, Edge target, EventCallback<MouseDownEvent> onMouseDown = null)
@@ -54,6 +56,12 @@ namespace Editor
             {
                 var updatedData = _personDatabase.FindByName(dialogue.PersonName.Value);
                 node.ChangePerson(updatedData);
+            };
+
+            dialogue.Title.Changed += () =>
+            {
+                node.SetTitle(dialogue.Title.Value);
+                node.SetDescription(_phraseRepository.Find(dialogue.Title.Value));
             };
 
             CreatePortsFor(node);

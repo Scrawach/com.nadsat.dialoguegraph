@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -40,11 +39,7 @@ namespace Editor
         private void OnTitleSelectClicked()
         {
             var point = _titleSelect.LocalToWorld(Vector2.zero); 
-            _searchWindow.FindKeys(point, Debug.Log);
-        }
-        
-        private void OnSearchFieldChanged(ChangeEvent<string> evt)
-        {
+            _searchWindow.FindKeys(point, (key) => _node.Title.Value = key);
         }
 
         private void OnDropdownChanged(ChangeEvent<string> action) =>

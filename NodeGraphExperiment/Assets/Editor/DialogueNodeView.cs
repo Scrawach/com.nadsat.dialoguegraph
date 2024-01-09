@@ -76,5 +76,11 @@ namespace Editor
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(data.Icon));
             _avatar.style.backgroundImage = new StyleBackground(icon);
         }
+
+        public void SetTitle(string newTitle) =>
+            _titleLabel.text = newTitle;
+
+        public void SetDescription(string description) =>
+            _descriptionLabel.text = description;
     }
 }

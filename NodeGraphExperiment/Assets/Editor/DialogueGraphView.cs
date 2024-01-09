@@ -35,24 +35,11 @@ namespace Editor
             graphViewChanged = OnGraphViewChanged;
         }
 
-        public void Initialize(DialoguePersonDatabase personDatabase)
+        public void Initialize(DialoguePersonDatabase personDatabase, PhraseRepository phraseRepository)
         {
             _personDatabase = personDatabase;
-            _factory = new DialogueNodeViewFactory(this, personDatabase);
+            _factory = new DialogueNodeViewFactory(this, personDatabase, phraseRepository);
             _contextualMenu = new ContextualMenuBuilder(personDatabase, _factory);
-        }
-
-        private IEnumerable<DialogueNodeView> TestItems()
-        {
-            yield return _factory.From(NodeFactory.Elena("tutor_elena_001", "911, оператор службы спасения Елена. Чем могу помочь?"));
-            var mark = NodeFactory.Mark("tutor_mark_001", "Приветствую, Елена! Это начальство беспокоит. Вы уже на рабочем месте?");
-            mark.BackgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/mark_001.jpg");
-            yield return _factory.From(mark);
-            yield return _factory.From(NodeFactory.Elena("tutor_elena_002", "Здравствуйте, мистер Уильямс. Так точно."));
-            mark = NodeFactory.Mark("tutor_mark_002", "Дальше просто Марк, пожалуйста. Вы пришли раньше, чем нужно, взяли трубку сразу... Может, вам ещё и кофе здешний нравится? Ладно, шучу — его никто не любит.");
-            mark.BackgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/mark_002.jpg");
-            var node = _factory.From(mark);
-            yield return node;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
