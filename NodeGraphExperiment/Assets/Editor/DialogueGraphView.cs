@@ -16,7 +16,8 @@ namespace Editor
 
         private DialogueNodeViewFactory _factory;
         private DialoguePersonDatabase _personDatabase;
-        
+        private ContextualMenuBuilder _contextualMenu;
+
         public DialogueGraphView()
         {
             Insert(0, new GridBackground());
@@ -38,12 +39,7 @@ namespace Editor
         {
             _personDatabase = personDatabase;
             _factory = new DialogueNodeViewFactory(this, personDatabase);
-
-            foreach (var item in TestItems())
-            {
-                item.AddIcon(DialogueIconViewFactory.SoundIcon());
-                AddElement(item);
-            }
+            _contextualMenu = new ContextualMenuBuilder(personDatabase, _factory);
         }
 
         private IEnumerable<DialogueNodeView> TestItems()
@@ -86,32 +82,14 @@ namespace Editor
             return ports.ToList();
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
+            _contextualMenu.BuildContextualMenu(evt);
+
+        public void AddNode(DialogueNodeView nodeView)
         {
-            // base.BuildContextualMenu(evt);
-
-            foreach (var personData in _personDatabase.Persons)
-            {
-                evt.menu.AppendAction($"Create {personData.Name}", _ => CreateFrom(personData));
-            }
-        }
-
-        private void CreateFrom(DialoguePersonData data)
-        {
-            Debug.Log(data);
-            var viewData = new DialogueNodeViewData()
-            {
-                PersonName = data.Name,
-                HeaderColor = data.Color,
-                Title = "none",
-                Description = "none",
-                Icon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(data.Icon))
-            };
-
-            var dialogueNode = _factory.From(viewData);
-            dialogueNode.OnNodeSelected += (node) => OnNodeSelected?.Invoke(node);
-            dialogueNode.OnNodeUnselected += (node) => OnNodeUnselected?.Invoke(node);
-            AddElement(dialogueNode);
+            nodeView.OnNodeSelected += (node) => OnNodeSelected?.Invoke(node);
+            nodeView.OnNodeUnselected += (node) => OnNodeUnselected?.Invoke(node);
+            AddElement(nodeView);
         }
     }
 }

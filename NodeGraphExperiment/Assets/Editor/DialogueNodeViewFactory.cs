@@ -1,4 +1,5 @@
-﻿using UnityEditor.Experimental.GraphView;
+﻿using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -81,6 +82,22 @@ namespace Editor
             node.RefreshPorts();
             node.RefreshExpandedState();
             return (input, output);
+        }
+
+        public void CreatePersonNode(DialoguePersonData data, Vector2 position)
+        {
+            var viewData = new DialogueNodeViewData()
+            {
+                PersonName = data.Name,
+                HeaderColor = data.Color,
+                Title = "none",
+                Description = "none",
+                Icon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(data.Icon))
+            };
+
+            var dialogueNode = From(viewData);
+            dialogueNode.SetPosition(new Rect(_canvas.contentViewContainer.WorldToLocal(position), Vector2.zero));
+            _canvas.AddNode(dialogueNode);
         }
     }
 }
