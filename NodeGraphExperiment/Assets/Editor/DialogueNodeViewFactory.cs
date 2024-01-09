@@ -61,6 +61,11 @@ namespace Editor
             dialogue.Title.Changed += () =>
             {
                 node.SetTitle(dialogue.Title.Value);
+                dialogue.Description.Value = _phraseRepository.Find(dialogue.Title.Value);
+            };
+
+            dialogue.Description.Changed += () =>
+            {
                 node.SetDescription(_phraseRepository.Find(dialogue.Title.Value));
             };
 
