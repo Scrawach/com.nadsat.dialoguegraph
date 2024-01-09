@@ -11,7 +11,8 @@ namespace Editor
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, GraphView.UxmlTraits> { }
 
-        public event Action<DialogueNodeView> OnNodeSelected; 
+        public event Action<DialogueNodeView> OnNodeSelected;
+        public event Action<DialogueNodeView> OnNodeUnselected; 
 
         private DialogueNodeViewFactory _factory;
         private DialoguePersonDatabase _personDatabase;
@@ -109,6 +110,7 @@ namespace Editor
 
             var dialogueNode = _factory.From(viewData);
             dialogueNode.OnNodeSelected += (node) => OnNodeSelected?.Invoke(node);
+            dialogueNode.OnNodeUnselected += (node) => OnNodeUnselected?.Invoke(node);
             AddElement(dialogueNode);
         }
     }

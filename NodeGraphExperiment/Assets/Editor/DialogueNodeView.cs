@@ -38,9 +38,14 @@ namespace Editor
 
         public event Action<DialogueNodeView> OnNodeSelected;
 
+        public event Action<DialogueNodeView> OnNodeUnselected;
+
         public override void OnSelected() =>
             OnNodeSelected?.Invoke(this);
-        
+
+        public override void OnUnselected() =>
+            OnNodeUnselected?.Invoke(this);
+
         public void Update(DialogueNodeViewData data)
         {
             _personNameLabel.text = data.PersonName;

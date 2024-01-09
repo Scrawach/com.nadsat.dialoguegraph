@@ -48,6 +48,7 @@ namespace Editor
             var inspectorFactory = new InspectorViewFactory(personDatabase);
             _dialogueGraphView.Initialize(personDatabase);
             _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
+            _dialogueGraphView.OnNodeUnselected += (node) => _inspectorView.Cleanup();
             _dialogueGraphView.graphViewChanged += OnChange;
         }
 

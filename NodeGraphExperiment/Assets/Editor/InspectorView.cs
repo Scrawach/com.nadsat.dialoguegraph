@@ -10,11 +10,16 @@ namespace Editor
 
         public void Populate(VisualElement visual)
         {
-            if (_selected != null)
-                Remove(_selected);
-            
+            Cleanup();
             _selected = visual;
             Add(_selected);
+        }
+
+        public void Cleanup()
+        {
+            if (_selected != null)
+                Remove(_selected);
+            _selected = null;
         }
     }
 }
