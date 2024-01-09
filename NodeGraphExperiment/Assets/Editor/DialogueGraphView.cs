@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -16,9 +18,12 @@ namespace Editor
 
         private DialogueNodeViewFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
+        private CopyPasteNodes _copyPaste;
 
         public DialogueGraphView()
         {
+            _copyPaste = new CopyPasteNodes();
+            
             Insert(0, new GridBackground());
 
             var zoomer = new ContentZoomer();
@@ -32,6 +37,30 @@ namespace Editor
             styleSheets.Add(stylesheet);
 
             graphViewChanged = OnGraphViewChanged;
+            serializeGraphElements += OnCutCopyOperation;
+            unserializeAndPaste += OnPasteOperation;
+        }
+
+        private string OnCutCopyOperation(IEnumerable<GraphElement> elements)
+        {
+            _copyPaste.Clear();
+            foreach (var element in elements) 
+                _copyPaste.Add(element);
+            
+            return "hey";
+        }
+
+        private void OnPasteOperation(string operationName, string data)
+        {
+            ClearSelection();
+            foreach (var element in _copyPaste.ElementsToCopy)
+            {
+                if (element is DialogueNodeView dialogueNodeView)
+                {
+                    var node = _factory.Copy(dialogueNodeView);
+                    AddToSelection(node);
+                }
+            }
         }
 
         public void Initialize(DialogueNodeViewFactory factory, ContextualMenuBuilder contextualMenuBuilder)
@@ -67,8 +96,11 @@ namespace Editor
             return ports.ToList();
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
             _contextualMenu.BuildContextualMenu(evt);
+        }
 
         public void AddNode(DialogueNodeView nodeView)
         {

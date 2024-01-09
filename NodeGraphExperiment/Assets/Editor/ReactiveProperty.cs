@@ -2,6 +2,7 @@ using System;
 
 namespace Editor
 {
+    [Serializable]
     public class ReactiveProperty<TValue>
     {
         private TValue _value;

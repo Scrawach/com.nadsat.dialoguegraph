@@ -1,5 +1,8 @@
+using System;
+
 namespace Editor
 {
+    [Serializable]
     public class DialogueNode
     {
         public string Guid;

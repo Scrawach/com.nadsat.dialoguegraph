@@ -97,7 +97,7 @@ namespace Editor
             return (input, output);
         }
 
-        public void CreatePersonNode(DialoguePersonData data, Vector2 position)
+        public DialogueNodeView CreatePersonNode(DialoguePersonData data, Vector2 position)
         {
             var viewData = new DialogueNodeViewData()
             {
@@ -111,6 +111,16 @@ namespace Editor
             var dialogueNode = From(viewData);
             dialogueNode.SetPosition(new Rect(_canvas.contentViewContainer.WorldToLocal(position), Vector2.zero));
             _canvas.AddNode(dialogueNode);
+            return dialogueNode;
+        }
+
+        public DialogueNodeView Copy(DialogueNodeView dialogueNodeView)
+        {
+            var personSettings = _personDatabase.FindByName(dialogueNodeView.DialogueNode.PersonName.Value);
+            var node = CreatePersonNode(personSettings, dialogueNodeView.worldTransform.GetPosition());
+            node.SetTitle(dialogueNodeView.DialogueNode.Title.Value);
+            node.SetDescription(dialogueNodeView.DialogueNode.Description.Value);
+            return node;
         }
     }
 }
