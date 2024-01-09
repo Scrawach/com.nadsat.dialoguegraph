@@ -7,7 +7,7 @@ namespace Editor
     public class DialoguePersonData
     {
         public string Name;
-        public Sprite Icon;
+        public Texture2D Icon;
         public Color Color;
     }
 }

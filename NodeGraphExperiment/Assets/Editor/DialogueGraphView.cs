@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor
@@ -44,13 +45,11 @@ namespace Editor
         {
             yield return _factory.From(NodeFactory.Elena("tutor_elena_001", "911, оператор службы спасения Елена. Чем могу помочь?"));
             var mark = NodeFactory.Mark("tutor_mark_001", "Приветствую, Елена! Это начальство беспокоит. Вы уже на рабочем месте?");
-            mark.PathToImage = "Assets/mark_001.jpg";
-            mark.HasSound = true;
+            mark.BackgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/mark_001.jpg");
             yield return _factory.From(mark);
             yield return _factory.From(NodeFactory.Elena("tutor_elena_002", "Здравствуйте, мистер Уильямс. Так точно."));
             mark = NodeFactory.Mark("tutor_mark_002", "Дальше просто Марк, пожалуйста. Вы пришли раньше, чем нужно, взяли трубку сразу... Может, вам ещё и кофе здешний нравится? Ладно, шучу — его никто не любит.");
-            mark.PathToImage = "Assets/mark_002.jpg";
-            mark.HasError = true;
+            mark.BackgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/mark_002.jpg");
             yield return _factory.From(mark);
         }
 
@@ -100,7 +99,7 @@ namespace Editor
                 BackgroundColor = data.Color,
                 Title = "none",
                 Description = "none",
-                PathToIcon = AssetDatabase.GetAssetPath(data.Icon)
+                Icon = data.Icon
             };
             
             AddElement(_factory.From(viewData));

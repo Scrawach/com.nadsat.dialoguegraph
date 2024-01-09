@@ -10,9 +10,8 @@ namespace Editor
         public string Description;
         
         public Color BackgroundColor;
-        public bool HasError;
-        public bool HasSound;
-        public string PathToIcon;
-        public string PathToImage;
+        
+        public Texture2D Icon;
+        public Texture2D BackgroundImage;
     }
 }

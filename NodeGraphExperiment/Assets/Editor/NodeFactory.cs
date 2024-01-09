@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Editor
 {
@@ -12,7 +13,7 @@ namespace Editor
                 Title = title,
                 Description = description,
                 BackgroundColor = new Color(0.2f, 0.5f, 0.2f),
-                PathToIcon = "Assets/1Helen_neutral.png"
+                Icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/1Helen_neutral.png")
             };
         }
 
@@ -24,7 +25,7 @@ namespace Editor
                 Title = title,
                 Description = description,
                 BackgroundColor = new Color(0.2f, 0.5f, 0.6f),
-                PathToIcon = "Assets/1Mark-neutral.png"
+                Icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/1Mark-neutral.png")
             };
         }
     }

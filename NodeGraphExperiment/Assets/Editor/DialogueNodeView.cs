@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Codice.CM.Common;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,49 +12,48 @@ namespace Editor
     {
         public string Guid;
 
+        private Label _personNameLabel;
+        private Label _titleLabel;
+        private Label _descriptionLabel;
+
+        private VisualElement _header;
+        private VisualElement _avatar;
+
+        private VisualElement _image;
+        private VisualElement _imageContainer;
+        
+        private VisualElement _iconContainer;
+
         public DialogueNodeView(DialogueNodeViewData data) : base(Path.Combine("Assets", "Editor", "DialogueNodeView.uxml"))
         {
-            this.Q<Label>("person-name-label").text = data.PersonName;
-            this.Q<Label>("title-label").text = data.Title;
-            this.Q<Label>("description-label").text = data.Description;
+            _personNameLabel = this.Q<Label>("person-name-label");
+            _titleLabel = this.Q<Label>("title-label");
+            _descriptionLabel = this.Q<Label>("description-label");
+            _header = this.Q<VisualElement>("header");
+            _avatar = this.Q<VisualElement>("avatar");
+            _image = this.Q<VisualElement>("image");
+            _imageContainer = this.Q<VisualElement>("image-container");
+            _iconContainer = this.Q<VisualElement>("icons-container");
             
-            this.Q<VisualElement>("header").style.backgroundColor = data.BackgroundColor;
-
-            if (!string.IsNullOrWhiteSpace(data.PathToIcon))
-            {
-                var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(data.PathToIcon);
-                this.Q<VisualElement>("avatar").style.backgroundImage = new StyleBackground(icon);
-            }
-
-            if (!string.IsNullOrWhiteSpace(data.PathToImage))
-            {
-                var background = AssetDatabase.LoadAssetAtPath<Texture2D>(data.PathToImage);
-                this.Q<VisualElement>("image").style.backgroundImage = new StyleBackground(background);
-            }
-            else
-            {
-                this.Q<VisualElement>("image-container").style.display = DisplayStyle.None;
-            }
-
-            if (!data.HasSound)
-            {
-                this.Q<VisualElement>("sound-icon").style.display = DisplayStyle.None;
-            }
-            else
-            {
-                this.Q<VisualElement>("sound-icon").style.display = DisplayStyle.Flex;
-            }
+            _personNameLabel.text = data.PersonName;
+            _titleLabel.text = data.Title;
+            _descriptionLabel.text = data.Description;
             
-            if (!data.HasError)
+            _header.style.backgroundColor = data.BackgroundColor;
+
+            if (data.Icon != null)
             {
-                this.Q<VisualElement>("error-icon").style.display = DisplayStyle.None;
+                _avatar.style.backgroundImage = new StyleBackground(data.Icon);
+            }
+
+            if (data.BackgroundImage != null)
+            {
+                _image.style.backgroundImage = new StyleBackground(data.BackgroundImage);
             }
             else
             {
-                this.Q<VisualElement>("error-icon").style.display = DisplayStyle.Flex;
+                _imageContainer.style.display = DisplayStyle.None;
             }
-
-            this.Q<VisualElement>("node-border").style.visibility = Visibility.Visible;
         }
         
         public event Action<DialogueNodeView> OnNodeSelected;
