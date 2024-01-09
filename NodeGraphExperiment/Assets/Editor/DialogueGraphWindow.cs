@@ -44,10 +44,10 @@ namespace Editor
             _dialogueGraphView = root.Q<DialogueGraphView>();
             _inspectorView = root.Q<InspectorView>();
 
-            var personDataBase = AssetDatabase.LoadAssetAtPath<DialoguePersonDatabase>("Assets/Editor/Dialogue Person Database.asset");
-
-            _dialogueGraphView.Initialize(personDataBase);
-            _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(node);
+            var personDatabase = AssetDatabase.LoadAssetAtPath<DialoguePersonDatabase>("Assets/Editor/Dialogue Person Database.asset");
+            var inspectorFactory = new InspectorViewFactory(personDatabase);
+            _dialogueGraphView.Initialize(personDatabase);
+            _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
             _dialogueGraphView.graphViewChanged += OnChange;
         }
 

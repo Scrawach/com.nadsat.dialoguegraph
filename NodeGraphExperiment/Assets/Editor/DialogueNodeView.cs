@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor
@@ -19,8 +21,11 @@ namespace Editor
         
         private readonly VisualElement _iconContainer;
 
-        public DialogueNodeView() : base(Path.Combine("Assets", "Editor", "DialogueNodeView.uxml"))
+        public readonly DialogueNode DialogueNode;
+
+        public DialogueNodeView(DialogueNode dialogueNode) : base(Path.Combine("Assets", "Editor", "DialogueNodeView.uxml"))
         {
+            DialogueNode = dialogueNode;
             _personNameLabel = this.Q<Label>("person-name-label");
             _titleLabel = this.Q<Label>("title-label");
             _descriptionLabel = this.Q<Label>("description-label");
@@ -32,7 +37,7 @@ namespace Editor
         }
 
         public event Action<DialogueNodeView> OnNodeSelected;
-        
+
         public override void OnSelected() =>
             OnNodeSelected?.Invoke(this);
         
@@ -41,7 +46,7 @@ namespace Editor
             _personNameLabel.text = data.PersonName;
             _titleLabel.text = data.Title;
             _descriptionLabel.text = data.Description;
-            _header.style.backgroundColor = data.headerColor;
+            _header.style.backgroundColor = data.HeaderColor;
 
             if (data.Icon != null) 
                 _avatar.style.backgroundImage = new StyleBackground(data.Icon);
@@ -57,5 +62,14 @@ namespace Editor
 
         public void RemoveIcon(DialogueIconView iconView) =>
             _iconContainer.Remove(iconView);
+
+        public void ChangePerson(DialoguePersonData data)
+        {
+            _personNameLabel.text = data.Name;
+            _header.style.backgroundColor = data.Color;
+
+            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(data.Icon));
+            _avatar.style.backgroundImage = new StyleBackground(icon);
+        }
     }
 }

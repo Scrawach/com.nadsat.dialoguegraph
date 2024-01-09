@@ -7,9 +7,13 @@ namespace Editor
     public class DialogueNodeViewFactory
     {
         private readonly DialogueGraphView _canvas;
+        private readonly DialoguePersonDatabase _personDatabase;
 
-        public DialogueNodeViewFactory(DialogueGraphView canvas) =>
+        public DialogueNodeViewFactory(DialogueGraphView canvas, DialoguePersonDatabase personDatabase)
+        {
             _canvas = canvas;
+            _personDatabase = personDatabase;
+        }
 
         public RedirectNode CreateRedirectNode(Vector2 position, Edge target, EventCallback<MouseDownEvent> onMouseDown = null)
         {
@@ -61,8 +65,18 @@ namespace Editor
 
         public DialogueNodeView From(DialogueNodeViewData data)
         {
-            var node = new DialogueNodeView();
+            var dialogue = new DialogueNode();
+            dialogue.PersonName.Value = data.PersonName;
+            dialogue.Title.Value = data.Title;
+            dialogue.Description.Value = data.Description;
+            
+            var node = new DialogueNodeView(dialogue);
             node.Update(data);
+            dialogue.PersonName.Changed += () =>
+            {
+                var updatedData = _personDatabase.FindByName(dialogue.PersonName.Value);
+                node.ChangePerson(updatedData);
+            };
 
             var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
             input.portName = "";

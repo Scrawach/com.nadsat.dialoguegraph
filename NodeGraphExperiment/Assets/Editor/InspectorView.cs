@@ -6,9 +6,15 @@ namespace Editor
     {
         public new class UxmlFactory : UxmlFactory<InspectorView, UxmlTraits> { }
 
-        public void Populate(DialogueNodeView node)
+        private VisualElement _selected;
+
+        public void Populate(VisualElement visual)
         {
-            this.Q<Label>("GuidLabel").text = node.viewDataKey;
+            if (_selected != null)
+                Remove(_selected);
+            
+            _selected = visual;
+            Add(_selected);
         }
     }
 }

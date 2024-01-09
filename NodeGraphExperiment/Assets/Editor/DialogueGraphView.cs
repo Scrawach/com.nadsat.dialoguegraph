@@ -13,8 +13,7 @@ namespace Editor
 
         public event Action<DialogueNodeView> OnNodeSelected; 
 
-        private readonly DialogueNodeViewFactory _factory;
-
+        private DialogueNodeViewFactory _factory;
         private DialoguePersonDatabase _personDatabase;
         
         public DialogueGraphView()
@@ -31,8 +30,13 @@ namespace Editor
             var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueGraph.uss");
             styleSheets.Add(stylesheet);
 
-            _factory = new DialogueNodeViewFactory(this);
             graphViewChanged = OnGraphViewChanged;
+        }
+
+        public void Initialize(DialoguePersonDatabase personDatabase)
+        {
+            _personDatabase = personDatabase;
+            _factory = new DialogueNodeViewFactory(this, personDatabase);
 
             foreach (var item in TestItems())
             {
@@ -40,9 +44,6 @@ namespace Editor
                 AddElement(item);
             }
         }
-
-        public void Initialize(DialoguePersonDatabase personDatabase) =>
-            _personDatabase = personDatabase;
 
         private IEnumerable<DialogueNodeView> TestItems()
         {
@@ -100,7 +101,7 @@ namespace Editor
             var viewData = new DialogueNodeViewData()
             {
                 PersonName = data.Name,
-                headerColor = data.Color,
+                HeaderColor = data.Color,
                 Title = "none",
                 Description = "none",
                 Icon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(data.Icon))

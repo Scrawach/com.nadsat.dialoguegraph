@@ -12,7 +12,7 @@ namespace Editor
                 PersonName = "Елена",
                 Title = title,
                 Description = description,
-                headerColor = new Color(0.2f, 0.5f, 0.2f),
+                HeaderColor = new Color(0.2f, 0.5f, 0.2f),
                 Icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/1Helen_neutral.png")
             };
         }
@@ -24,7 +24,7 @@ namespace Editor
                 PersonName = "Марк",
                 Title = title,
                 Description = description,
-                headerColor = new Color(0.2f, 0.5f, 0.6f),
+                HeaderColor = new Color(0.2f, 0.5f, 0.6f),
                 Icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/1Mark-neutral.png")
             };
         }
