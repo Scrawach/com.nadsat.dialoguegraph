@@ -260,7 +260,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icons8-sound-50_0: 3483538934392626570
+      icons8-sound-50_1: -8047022614943440213
+      icons8-sound-50_2: 1882625170240193400
+      icons8-sound-50_3: 2155031626614906336
+      icons8-sound-50_4: -903075697487629710
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

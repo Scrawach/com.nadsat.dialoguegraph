@@ -44,6 +44,9 @@ namespace Editor
             _dialogueGraphView = root.Q<DialogueGraphView>();
             _inspectorView = root.Q<InspectorView>();
 
+            var personDataBase = AssetDatabase.LoadAssetAtPath<DialoguePersonDatabase>("Assets/Editor/Dialogue Person Database.asset");
+
+            _dialogueGraphView.Initialize(personDataBase);
             _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(node);
             _dialogueGraphView.graphViewChanged += OnChange;
         }

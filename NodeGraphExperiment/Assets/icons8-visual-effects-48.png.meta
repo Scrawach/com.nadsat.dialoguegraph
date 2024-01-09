@@ -212,7 +212,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      icons8-visual-effects-48_0: -532773511243091182
+      icons8-visual-effects-48_1: 5080767488614536929
+      icons8-visual-effects-48_2: 8399111941932913356
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

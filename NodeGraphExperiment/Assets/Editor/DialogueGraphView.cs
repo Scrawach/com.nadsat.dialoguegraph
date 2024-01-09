@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor
@@ -14,6 +13,8 @@ namespace Editor
         public event Action<DialogueNodeView> OnNodeSelected; 
 
         private readonly DialogueNodeViewFactory _factory;
+
+        private DialoguePersonDatabase _personDatabase;
         
         public DialogueGraphView()
         {
@@ -35,6 +36,9 @@ namespace Editor
             foreach (var item in TestItems()) 
                 AddElement(item);
         }
+
+        public void Initialize(DialoguePersonDatabase personDatabase) =>
+            _personDatabase = personDatabase;
 
         private IEnumerable<DialogueNodeView> TestItems()
         {
@@ -62,7 +66,7 @@ namespace Editor
 
             return graphViewChange;
         }
-        
+
         private void OnMouseDown(MouseDownEvent evt)
         {
             if (evt is { target: Edge edge })
@@ -81,6 +85,25 @@ namespace Editor
         {
             // base.BuildContextualMenu(evt);
             evt.menu.AppendAction("Create Node", _ => CreateNodeView());
+
+            foreach (var personData in _personDatabase.Persons)
+            {
+                evt.menu.AppendAction($"Create {personData.Name}", _ => CreateFrom(personData));
+            }
+        }
+
+        private void CreateFrom(DialoguePersonData data)
+        {
+            var viewData = new DialogueNodeViewData()
+            {
+                PersonName = data.Name,
+                BackgroundColor = data.Color,
+                Title = "none",
+                Description = "none",
+                PathToIcon = AssetDatabase.GetAssetPath(data.Icon)
+            };
+            
+            AddElement(_factory.From(viewData));
         }
 
         private void CreateNodeView()

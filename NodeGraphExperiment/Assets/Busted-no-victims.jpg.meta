@@ -164,7 +164,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Busted-no-victims_0: -8623419401106750416
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
