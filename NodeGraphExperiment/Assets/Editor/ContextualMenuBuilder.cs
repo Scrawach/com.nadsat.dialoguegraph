@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace Editor
@@ -15,6 +16,9 @@ namespace Editor
         
         public void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
+            if (evt.target is not GraphView) 
+                return;
+            
             foreach (var personData in _personDatabase.Persons)
             {
                 evt.menu.AppendAction($"Templates/{personData.Name}", 

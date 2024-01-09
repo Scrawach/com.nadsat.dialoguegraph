@@ -15,7 +15,6 @@ namespace Editor
         public event Action<DialogueNodeView> OnNodeUnselected; 
 
         private DialogueNodeViewFactory _factory;
-        private DialoguePersonDatabase _personDatabase;
         private ContextualMenuBuilder _contextualMenu;
 
         public DialogueGraphView()
@@ -35,11 +34,10 @@ namespace Editor
             graphViewChanged = OnGraphViewChanged;
         }
 
-        public void Initialize(DialoguePersonDatabase personDatabase, PhraseRepository phraseRepository)
+        public void Initialize(DialogueNodeViewFactory factory, ContextualMenuBuilder contextualMenuBuilder)
         {
-            _personDatabase = personDatabase;
-            _factory = new DialogueNodeViewFactory(this, personDatabase, phraseRepository);
-            _contextualMenu = new ContextualMenuBuilder(personDatabase, _factory);
+            _factory = factory;
+            _contextualMenu = contextualMenuBuilder;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
