@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Persons:
   - Name: Elena
-    Icon: {fileID: -3274922311421450567, guid: 72d096aa1d5c6644b94b713774b88002, type: 3}
+    Icon: {fileID: 2800000, guid: 72d096aa1d5c6644b94b713774b88002, type: 3}
     Color: {r: 0.2, g: 0.5, b: 0.2, a: 1}
   - Name: Mark
     Icon: {fileID: 3457301754445402764, guid: fcd52cddb18060840bd10f95c8b5d709, type: 3}

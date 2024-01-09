@@ -34,8 +34,11 @@ namespace Editor
             _factory = new DialogueNodeViewFactory(this);
             graphViewChanged = OnGraphViewChanged;
 
-            foreach (var item in TestItems()) 
+            foreach (var item in TestItems())
+            {
+                item.AddIcon(DialogueIconViewFactory.SoundIcon());
                 AddElement(item);
+            }
         }
 
         public void Initialize(DialoguePersonDatabase personDatabase) =>
@@ -50,7 +53,8 @@ namespace Editor
             yield return _factory.From(NodeFactory.Elena("tutor_elena_002", "Здравствуйте, мистер Уильямс. Так точно."));
             mark = NodeFactory.Mark("tutor_mark_002", "Дальше просто Марк, пожалуйста. Вы пришли раньше, чем нужно, взяли трубку сразу... Может, вам ещё и кофе здешний нравится? Ладно, шучу — его никто не любит.");
             mark.BackgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/mark_002.jpg");
-            yield return _factory.From(mark);
+            var node = _factory.From(mark);
+            yield return node;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -83,7 +87,6 @@ namespace Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             // base.BuildContextualMenu(evt);
-            evt.menu.AppendAction("Create Node", _ => CreateNodeView());
 
             foreach (var personData in _personDatabase.Persons)
             {
@@ -93,21 +96,17 @@ namespace Editor
 
         private void CreateFrom(DialoguePersonData data)
         {
+            Debug.Log(data);
             var viewData = new DialogueNodeViewData()
             {
                 PersonName = data.Name,
-                BackgroundColor = data.Color,
+                headerColor = data.Color,
                 Title = "none",
                 Description = "none",
-                Icon = data.Icon
+                Icon = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(data.Icon))
             };
-            
-            AddElement(_factory.From(viewData));
-        }
 
-        private void CreateNodeView()
-        {
-            var dialogueNode = _factory.CreateDialogueNode();
+            var dialogueNode = _factory.From(viewData);
             dialogueNode.OnNodeSelected += (node) => OnNodeSelected?.Invoke(node);
             AddElement(dialogueNode);
         }

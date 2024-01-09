@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine.UIElements;
 
 namespace Editor
 {
@@ -9,7 +8,7 @@ namespace Editor
 
         public void Populate(DialogueNodeView node)
         {
-            this.Q<Label>("GuidLabel").text = node.Guid;
+            this.Q<Label>("GuidLabel").text = node.viewDataKey;
         }
     }
 }

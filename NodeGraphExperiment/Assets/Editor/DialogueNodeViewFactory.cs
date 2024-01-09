@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor.Experimental.GraphView;
+﻿using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -59,14 +58,11 @@ namespace Editor
             node.RefreshExpandedState();
             return (input, output);
         }
-        
-        public DialogueNodeView CreateDialogueNode() =>
-            From(NodeFactory.Elena("test", "description"));
 
         public DialogueNodeView From(DialogueNodeViewData data)
         {
-            var node = new DialogueNodeView(data);
-            node.Guid = Guid.NewGuid().ToString();
+            var node = new DialogueNodeView();
+            node.Update(data);
 
             var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
             input.portName = "";
