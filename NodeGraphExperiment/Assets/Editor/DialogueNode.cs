@@ -2,15 +2,17 @@ namespace Editor
 {
     public class DialogueNode
     {
-        public ReactiveProperty<string> PersonName;
-        public ReactiveProperty<string> Title;
-        public ReactiveProperty<string> Description;
+        public string Guid;
+        
+        public readonly ReactiveProperty<string> PersonName;
+        public readonly ReactiveProperty<string> Title;
+        public readonly ReactiveProperty<string> Description;
 
-        public DialogueNode()
+        public DialogueNode(string personName, string title, string description)
         {
-            PersonName = new ReactiveProperty<string>();
-            Title = new ReactiveProperty<string>();
-            Description = new ReactiveProperty<string>();
+            PersonName = new ReactiveProperty<string>(personName);
+            Title = new ReactiveProperty<string>(title);
+            Description = new ReactiveProperty<string>(description);
         }
     }
 }

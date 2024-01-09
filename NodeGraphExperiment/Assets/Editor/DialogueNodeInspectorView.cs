@@ -10,6 +10,7 @@ namespace Editor
     {
         private readonly DialogueNode _node;
         private readonly DropdownField _dropdownField;
+        private readonly Label _guidLabel;
         
         public DialogueNodeInspectorView(DialogueNode node)
         {
@@ -20,6 +21,9 @@ namespace Editor
             _dropdownField = this.Q<DropdownField>();
             _dropdownField.SetValueWithoutNotify(node.PersonName.Value);
             _dropdownField.RegisterValueChangedCallback(OnDropdownChanged);
+
+            _guidLabel = this.Q<Label>("guid-label");
+            _guidLabel.text = node.Guid;
         }
 
         private void OnDropdownChanged(ChangeEvent<string> action) =>

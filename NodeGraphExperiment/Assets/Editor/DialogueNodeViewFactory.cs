@@ -41,6 +41,24 @@ namespace Editor
             return redirectNode;
         }
 
+        public DialogueNodeView From(DialogueNodeViewData data)
+        {
+            var dialogue = new DialogueNode(data.PersonName, data.Title, data.Description);
+            var node = new DialogueNodeView(dialogue);
+            
+            dialogue.Guid = node.viewDataKey;
+            node.Update(data);
+            
+            dialogue.PersonName.Changed += () =>
+            {
+                var updatedData = _personDatabase.FindByName(dialogue.PersonName.Value);
+                node.ChangePerson(updatedData);
+            };
+
+            CreatePortsFor(node);
+            return node;
+        }
+        
         private static Edge CreateEdge(Port a, Port b, EventCallback<MouseDownEvent> onMouseDown = null)
         {
             var edge = a.ConnectTo(b);
@@ -54,41 +72,15 @@ namespace Editor
         private static (Port input, Port output) CreatePortsFor(Node node)
         {
             var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
+            input.portName = "";
             node.inputContainer.Add(input);
             var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
             node.outputContainer.Add(output);
+            output.portName = "";
             
             node.RefreshPorts();
             node.RefreshExpandedState();
             return (input, output);
-        }
-
-        public DialogueNodeView From(DialogueNodeViewData data)
-        {
-            var dialogue = new DialogueNode();
-            dialogue.PersonName.Value = data.PersonName;
-            dialogue.Title.Value = data.Title;
-            dialogue.Description.Value = data.Description;
-            
-            var node = new DialogueNodeView(dialogue);
-            node.Update(data);
-            dialogue.PersonName.Changed += () =>
-            {
-                var updatedData = _personDatabase.FindByName(dialogue.PersonName.Value);
-                node.ChangePerson(updatedData);
-            };
-
-            var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
-            input.portName = "";
-            node.inputContainer.Add(input);
-
-            var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
-            output.portName = "";
-            node.outputContainer.Add(output);
-            
-            node.RefreshPorts();
-            node.RefreshExpandedState();
-            return node;
         }
     }
 }
