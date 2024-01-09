@@ -45,7 +45,8 @@ namespace Editor
             _inspectorView = root.Q<InspectorView>();
 
             var personDatabase = AssetDatabase.LoadAssetAtPath<DialoguePersonDatabase>("Assets/Editor/Dialogue Person Database.asset");
-            var inspectorFactory = new InspectorViewFactory(personDatabase);
+            var searchWindow = new SearchWindowProvider(this);
+            var inspectorFactory = new InspectorViewFactory(personDatabase, searchWindow);
             _dialogueGraphView.Initialize(personDatabase);
             _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
             _dialogueGraphView.OnNodeUnselected += (node) => _inspectorView.Cleanup();
