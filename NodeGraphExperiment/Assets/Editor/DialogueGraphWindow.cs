@@ -1,3 +1,4 @@
+using Editor.Localization;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
@@ -44,6 +45,7 @@ namespace Editor
             _dialogueGraphView = root.Q<DialogueGraphView>();
             _inspectorView = root.Q<InspectorView>();
 
+            var dialogueGraphToolbar = root.Q<DialogueGraphToolbar>();
             var personDatabase = AssetDatabase.LoadAssetAtPath<DialoguePersonDatabase>("Assets/Editor/Dialogue Person Database.asset");
             var phraseRepository = new PhraseRepository();
             var searchWindow = new SearchWindowProvider(this, phraseRepository);
@@ -52,7 +54,9 @@ namespace Editor
             var contextualMenu = new ContextualMenuBuilder(personDatabase, nodeFactory);
             
             phraseRepository.Initialize();
+            dialogueGraphToolbar.Initialize(phraseRepository);
             _dialogueGraphView.Initialize(nodeFactory, contextualMenu);
+            
             _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
             _dialogueGraphView.OnNodeUnselected += (node) => _inspectorView.Cleanup();
             _dialogueGraphView.graphViewChanged += OnChange;

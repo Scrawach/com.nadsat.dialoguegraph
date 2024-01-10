@@ -69,6 +69,11 @@ namespace Editor
                 node.SetDescription(_phraseRepository.Find(dialogue.Title.Value));
             };
 
+            _phraseRepository.LanguageChanged += (language) =>
+            {
+                dialogue.Title.Value = dialogue.Title.Value;
+            };
+
             CreatePortsFor(node);
             return node;
         }
