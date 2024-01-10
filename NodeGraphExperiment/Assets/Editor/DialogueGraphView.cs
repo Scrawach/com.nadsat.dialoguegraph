@@ -96,11 +96,8 @@ namespace Editor
             return ports.ToList();
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            base.BuildContextualMenu(evt);
-            _contextualMenu.BuildContextualMenu(evt);
-        }
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
+            _contextualMenu.BuildContextualMenu(this, evt);
 
         public void AddNode(DialogueNodeView nodeView)
         {

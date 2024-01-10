@@ -14,10 +14,13 @@ namespace Editor
             _factory = factory;
         }
         
-        public void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        public void BuildContextualMenu(GraphView baseGraphView, ContextualMenuPopulateEvent evt)
         {
-            if (evt.target is not GraphView) 
+            if (evt.target is not GraphView)
+            {
+                baseGraphView.BuildContextualMenu(evt);
                 return;
+            }
             
             foreach (var personData in _personDatabase.Persons)
             {
