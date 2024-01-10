@@ -17,13 +17,29 @@ namespace Editor
             _phraseRepository = phraseRepository;
         }
 
-        public void FindKeys(Vector2 position, Action<string> onSelected = null)
+        public void FindPhrase(Vector2 position, Action<string> onSelected = null)
         {
-            var point = _owner.position.position + position + new Vector2(150, 0);
+            const int searchWindowWidth = 600;
+            var point = _owner.position.position + position + new Vector2(searchWindowWidth / 3f, 0);
+            
             if (_searchWindow == null)
                 _searchWindow = ScriptableObject.CreateInstance<StringSearchWindow>();
-            _searchWindow.Configure("Keys", _phraseRepository.AllKeys(), onSelected);
-            SearchWindow.Open(new SearchWindowContext(point), _searchWindow);
+
+            var (choices, tooltips) = BuildPhrases();
+            _searchWindow.Configure("Phrases", choices, tooltips, onSelected);
+            SearchWindow.Open(new SearchWindowContext(point, searchWindowWidth), _searchWindow);
+        }
+
+        private (string[] choices, string[] tooltips) BuildPhrases()
+        {
+            var keys = _phraseRepository.AllKeys();
+            var tooltips = new string[keys.Length];
+            for (var i = 0; i < tooltips.Length; i++)
+            {
+                tooltips[i] = _phraseRepository.Find(keys[i]);
+            }
+
+            return (keys, tooltips);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -14,11 +15,11 @@ namespace Editor
             _factory = factory;
         }
         
-        public void BuildContextualMenu(GraphView baseGraphView, ContextualMenuPopulateEvent evt)
+        public void BuildContextualMenu(ContextualMenuPopulateEvent evt, Action<ContextualMenuPopulateEvent> onBaseContextualMenu = null)
         {
             if (evt.target is not GraphView)
             {
-                baseGraphView.BuildContextualMenu(evt);
+                onBaseContextualMenu?.Invoke(evt);
                 return;
             }
             

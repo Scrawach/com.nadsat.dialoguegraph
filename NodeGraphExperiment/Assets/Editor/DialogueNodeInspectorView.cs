@@ -28,34 +28,43 @@ namespace Editor
             (EditorGUIUtility.Load(uiFile) as VisualTreeAsset)?.CloneTree((VisualElement) this);
 
             _dropdownField = this.Q<DropdownField>();
-            _dropdownField.SetValueWithoutNotify(node.PersonName.Value);
             _dropdownField.RegisterValueChangedCallback(OnDropdownChanged);
-
             _guidLabel = this.Q<Label>("guid-label");
-            _guidLabel.text = node.Guid;
-
             _titleLabel = this.Q<Label>("content-title-label");
-            SetOrHide(_titleLabel, node.Title.Value);
-
             _descriptionLabel = this.Q<Label>("content-description-label");
-            SetOrHide(_descriptionLabel, node.Description.Value);
             
             _titleSelect = this.Q<Button>("title-select");
             _titleSelect.clicked += OnTitleSelectClicked;
+
+            _node.Title.Changed += () => Update(node);
+            Update(node);
+        }
+
+        private void Update(DialogueNode node)
+        {
+            _dropdownField.SetValueWithoutNotify(node.PersonName.Value);
+            _guidLabel.text = node.Guid;
+            SetOrHide(_titleLabel, node.Title.Value);
+            SetOrHide(_descriptionLabel, node.Description.Value);
         }
 
         private void SetOrHide(Label target, string text)
         {
             if (!string.IsNullOrWhiteSpace(text) && text != "none")
+            {
                 target.text = text;
+                target.style.display = DisplayStyle.Flex;
+            }
             else
+            {
                 target.style.display = DisplayStyle.None;
+            }
         }
 
         private void OnTitleSelectClicked()
         {
             var point = _titleSelect.LocalToWorld(Vector2.zero); 
-            _searchWindow.FindKeys(point, (key) => _node.Title.Value = key);
+            _searchWindow.FindPhrase(point, (key) => _node.Title.Value = key);
         }
 
         private void OnDropdownChanged(ChangeEvent<string> action) =>

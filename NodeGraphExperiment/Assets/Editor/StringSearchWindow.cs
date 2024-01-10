@@ -9,12 +9,14 @@ namespace Editor
     {
         private string _title;
         private string[] _choices;
+        private string[] _tooltips;
         private Action<string> _onSelected;
 
-        public void Configure(string title, string[] choices, Action<string> onSelected = null)
+        public void Configure(string title, string[] choices, string[] tooltips, Action<string> onSelected = null)
         {
             _title = title;
             _choices = choices;
+            _tooltips = tooltips;
             _onSelected = onSelected;
         }
         
@@ -22,8 +24,11 @@ namespace Editor
         {
             var tree = new List<SearchTreeEntry>();
             tree.Add(new SearchTreeGroupEntry(new GUIContent(_title)));
-            foreach (var key in _choices) 
-                tree.Add(new SearchTreeEntry(new GUIContent(key)) {level = 1, userData = key});
+            for (var i = 0; i < _choices.Length; i++)
+            {
+                var content = new GUIContent($"[{_choices[i]}] {_tooltips[i]}");
+                tree.Add(new SearchTreeEntry(content) {level = 1, userData = _choices[i]});
+            }
             return tree;
         }
 

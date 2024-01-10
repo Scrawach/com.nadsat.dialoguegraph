@@ -97,7 +97,7 @@ namespace Editor
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
-            _contextualMenu.BuildContextualMenu(this, evt);
+            _contextualMenu.BuildContextualMenu(evt, base.BuildContextualMenu);
 
         public void AddNode(DialogueNodeView nodeView)
         {
