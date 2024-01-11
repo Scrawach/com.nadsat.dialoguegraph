@@ -11,7 +11,7 @@ namespace Editor
 {
     public class DialogueGraphView : GraphView
     {
-        public new class UxmlFactory : UxmlFactory<DialogueGraphView, GraphView.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
         public event Action<DialogueNodeView> OnNodeSelected;
         public event Action<DialogueNodeView> OnNodeUnselected; 
@@ -33,7 +33,7 @@ namespace Editor
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             
-            var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/DialogueGraph.uss");
+            var stylesheet = Resources.Load<StyleSheet>("Styles/DialogueGraph");
             styleSheets.Add(stylesheet);
 
             graphViewChanged = OnGraphViewChanged;

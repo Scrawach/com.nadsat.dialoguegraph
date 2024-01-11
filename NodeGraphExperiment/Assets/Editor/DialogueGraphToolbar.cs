@@ -1,5 +1,5 @@
 using System.Linq;
-using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor
@@ -13,8 +13,8 @@ namespace Editor
         
         public DialogueGraphToolbar()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/Resources/DialogueGraphToolbar.uxml");
-            asset.CloneTree(this);
+            var uxml = Resources.Load<VisualTreeAsset>("UXML/DialogueGraphToolbar");
+            uxml.CloneTree(this);
             _languageDropdown = this.Q<DropdownField>("language-dropdown");
             _languageDropdown.RegisterValueChangedCallback(OnLanguageChanged);
         }

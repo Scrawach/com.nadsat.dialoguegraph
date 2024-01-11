@@ -30,7 +30,6 @@ namespace Editor
                 OpenWindow();
                 return true;
             }*/
-
             return false;
         }
         
@@ -46,7 +45,7 @@ namespace Editor
             _inspectorView = root.Q<InspectorView>();
 
             var dialogueGraphToolbar = root.Q<DialogueGraphToolbar>();
-            var personDatabase = AssetDatabase.LoadAssetAtPath<DialoguePersonDatabase>("Assets/Editor/Dialogue Person Database.asset");
+            var personDatabase = Resources.Load<DialoguePersonDatabase>("Dialogue Person Database");
             var phraseRepository = new PhraseRepository();
             var searchWindow = new SearchWindowProvider(this, phraseRepository);
             var inspectorFactory = new InspectorViewFactory(personDatabase, searchWindow);

@@ -23,7 +23,7 @@ namespace Editor
 
         public readonly DialogueNode DialogueNode;
 
-        public DialogueNodeView(DialogueNode dialogueNode) : base(Path.Combine("Assets", "Editor", "DialogueNodeView.uxml"))
+        public DialogueNodeView(DialogueNode dialogueNode) : base("Assets/Editor/Resources/UXML/DialogueNodeView.uxml")
         {
             DialogueNode = dialogueNode;
             _personNameLabel = this.Q<Label>("person-name-label");

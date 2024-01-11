@@ -24,8 +24,8 @@ namespace Editor
             _node = node;
             _searchWindow = searchWindow;
             
-            var uiFile = Path.Combine("Assets", "Editor", "DialogueNodeInspectorView.uxml");
-            (EditorGUIUtility.Load(uiFile) as VisualTreeAsset)?.CloneTree((VisualElement) this);
+            var uxml = Resources.Load<VisualTreeAsset>("UXML/DialogueNodeInspectorView");
+            uxml.CloneTree(this);
 
             _dropdownField = this.Q<DropdownField>();
             _dropdownField.RegisterValueChangedCallback(OnDropdownChanged);
