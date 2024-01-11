@@ -26,6 +26,9 @@ namespace Editor
             _description = this.Q<Label>("description");
             _closeButton = this.Q<Button>("close-button");
             _closeButton.clicked += () => Closed?.Invoke();
+
+            _title.selection.isSelectable = true;
+            _description.selection.isSelectable = true;
         }
 
         public event Action Closed;

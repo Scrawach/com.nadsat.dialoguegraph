@@ -17,6 +17,7 @@ namespace Editor
         private readonly Button _titleSelect;
 
         private readonly SearchWindowProvider _searchWindow;
+        private PhraseTextItemView _active;
         
         public DialogueNodeInspectorView(DialogueNode node, SearchWindowProvider searchWindow)
         {
@@ -49,13 +50,21 @@ namespace Editor
 
         private void AddPhrase(DialogueNode node)
         {
+            if (_active != null)
+                _phrasesContainer.Remove(_active);
+            
             var phraseItem = new PhraseTextItemView(node.Title.Value, node.Description.Value);
+            _titleSelect.visible = false;
+
             phraseItem.Closed += () =>
             {
                 node.Title.Value = "none";
+                _titleSelect.visible = true;
+                _active = null;
                 _phrasesContainer.Remove(phraseItem);
             };
             _phrasesContainer.Add(phraseItem);
+            _active = phraseItem;
         }
 
 
