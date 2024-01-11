@@ -25,12 +25,14 @@ namespace Editor
             _title = this.Q<Label>("title");
             _description = this.Q<Label>("description");
             _closeButton = this.Q<Button>("close-button");
-            _closeButton.clicked += () => Closed?.Invoke();
-
             _title.selection.isSelectable = true;
             _description.selection.isSelectable = true;
         }
 
-        public event Action Closed;
+        public event Action Closed
+        {
+            add => _closeButton.clicked += value;
+            remove => _closeButton.clicked -= value;
+        }
     }
 }
