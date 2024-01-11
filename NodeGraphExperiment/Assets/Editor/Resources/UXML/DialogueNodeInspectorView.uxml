@@ -5,8 +5,9 @@
             <ui:Label tabindex="-1" text="&lt;none&gt;" display-tooltip-when-elided="true" name="guid-label" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; font-size: 8px; color: rgb(190, 190, 190); background-color: rgba(40, 40, 40, 0); flex-grow: 1;" />
         </ui:VisualElement>
         <ui:DropdownField label="Person" index="-1" name="person-dropdown" />
-        <ui:Label tabindex="-1" text="Label" display-tooltip-when-elided="true" name="content-title-label" style="-unity-font-style: bold; margin-bottom: 0; padding-bottom: 1px; font-size: 16px;" />
-        <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="content-description-label" style="font-size: 12px; margin-top: 0; padding-top: 0; flex-wrap: wrap; flex-grow: 0; flex-direction: column; white-space: normal;" />
-        <ui:Button text="Set Phrase" display-tooltip-when-elided="true" name="title-select" />
+        <ui:VisualElement name="phrases" style="flex-grow: 1;">
+            <ui:VisualElement name="phrases-container" style="flex-grow: 0;" />
+            <ui:Button text="Set Phrase" display-tooltip-when-elided="true" name="title-select" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

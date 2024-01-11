@@ -13,8 +13,7 @@ namespace Editor
         private readonly EditorWindow _owner;
         private readonly DropdownField _dropdownField;
         private readonly Label _guidLabel;
-        private readonly Label _titleLabel;
-        private readonly Label _descriptionLabel;
+        private readonly VisualElement _phrasesContainer;
         private readonly Button _titleSelect;
 
         private readonly SearchWindowProvider _searchWindow;
@@ -30,8 +29,7 @@ namespace Editor
             _dropdownField = this.Q<DropdownField>();
             _dropdownField.RegisterValueChangedCallback(OnDropdownChanged);
             _guidLabel = this.Q<Label>("guid-label");
-            _titleLabel = this.Q<Label>("content-title-label");
-            _descriptionLabel = this.Q<Label>("content-description-label");
+            _phrasesContainer = this.Q<VisualElement>("phrases-container");
             
             _titleSelect = this.Q<Button>("title-select");
             _titleSelect.clicked += OnTitleSelectClicked;
@@ -44,22 +42,22 @@ namespace Editor
         {
             _dropdownField.SetValueWithoutNotify(node.PersonName.Value);
             _guidLabel.text = node.Guid;
-            SetOrHide(_titleLabel, node.Title.Value);
-            SetOrHide(_descriptionLabel, node.Description.Value);
+
+            if (!string.IsNullOrWhiteSpace(node.Title.Value) && node.Title.Value != "none") 
+                AddPhrase(node);
         }
 
-        private void SetOrHide(Label target, string text)
+        private void AddPhrase(DialogueNode node)
         {
-            if (!string.IsNullOrWhiteSpace(text) && text != "none")
+            var phraseItem = new PhraseTextItemView(node.Title.Value, node.Description.Value);
+            phraseItem.Closed += () =>
             {
-                target.text = text;
-                target.style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                target.style.display = DisplayStyle.None;
-            }
+                node.Title.Value = "none";
+                _phrasesContainer.Remove(phraseItem);
+            };
+            _phrasesContainer.Add(phraseItem);
         }
+
 
         private void OnTitleSelectClicked()
         {

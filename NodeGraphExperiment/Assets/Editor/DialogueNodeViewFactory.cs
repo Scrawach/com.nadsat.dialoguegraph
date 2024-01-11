@@ -61,12 +61,18 @@ namespace Editor
             dialogue.Title.Changed += () =>
             {
                 node.SetTitle(dialogue.Title.Value);
-                dialogue.Description.Value = _phraseRepository.Find(dialogue.Title.Value);
+                if (dialogue.Title.Value != "none")
+                    dialogue.Description.Value = _phraseRepository.Find(dialogue.Title.Value);
+                else
+                    dialogue.Description.Value = "none";
             };
 
             dialogue.Description.Changed += () =>
             {
-                node.SetDescription(_phraseRepository.Find(dialogue.Title.Value));
+                if (dialogue.Title.Value != "none")
+                    node.SetDescription(_phraseRepository.Find(dialogue.Title.Value));
+                else
+                    node.SetDescription("none");
             };
 
             _phraseRepository.LanguageChanged += (language) =>
