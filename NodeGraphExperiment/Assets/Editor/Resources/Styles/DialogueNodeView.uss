@@ -1,5 +1,4 @@
-#node-border {
-    background-color: rgb(56, 56, 56);
+.normal-node {
     border-left-color: rgb(32, 32, 32);
     border-right-color: rgb(32, 32, 32);
     border-top-color: rgb(32, 32, 32);
@@ -12,6 +11,17 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    flex-grow: 1;
+    background-color: rgb(56, 56, 56);
+}
+
+.entry-node {
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 145, 0);
+    border-left-color: rgb(255, 145, 0);
+    border-right-color: rgb(255, 145, 0);
+    border-top-color: rgb(255, 145, 0);
+    border-bottom-color: rgb(255, 145, 0);
 }
 
 #selection-border {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -61,6 +60,12 @@ namespace Editor
             else
                 _imageContainer.style.display = DisplayStyle.None;
         }
+
+        public void SetAsEntryNode() =>
+            this.Q<VisualElement>("node-border").AddToClassList("entry-node");
+
+        public void ResetEntryNode() =>
+            this.Q<VisualElement>("node-border").RemoveFromClassList("entry-node");
 
         public void AddIcon(DialogueIconView iconView) =>
             _iconContainer.Add(iconView);

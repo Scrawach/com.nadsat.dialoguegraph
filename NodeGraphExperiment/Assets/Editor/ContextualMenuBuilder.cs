@@ -9,6 +9,8 @@ namespace Editor
         private readonly DialoguePersonDatabase _personDatabase;
         private readonly DialogueNodeViewFactory _factory;
 
+        private DialogueNodeView _entryPoint;
+        
         public ContextualMenuBuilder(DialoguePersonDatabase personDatabase, DialogueNodeViewFactory factory)
         {
             _personDatabase = personDatabase;
@@ -19,6 +21,17 @@ namespace Editor
         {
             if (evt.target is not GraphView)
             {
+                if (evt.target is DialogueNodeView dialogueNodeView)
+                {
+                    evt.menu.AppendAction("Set as Root", _ =>
+                    {
+                        _entryPoint?.ResetEntryNode();
+                        _entryPoint = dialogueNodeView;
+                        _entryPoint.SetAsEntryNode();
+                    });
+                    
+                    evt.menu.AppendSeparator();
+                }
                 onBaseContextualMenu?.Invoke(evt);
                 return;
             }
