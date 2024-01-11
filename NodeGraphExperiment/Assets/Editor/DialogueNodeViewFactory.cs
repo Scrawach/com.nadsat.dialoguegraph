@@ -129,8 +129,8 @@ namespace Editor
         {
             var personSettings = _personDatabase.FindByName(dialogueNodeView.DialogueNode.PersonName.Value);
             var node = CreatePersonNode(personSettings, dialogueNodeView.worldTransform.GetPosition());
-            node.SetTitle(dialogueNodeView.DialogueNode.Title.Value);
-            node.SetDescription(dialogueNodeView.DialogueNode.Description.Value);
+            node.DialogueNode.Title.Value = dialogueNodeView.DialogueNode.Title.Value; 
+            node.DialogueNode.Description.Value = dialogueNodeView.DialogueNode.Description.Value; 
             return node;
         }
     }
