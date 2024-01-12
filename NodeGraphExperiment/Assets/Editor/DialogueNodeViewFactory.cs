@@ -133,5 +133,13 @@ namespace Editor
             node.DialogueNode.Description.Value = dialogueNodeView.DialogueNode.Description.Value; 
             return node;
         }
+
+        public void CreateGroup(Vector2 at)
+        {
+            var group = new Group();
+            var worldPosition = _canvas.contentViewContainer.WorldToLocal(at);
+            group.SetPosition(new Rect(worldPosition, Vector2.zero));
+            _canvas.AddElement(group);
+        }
     }
 }

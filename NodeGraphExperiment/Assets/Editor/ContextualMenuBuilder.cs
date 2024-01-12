@@ -36,6 +36,8 @@ namespace Editor
                 return;
             }
             
+            evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
+            
             foreach (var personData in _personDatabase.Persons)
             {
                 evt.menu.AppendAction($"Templates/{personData.Name}", 
