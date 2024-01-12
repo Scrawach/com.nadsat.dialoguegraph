@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <uie:Toolbar name="DialogueGraphToolbar" style="flex-wrap: nowrap;">
-        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="File" />
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Assets" />
         <uie:ToolbarSpacer style="width: 158px; flex-grow: 1;" />
         <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="language-dropdown" />
     </uie:Toolbar>
