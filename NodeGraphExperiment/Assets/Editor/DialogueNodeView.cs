@@ -73,6 +73,15 @@ namespace Editor
         public void RemoveIcon(DialogueIconView iconView) =>
             _iconContainer.Remove(iconView);
 
+        public void AddImage(Sprite image)
+        {
+            _imageContainer.style.display = DisplayStyle.Flex;
+            _image.style.backgroundImage = new StyleBackground(image);
+        }
+
+        public void RemoveImage() =>
+            _imageContainer.style.display = DisplayStyle.None;
+
         public void ChangePerson(DialoguePersonData data)
         {
             _personNameLabel.text = data.Name;

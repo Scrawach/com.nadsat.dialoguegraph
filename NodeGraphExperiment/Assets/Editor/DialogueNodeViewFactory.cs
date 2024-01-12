@@ -75,6 +75,14 @@ namespace Editor
                     node.SetDescription("none");
             };
 
+            dialogue.PathToImage.Changed += () =>
+            {
+                if (string.IsNullOrWhiteSpace(dialogue.PathToImage.Value))
+                    node.RemoveImage();
+                else
+                    node.AddImage(AssetDatabase.LoadAssetAtPath<Sprite>(dialogue.PathToImage.Value));
+            };
+            
             _phraseRepository.LanguageChanged += (language) =>
             {
                 dialogue.Title.Value = dialogue.Title.Value;
