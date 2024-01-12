@@ -84,7 +84,7 @@ namespace Editor
 
         private void OnMouseDown(MouseDownEvent evt)
         {
-            if (evt is { target: Edge edge })
+            if (evt.clickCount >= 2 && evt is { target: Edge edge })
             {
                 var worldPosition = contentViewContainer.WorldToLocal(evt.mousePosition);
                 _factory.CreateRedirectNode(worldPosition, edge, OnMouseDown);
