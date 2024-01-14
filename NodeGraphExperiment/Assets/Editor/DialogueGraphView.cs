@@ -18,7 +18,7 @@ namespace Editor
 
         private DialogueNodeViewFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
-        private CopyPasteNodes _copyPaste;
+        private readonly CopyPasteNodes _copyPaste;
 
         public DialogueGraphView()
         {
