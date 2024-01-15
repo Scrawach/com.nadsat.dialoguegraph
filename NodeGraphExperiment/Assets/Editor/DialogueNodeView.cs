@@ -1,4 +1,5 @@
 ﻿using System;
+using Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -20,9 +21,9 @@ namespace Editor
         
         private readonly VisualElement _iconContainer;
 
-        public readonly DialogueNode DialogueNode;
+        public readonly CompositeDialogueNode DialogueNode;
 
-        public DialogueNodeView(DialogueNode dialogueNode) : base("Assets/Editor/Resources/UXML/DialogueNodeView.uxml")
+        public DialogueNodeView(CompositeDialogueNode dialogueNode) : base("Assets/Editor/Resources/UXML/DialogueNodeView.uxml")
         {
             DialogueNode = dialogueNode;
             _personNameLabel = this.Q<Label>("person-name-label");

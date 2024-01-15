@@ -48,7 +48,7 @@ namespace Editor
             var personDatabase = Resources.Load<DialoguePersonDatabase>("Dialogue Person Database");
             var phraseRepository = new PhraseRepository();
             var searchWindow = new SearchWindowProvider(this, phraseRepository);
-            var inspectorFactory = new InspectorViewFactory(personDatabase, searchWindow);
+            var inspectorFactory = new InspectorViewFactory(personDatabase, searchWindow, phraseRepository);
             var nodeFactory = new DialogueNodeViewFactory(_dialogueGraphView, personDatabase, phraseRepository);
             var contextualMenu = new ContextualMenuBuilder(personDatabase, nodeFactory);
             

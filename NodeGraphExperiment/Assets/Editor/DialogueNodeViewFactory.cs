@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using Runtime;
+using Runtime.Nodes;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -46,46 +48,40 @@ namespace Editor
 
         public DialogueNodeView From(DialogueNodeViewData data)
         {
-            var dialogue = new DialogueNode(data.PersonName, data.Title, data.Description);
-            var node = new DialogueNodeView(dialogue);
+            var personNode = new PersonDialogueNode() {PersonId = data.PersonName};
+            var phraseNode = new PhraseDialogueNode() {PhraseId = data.Title};
+            var compositeNode = new CompositeDialogueNode(personNode, phraseNode);
+            var dialogueTree = Resources.Load<DialogueGraph>("Dialogue Graph");
+            dialogueTree.Add(compositeNode);
+            var node = new DialogueNodeView(compositeNode);
             
-            dialogue.Guid = node.viewDataKey;
+            compositeNode.Guid = node.viewDataKey;
             node.Update(data);
-            
-            dialogue.PersonName.Changed += () =>
-            {
-                var updatedData = _personDatabase.FindByName(dialogue.PersonName.Value);
-                node.ChangePerson(updatedData);
-            };
 
-            dialogue.Title.Changed += () =>
+            compositeNode.Updated += () =>
             {
-                node.SetTitle(dialogue.Title.Value);
-                if (dialogue.Title.Value != "none")
-                    dialogue.Description.Value = _phraseRepository.Find(dialogue.Title.Value);
+                var personId = compositeNode.FindOrDefault<PersonDialogueNode>().PersonId;
+                var person = _personDatabase.FindByName(personId);
+                node.ChangePerson(person);
+
+                var phrase = compositeNode.FindOrDefault<PhraseDialogueNode>();
+
+                if (phrase != null)
+                {
+                    node.SetTitle(phrase.PhraseId);
+                    node.SetDescription(_phraseRepository.Find(phrase.PhraseId));
+                }
+
+                var image = compositeNode.FindOrDefault<ImageDialogueNode>();
+                if (image != null) 
+                    node.AddImage(AssetDatabase.LoadAssetAtPath<Sprite>(image.PathToImage));
                 else
-                    dialogue.Description.Value = "none";
-            };
-
-            dialogue.Description.Changed += () =>
-            {
-                if (dialogue.Title.Value != "none")
-                    node.SetDescription(_phraseRepository.Find(dialogue.Title.Value));
-                else
-                    node.SetDescription("none");
-            };
-
-            dialogue.PathToImage.Changed += () =>
-            {
-                if (string.IsNullOrWhiteSpace(dialogue.PathToImage.Value))
                     node.RemoveImage();
-                else
-                    node.AddImage(AssetDatabase.LoadAssetAtPath<Sprite>(dialogue.PathToImage.Value));
             };
-            
+
             _phraseRepository.LanguageChanged += (language) =>
             {
-                dialogue.Title.Value = dialogue.Title.Value;
+                compositeNode.InvokeUpdate();
             };
 
             CreatePortsFor(node);
@@ -135,11 +131,12 @@ namespace Editor
 
         public DialogueNodeView Copy(DialogueNodeView dialogueNodeView)
         {
-            var personSettings = _personDatabase.FindByName(dialogueNodeView.DialogueNode.PersonName.Value);
-            var node = CreatePersonNode(personSettings, dialogueNodeView.worldTransform.GetPosition());
-            node.DialogueNode.Title.Value = dialogueNodeView.DialogueNode.Title.Value; 
-            node.DialogueNode.Description.Value = dialogueNodeView.DialogueNode.Description.Value; 
-            return node;
+            return null;
+           // var personSettings = _personDatabase.FindByName(dialogueNodeView.DialogueNode.PersonName.Value);
+            //var node = CreatePersonNode(personSettings, dialogueNodeView.worldTransform.GetPosition());
+            //node.DialogueNode.Title.Value = dialogueNodeView.DialogueNode.Title.Value; 
+            //node.DialogueNode.Description.Value = dialogueNodeView.DialogueNode.Description.Value; 
+           // return node;
         }
 
         public void CreateGroup(Vector2 at)
