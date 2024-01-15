@@ -83,6 +83,14 @@ namespace DialogueGraph.Editor.Drawing.Nodes
             Model.SetPosition(newPos);
         }
 
+        public void MarkAsRoot(bool isRoot)
+        {
+            if (isRoot)
+                _nodeBorder.AddToClassList(UssEntryNode);
+            else
+                _nodeBorder.RemoveFromClassList(UssEntryNode);
+        }
+        
         private void OnModelChanged() =>
             Draw(Model);
 
@@ -107,11 +115,6 @@ namespace DialogueGraph.Editor.Drawing.Nodes
                 _image.style.backgroundImage = new StyleBackground(image);
             else
                 _imageContainer.style.display = DisplayStyle.None;
-
-            if (model.IsEntryNode)
-                _nodeBorder.AddToClassList(UssEntryNode);
-            else
-                _nodeBorder.RemoveFromClassList(UssEntryNode);
             
             if (GetPosition() != model.Position)
                 SetPosition(model.Position);

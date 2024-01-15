@@ -5,39 +5,25 @@ namespace DialogueGraph.Runtime
     [Serializable]
     public class DialogueNode : BaseDialogueNode
     {
-        public bool IsEntryNode;
-        
         public string PersonId;
         public string PhraseId;
         public string PathToImage;
         
-        public void SetPersonId(string newPersonId)
+        public void SetPersonId(string personId)
         {
-            PersonId = newPersonId;
+            PersonId = personId;
             NotifyChanged();
         }
 
-        public void SetPhraseId(string newPhraseId)
+        public void SetPhraseId(string phraseId)
         {
-            PhraseId = newPhraseId;
+            PhraseId = phraseId;
             NotifyChanged();
         }
 
-        public void SetPathToImage(string newPathToImage)
+        public void SetPathToImage(string pathToImage)
         {
-            PathToImage = newPathToImage;
-            NotifyChanged();
-        }
-
-        public void SetEntryNode()
-        {
-            IsEntryNode = true;
-            NotifyChanged();
-        }
-
-        public void ResetEntryNode()
-        {
-            IsEntryNode = false;
+            PathToImage = pathToImage;
             NotifyChanged();
         }
     }
