@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace Editor.Localization
+namespace DialogueGraph.Runtime.Localization
 {
     public class CsvAsset
     {
@@ -16,13 +16,12 @@ namespace Editor.Localization
         {
             var table = Resources.Load<TextAsset>(_path);
             var rows = table.text.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            
             foreach (var row in rows)
-            {
                 yield return CsvLineFieldsFrom(row);
-            }
         }
 
-        private string[] CsvLineFieldsFrom(string row)
+        private static string[] CsvLineFieldsFrom(string row)
         {
             const char fieldDelimiter = ',';
             const char shieldDelimiter = '\"';
@@ -49,7 +48,6 @@ namespace Editor.Localization
 
             fields.Add(field.ToString());
             return fields.ToArray();
-
         }
     }
 }

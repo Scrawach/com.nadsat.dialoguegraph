@@ -51,7 +51,7 @@ namespace Editor
             var personNode = new PersonDialogueNode() {PersonId = data.PersonName};
             var phraseNode = new PhraseDialogueNode() {PhraseId = data.Title};
             var compositeNode = new CompositeDialogueNode(personNode, phraseNode);
-            var dialogueTree = Resources.Load<DialogueGraph>("Dialogue Graph");
+            var dialogueTree = Resources.Load<Runtime.DialogueGraph>("Dialogue Graph");
             dialogueTree.Add(compositeNode);
             var node = new DialogueNodeView(compositeNode);
             

@@ -1,8 +1,9 @@
 using System.Linq;
+using DialogueGraph.Editor.AssetManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor
+namespace DialogueGraph.Editor.Windows.Toolbar
 {
     public class DialogueGraphToolbar : VisualElement
     {
@@ -23,7 +24,7 @@ namespace Editor
         {
             _phraseRepository = phrases;
             _languageDropdown.value = phrases.CurrentLanguage;
-            _languageDropdown.choices = phrases.AvailableLanguages().ToList();
+            _languageDropdown.choices = phrases.AllLanguages().ToList();
         }
 
         private void OnLanguageChanged(ChangeEvent<string> change) =>
