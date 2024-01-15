@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="DialogueGraphToolbar" src="project://database/Assets/Editor/Resources/UXML/DialogueGraphToolbar.uxml?fileID=9197481963319205126&amp;guid=80eca2cc7f7930c3db397d220833b54a&amp;type=3#DialogueGraphToolbar" />
+    <ui:Instance template="DialogueGraphToolbar" name="DialogueGraphToolbarContainer" />
+    <Editor.Drawing.Controls.SplitView>
+        <ui:VisualElement name="left-panel" style="flex-grow: 1;">
+            <Editor.Drawing.Inspector.InspectorView style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-panel" style="flex-grow: 1;">
+            <Editor.DialogueGraphView style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </Editor.Drawing.Controls.SplitView>
+</ui:UXML>

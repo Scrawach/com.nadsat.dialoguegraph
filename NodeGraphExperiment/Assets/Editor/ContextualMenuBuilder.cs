@@ -1,4 +1,7 @@
 using System;
+using Editor.AssetManagement;
+using Editor.Drawing.Nodes;
+using Editor.Factories;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -6,14 +9,14 @@ namespace Editor
 {
     public class ContextualMenuBuilder
     {
-        private readonly DialoguePersonDatabase _personDatabase;
-        private readonly DialogueNodeViewFactory _factory;
+        private readonly PersonRepository _persons;
+        private readonly DialogueNodeFactory _factory;
 
         private DialogueNodeView _entryPoint;
         
-        public ContextualMenuBuilder(DialoguePersonDatabase personDatabase, DialogueNodeViewFactory factory)
+        public ContextualMenuBuilder(PersonRepository persons, DialogueNodeFactory factory)
         {
-            _personDatabase = personDatabase;
+            _persons = persons;
             _factory = factory;
         }
         
@@ -25,9 +28,9 @@ namespace Editor
                 {
                     evt.menu.AppendAction("Set as Root", _ =>
                     {
-                        _entryPoint?.ResetEntryNode();
+                        _entryPoint?.MarkAsRoot(false);
                         _entryPoint = dialogueNodeView;
-                        _entryPoint.SetAsEntryNode();
+                        _entryPoint.MarkAsRoot(true);
                     });
                     
                     evt.menu.AppendSeparator();
@@ -36,12 +39,14 @@ namespace Editor
                 return;
             }
             
-            evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
+            //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
             
-            foreach (var personData in _personDatabase.Persons)
+            foreach (var person in _persons.All())
             {
-                evt.menu.AppendAction($"Templates/{personData.Name}", 
-                    (action) => _factory.CreatePersonNode(personData, position: action.eventInfo.mousePosition));
+                evt.menu.AppendAction($"Templates/{person}", (action) =>
+                    {
+                        _factory.CreatePersonNode(person, position: action.eventInfo.mousePosition);
+                    });
             }
         }
     }

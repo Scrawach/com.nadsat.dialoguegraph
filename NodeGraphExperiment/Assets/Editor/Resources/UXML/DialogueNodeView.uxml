@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="InspectorVIew" src="project://database/Assets/Editor/Resources/UXML/InspectorVIew.uxml?fileID=9197481963319205126&amp;guid=ef059e992c59ff740bb2a7c3f8630831&amp;type=3#InspectorVIew" />
     <Style src="project://database/Assets/Editor/Resources/Styles/DialogueNodeView.uss?fileID=7433441132597879392&amp;guid=76791f0c9ccf3c04ca42f3651935991e&amp;type=3#DialogueNodeView" />
     <ui:VisualElement name="node-border" class="normal-node">
         <ui:VisualElement name="content" style="opacity: 1; flex-grow: 1; flex-wrap: wrap; flex-basis: auto; overflow: visible; flex-direction: column;">
@@ -29,4 +30,5 @@
     </ui:VisualElement>
     <ui:VisualElement name="selection-border" picking-mode="Ignore" style="flex-grow: 1;" />
     <ui:VisualElement name="avatar" picking-mode="Ignore" style="background-image: url(&apos;project://database/Assets/1Mark-neutral.png?fileID=2800000&amp;guid=fcd52cddb18060840bd10f95c8b5d709&amp;type=3#1Mark-neutral&apos;); width: 64px; height: 64px; -unity-background-scale-mode: scale-to-fit; overflow: visible; position: absolute; top: -22px; left: -6px;" />
+    <ui:Instance template="InspectorVIew" />
 </ui:UXML>

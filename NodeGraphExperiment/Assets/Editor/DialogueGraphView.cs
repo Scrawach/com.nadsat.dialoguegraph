@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Unity.Plastic.Newtonsoft.Json;
-using UnityEditor;
+using Editor.Drawing.Nodes;
+using Editor.Factories;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,7 +15,7 @@ namespace Editor
         public event Action<DialogueNodeView> OnNodeSelected;
         public event Action<DialogueNodeView> OnNodeUnselected; 
 
-        private DialogueNodeViewFactory _factory;
+        private DialogueNodeFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
         private readonly CopyPasteNodes _copyPaste;
 
@@ -57,13 +56,13 @@ namespace Editor
             {
                 if (element is DialogueNodeView dialogueNodeView)
                 {
-                    var node = _factory.Copy(dialogueNodeView);
-                    AddToSelection(node);
+                    //var node = _factory.Copy(dialogueNodeView);
+                    //AddToSelection(node);
                 }
             }
         }
 
-        public void Initialize(DialogueNodeViewFactory factory, ContextualMenuBuilder contextualMenuBuilder)
+        public void Initialize(DialogueNodeFactory factory, ContextualMenuBuilder contextualMenuBuilder)
         {
             _factory = factory;
             _contextualMenu = contextualMenuBuilder;
@@ -101,8 +100,8 @@ namespace Editor
 
         public void AddNode(DialogueNodeView nodeView)
         {
-            nodeView.OnNodeSelected += (node) => OnNodeSelected?.Invoke(node);
-            nodeView.OnNodeUnselected += (node) => OnNodeUnselected?.Invoke(node);
+            nodeView.Selected += (node) => OnNodeSelected?.Invoke(node);
+            nodeView.Unselected += (node) => OnNodeUnselected?.Invoke(node);
             AddElement(nodeView);
         }
     }
