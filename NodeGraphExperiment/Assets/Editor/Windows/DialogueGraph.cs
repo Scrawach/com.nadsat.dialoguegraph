@@ -3,6 +3,7 @@ using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
+using Editor.Undo;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using UnityEditor;
@@ -16,12 +17,14 @@ namespace Editor.Windows
 
         public DialogueGraphView DialogueGraphView { get; }
 
+
         public DialogueGraph(EditorWindow root) : base(Uxml)
         {
             DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
-            
+
+            var undoHandler = new UndoHandler();
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
             var searchWindow = new SearchWindowProvider(root, phraseRepository);
@@ -35,11 +38,12 @@ namespace Editor.Windows
             dialogueGraphToolbar.Initialize(phraseRepository);
             DialogueGraphView.Initialize(nodeFactory, contextualMenu);
 
+            DialogueGraphView.focusable = true;
+            DialogueGraphView.RegisterCallback<KeyDownEvent>(keyDownEvent => undoHandler.Handle(keyDownEvent));
+            
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
-
             phraseRepository.LanguageChanged += (language) => nodeFactory.UpdateLanguage();
         }
-
     }
 }
