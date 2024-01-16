@@ -7,7 +7,7 @@ namespace Editor.Drawing.Controls
     {
         public new class UxmlFactory : UxmlFactory<PhraseTextControl, UxmlTraits> { }
 
-        private const string Uxml = "UXML/PhraseTextItem";
+        private const string Uxml = "UXML/Controls/PhraseTextControl";
         
         private readonly Label _title;
         private readonly Label _description;

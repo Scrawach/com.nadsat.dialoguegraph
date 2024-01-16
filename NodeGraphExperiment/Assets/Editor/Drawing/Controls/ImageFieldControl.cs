@@ -10,7 +10,7 @@ namespace Editor.Drawing.Controls
     {
         public new class UxmlFactory : UxmlFactory<ImageFieldControl, UxmlTraits> { }
 
-        private const string Uxml = "UXML/ImageItem";
+        private const string Uxml = "UXML/Controls/ImageFieldControl";
 
         private readonly ObjectField _imageField;
         private readonly VisualElement _image;
