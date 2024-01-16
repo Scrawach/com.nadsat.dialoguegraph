@@ -6,6 +6,6 @@
         </ui:VisualElement>
         <ui:VisualElement name="divider" style="flex-grow: 0; height: 1px; width: auto; background-color: rgb(121, 121, 121); margin-bottom: 6px;" />
         <uie:ObjectField label="Image (Sprite)" name="image-field" type="UnityEngine.Sprite, UnityEngine.CoreModule" />
-        <ui:VisualElement name="image" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Busted-no-victims.jpg?fileID=2800000&amp;guid=76d19d0ed87f7f1418b5642838da0c34&amp;type=3#Busted-no-victims&apos;); height: 200px; -unity-background-scale-mode: scale-and-crop; margin-top: 6px; display: none;" />
+        <ui:VisualElement name="image" style="flex-grow: 0; background-image: url(&apos;project://database/Assets/Busted-no-victims.jpg?fileID=2800000&amp;guid=76d19d0ed87f7f1418b5642838da0c34&amp;type=3#Busted-no-victims&apos;); height: 200px; -unity-background-scale-mode: scale-to-fit; margin-top: 6px; display: none;" />
     </ui:VisualElement>
 </ui:UXML>

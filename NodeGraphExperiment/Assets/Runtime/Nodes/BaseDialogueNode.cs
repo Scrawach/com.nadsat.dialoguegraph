@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Runtime
+namespace Runtime.Nodes
 {
     public class BaseDialogueNode
     {

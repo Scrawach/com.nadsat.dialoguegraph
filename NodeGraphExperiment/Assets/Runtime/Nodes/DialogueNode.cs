@@ -1,6 +1,6 @@
 using System;
 
-namespace Runtime
+namespace Runtime.Nodes
 {
     [Serializable]
     public class DialogueNode : BaseDialogueNode
