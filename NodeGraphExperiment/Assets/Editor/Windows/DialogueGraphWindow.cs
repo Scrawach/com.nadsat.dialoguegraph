@@ -1,9 +1,3 @@
-using Editor.AssetManagement;
-using Editor.Drawing.Inspector;
-using Editor.Drawing.Nodes;
-using Editor.Factories;
-using Editor.Windows.Search;
-using Editor.Windows.Toolbar;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
@@ -15,11 +9,6 @@ namespace Editor.Windows
 {
     public class DialogueGraphWindow : EditorWindow
     {
-        [SerializeField] private VisualTreeAsset m_VisualTreeAsset = default;
-
-        private DialogueGraphView _dialogueGraphView;
-        private InspectorView _inspectorView;
-
         [MenuItem("Dialogue Graph/Open")]
         public static void OpenWindow()
         {
@@ -41,33 +30,11 @@ namespace Editor.Windows
         public void CreateGUI()
         {
             var root = rootVisualElement;
-            VisualElement tree = m_VisualTreeAsset.Instantiate();
+            var graph = new DialogueGraph(this);
+            graph.StretchToParentSize();
+            root.Add(graph);
 
-            tree.StretchToParentSize();
-            root.Add(tree);
-
-            _dialogueGraphView = root.Q<DialogueGraphView>();
-            _inspectorView = root.Q<InspectorView>();
-
-            var dialogueGraphToolbar = root.Q<DialogueGraphToolbar>();
-            var phraseRepository = new PhraseRepository();
-            var personRepository = new PersonRepository();
-            var searchWindow = new SearchWindowProvider(this, phraseRepository);
-            var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
-            var nodeViewListener = new NodeViewListener();
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, _dialogueGraphView);
-            var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
-
-            phraseRepository.Initialize();
-            personRepository.Initialize();
-            dialogueGraphToolbar.Initialize(phraseRepository);
-            _dialogueGraphView.Initialize(nodeFactory, contextualMenu);
-
-            nodeViewListener.Selected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
-            nodeViewListener.Unselected += (node) => _inspectorView.Cleanup();
-
-            phraseRepository.LanguageChanged += (language) => nodeFactory.UpdateLanguage();
-            _dialogueGraphView.graphViewChanged += OnChange;
+            graph.DialogueGraphView.graphViewChanged += OnChange;
         }
 
         private GraphViewChange OnChange(GraphViewChange graphViewChange)
