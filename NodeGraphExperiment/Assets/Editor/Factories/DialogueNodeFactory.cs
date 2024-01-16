@@ -119,5 +119,18 @@ namespace Editor.Factories
             node.RefreshExpandedState();
             return (input, output);
         }
+
+        public DialogueNodeView Copy(DialogueNodeView dialogueNodeView)
+        {
+            var newDialogueNode = new DialogueNode()
+            {
+                Guid = Guid.NewGuid().ToString(),
+                PersonId = dialogueNodeView.Model.PersonId,
+                Position = dialogueNodeView.Model.Position,
+                PhraseId = dialogueNodeView.Model.PhraseId,
+                PathToImage = dialogueNodeView.Model.PathToImage
+            };
+            return CreateFrom(newDialogueNode);
+        }
     }
 }

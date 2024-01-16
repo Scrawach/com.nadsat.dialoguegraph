@@ -55,8 +55,8 @@ namespace Editor
             {
                 if (element is DialogueNodeView dialogueNodeView)
                 {
-                    //var node = _factory.Copy(dialogueNodeView);
-                    //AddToSelection(node);
+                    var node = _factory.Copy(dialogueNodeView);
+                    AddToSelection(node);
                 }
             }
         }
