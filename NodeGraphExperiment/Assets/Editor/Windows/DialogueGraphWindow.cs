@@ -65,7 +65,8 @@ namespace Editor.Windows
 
             nodeViewListener.Selected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => _inspectorView.Cleanup();
-            
+
+            phraseRepository.LanguageChanged += (language) => nodeFactory.UpdateLanguage();
             _dialogueGraphView.graphViewChanged += OnChange;
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Runtime;
@@ -14,6 +15,8 @@ namespace Editor.Factories
         private readonly PhraseRepository _phrases;
         private readonly NodeViewListener _listener;
         private readonly GraphView _canvas;
+
+        private readonly List<DialogueNode> _nodes = new();
 
         public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, GraphView canvas)
         {
@@ -33,17 +36,34 @@ namespace Editor.Factories
 
         public DialogueNodeView CreateFrom(DialogueNode data)
         {
+            _nodes.Add(data);
             var view = new DialogueNodeView(_phrases, _persons);
             CreatePortsFor(view);
 
             view.Bind(data);
             view.SetPosition(data.Position);
+            view.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanelEvent);
             
             _listener.Register(view);
             _canvas.AddElement(view);
             return view;
         }
-        
+
+        public void UpdateLanguage()
+        {
+            foreach (var node in _nodes) 
+                node.SetPhraseId(node.PhraseId);
+        }
+
+        private void OnDetachFromPanelEvent(DetachFromPanelEvent evt)
+        {
+            if (evt.target is DialogueNodeView view)
+            {
+                _nodes.Remove(view.Model);
+                view.Unbind();
+            }
+        }
+
         public void CreateGroup(Vector2 at)
         {
             var group = new Group();
