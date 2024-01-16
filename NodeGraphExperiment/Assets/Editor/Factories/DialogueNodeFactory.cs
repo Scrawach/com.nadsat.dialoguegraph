@@ -45,6 +45,7 @@ namespace Editor.Factories
             view.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanelEvent);
             view.SetPosition(data.Position);
             _listener.Register(view);
+            _canvas.AddElement(view);
             return view;
         }
 

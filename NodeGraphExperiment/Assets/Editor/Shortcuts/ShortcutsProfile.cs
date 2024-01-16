@@ -1,4 +1,5 @@
 using Editor.Undo;
+using Editor.Windows.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,11 +7,24 @@ namespace Editor.Shortcuts
 {
     public class ShortcutsProfile
     {
-        
+        private readonly SearchWindowProvider _searchWindowProvider;
+        private readonly DialogueGraphView _graphView;
+
+        public ShortcutsProfile(SearchWindowProvider searchWindow, DialogueGraphView graphView)
+        {
+            _searchWindowProvider = searchWindow;
+            _graphView = graphView;
+        }
+
         public void Handle(KeyDownEvent keyDown)
         {
             if (IsFind(keyDown))
-                Debug.Log($"Open Find Window");
+            {
+                _searchWindowProvider.FindNodes(keyDown.originalMousePosition, view =>
+                {
+                    _graphView.Find(view);
+                });
+            }
         }
 
         private static bool IsFind(IKeyboardEvent keyDown) =>

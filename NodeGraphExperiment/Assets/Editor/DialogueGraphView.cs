@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Serialization;
-using Editor.Undo;
-using Editor.Undo.Commands;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -107,5 +105,15 @@ namespace Editor
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
             _contextualMenu.BuildContextualMenu(evt, base.BuildContextualMenu);
+
+        public void Find(DialogueNodeView view)
+        {
+            var viewPosition = view.GetPosition();
+            CalculateFrameTransform(viewPosition, layout, 0, out var translation, out var scaling);
+            UpdateViewTransform(translation, scaling);
+            
+            ClearSelection();
+            AddToSelection(view);
+        }
     }
 }
