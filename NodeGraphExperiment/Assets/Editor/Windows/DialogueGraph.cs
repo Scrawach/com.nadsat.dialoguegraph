@@ -3,6 +3,7 @@ using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
+using Editor.Shortcuts;
 using Editor.Undo;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
@@ -24,13 +25,14 @@ namespace Editor.Windows
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
 
-            var undoHandler = new UndoHandler();
+            var undoHistory = new UndoHistory();
+            var shortcuts = new ShortcutsProfile(undoHistory);
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
             var searchWindow = new SearchWindowProvider(root, phraseRepository);
             var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
             var nodeViewListener = new NodeViewListener();
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, DialogueGraphView);
+            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, undoHistory, DialogueGraphView);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
 
             phraseRepository.Initialize();
@@ -39,7 +41,7 @@ namespace Editor.Windows
             DialogueGraphView.Initialize(nodeFactory, contextualMenu);
 
             DialogueGraphView.focusable = true;
-            DialogueGraphView.RegisterCallback<KeyDownEvent>(keyDownEvent => undoHandler.Handle(keyDownEvent));
+            DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();

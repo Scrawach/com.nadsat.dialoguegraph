@@ -71,11 +71,8 @@ namespace Editor.Drawing.Nodes
             OnModelChanged();
         }
 
-        public void Unbind()
-        {
+        public void Unbind() =>
             Model.Changed -= OnModelChanged;
-            Model = null;
-        }
 
         public override void SetPosition(Rect newPos)
         {
