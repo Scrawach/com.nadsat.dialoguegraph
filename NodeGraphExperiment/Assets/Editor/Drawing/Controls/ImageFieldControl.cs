@@ -1,28 +1,28 @@
 using System;
-using UnityEditor.Search;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace Editor.Drawing.Controls
 {
-    public class ImageField : BaseControl
+    public class ImageFieldControl : BaseControl
     {
-        public new class UxmlFactory : UxmlFactory<ImageField, UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<ImageFieldControl, UxmlTraits> { }
 
-        private const string Uxml = "UXML/ImageField";
+        private const string Uxml = "UXML/ImageItem";
 
-        private readonly ObjectField _field;
+        private readonly ObjectField _imageField;
         private readonly VisualElement _image;
         private readonly Button _close;
 
-        public ImageField() : base(Uxml)
+        public ImageFieldControl() : base(Uxml)
         {
-            _field = this.Q<ObjectField>("image-field");
+            _imageField = this.Q<ObjectField>("image-field");
             _image = this.Q<VisualElement>("image");
             _close = this.Q<Button>("close-button");
 
-            _field.RegisterValueChangedCallback(OnFieldChanged);
+            _imageField.RegisterValueChangedCallback(OnFieldChanged);
         }
 
         public event Action Closed
@@ -35,7 +35,7 @@ namespace Editor.Drawing.Controls
 
         public void SetImage(Sprite sprite)
         {
-            _field.value = sprite;
+            _imageField.value = sprite;
             _image.style.display = DisplayStyle.Flex;
             _image.style.backgroundImage = new StyleBackground(sprite);
         }

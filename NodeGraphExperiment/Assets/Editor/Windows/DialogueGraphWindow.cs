@@ -1,11 +1,13 @@
 using Editor.AssetManagement;
 using Editor.Drawing.Inspector;
+using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -48,20 +50,22 @@ namespace Editor.Windows
             _inspectorView = root.Q<InspectorView>();
 
             var dialogueGraphToolbar = root.Q<DialogueGraphToolbar>();
-            var personDatabase = Resources.Load<DialoguePersonDatabase>("Dialogue Person Database");
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
             var searchWindow = new SearchWindowProvider(this, phraseRepository);
-            var inspectorFactory = new InspectorViewFactory(personDatabase, searchWindow, phraseRepository);
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, new EditorAssets(), _dialogueGraphView);
+            var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
+            var nodeViewListener = new NodeViewListener();
+            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, _dialogueGraphView);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
 
             phraseRepository.Initialize();
+            personRepository.Initialize();
             dialogueGraphToolbar.Initialize(phraseRepository);
             _dialogueGraphView.Initialize(nodeFactory, contextualMenu);
 
-            _dialogueGraphView.OnNodeSelected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
-            _dialogueGraphView.OnNodeUnselected += (node) => _inspectorView.Cleanup();
+            nodeViewListener.Selected += (node) => _inspectorView.Populate(inspectorFactory.Build(node));
+            nodeViewListener.Unselected += (node) => _inspectorView.Cleanup();
+            
             _dialogueGraphView.graphViewChanged += OnChange;
         }
 

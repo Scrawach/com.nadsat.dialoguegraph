@@ -1,6 +1,7 @@
 using System;
 using Editor.AssetManagement;
 using Runtime;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -31,13 +32,12 @@ namespace Editor.Drawing.Nodes
 
         public DialogueNode Model;
         
-        public DialogueNodeView(PhraseRepository phrases, PersonRepository persons, EditorAssets assets) 
+        public DialogueNodeView(PhraseRepository phrases, PersonRepository persons) 
             : base(UxmlPath)
         {
             _phrases = phrases;
             _persons = persons;
-            _assets = assets;
-            
+
             _personNameLabel = this.Q<Label>("person-name-label");
             _phraseTitleLabel = this.Q<Label>("title-label");
             _phraseTextLabel = this.Q<Label>("description-label");
@@ -96,28 +96,56 @@ namespace Editor.Drawing.Nodes
 
         private void Draw(DialogueNode model)
         {
-            var person = _persons.Get(model.PersonId);
-            var phrase = _phrases.Get(model.PhraseId);
-            var image = _assets.Load<Sprite>(model.PathToImage);
-            var avatar = _assets.Load<Sprite>(person.PathToIcon);
-            
+            SetPerson(model.PersonId);
+            SetPhrase(model.PhraseId);
+            SetImage(model.PathToImage);
+        }
+
+        private void SetPhrase(string phraseId)
+        {
+            if (string.IsNullOrWhiteSpace(phraseId))
+            {
+                _phraseTitleLabel.text = "none";
+                _phraseTextLabel.text = string.Empty;
+            }
+            else
+            {
+                var phrase = _phrases.Get(phraseId);
+                _phraseTitleLabel.text = phraseId;
+                _phraseTextLabel.text = phrase;
+            }
+        }
+
+        private void SetPerson(string personId)
+        {
+            var person = _persons.Get(personId);
+            var avatar = AssetDatabase.LoadAssetAtPath<Sprite>(person.PathToIcon);
             _personNameLabel.text = person.Name;
-            _phraseTitleLabel.text = model.PhraseId;
-            _phraseTextLabel.text = phrase;
             _header.style.backgroundColor = person.Color;
 
-            if (avatar != null) 
+            if (avatar != null)
+            {
+                _imageContainer.style.display = DisplayStyle.Flex;
                 _avatar.style.backgroundImage = new StyleBackground(avatar);
+            }
             else
+            {
                 _avatar.style.display = DisplayStyle.None;
+            }
+        }
 
-            if (image != null)
-                _image.style.backgroundImage = new StyleBackground(image);
-            else
+        private void SetImage(string pathToImage)
+        {
+            if (string.IsNullOrWhiteSpace(pathToImage))
+            {
                 _imageContainer.style.display = DisplayStyle.None;
-            
-            if (GetPosition() != model.Position)
-                SetPosition(model.Position);
+            }
+            else
+            {
+                var image = AssetDatabase.LoadAssetAtPath<Sprite>(pathToImage);
+                _imageContainer.style.display = DisplayStyle.Flex;
+                _image.style.backgroundImage = new StyleBackground(image);
+            }
         }
     }
 }

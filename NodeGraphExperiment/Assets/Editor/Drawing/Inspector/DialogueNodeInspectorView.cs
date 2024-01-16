@@ -28,7 +28,7 @@ namespace Editor.Drawing.Inspector
         private readonly PhraseRepository _phrases;
 
         private PhraseTextControl _activePhrase;
-        private ImageField _activeImage;
+        private ImageFieldControl _activeImage;
         
         public DialogueNodeInspectorView(DialogueNode node, SearchWindowProvider searchWindow, PhraseRepository phrases)
             : base(Uxml)
@@ -59,10 +59,13 @@ namespace Editor.Drawing.Inspector
         private void Draw(DialogueNode node)
         {
             _guidLabel.text = node.Guid;
-            _dropdownField.SetValueWithoutNotify(node.PhraseId);
+            _dropdownField.SetValueWithoutNotify(node.PersonId);
             
             if (!string.IsNullOrWhiteSpace(node.PhraseId))
                 SetPhrase(node.PhraseId);
+            
+            if (!string.IsNullOrWhiteSpace(node.PathToImage))
+                SetImage(node.PathToImage);
         }
 
         private void SetPhrase(string phraseId)
@@ -91,7 +94,7 @@ namespace Editor.Drawing.Inspector
             if (_activeImage != null)
                 _imagesContainer.Remove(_activeImage);
 
-            var item = new ImageField();
+            var item = new ImageFieldControl();
             _activeImage = item;
 
             if (!string.IsNullOrWhiteSpace(pathToImage))
@@ -109,8 +112,12 @@ namespace Editor.Drawing.Inspector
                 _addImageButton.style.display = DisplayStyle.Flex;
                 _node.SetPathToImage(string.Empty);
             };
-            
-            item.Selected += (sprite) => _node.SetPathToImage(AssetDatabase.GetAssetPath(sprite));
+
+            item.Selected += (sprite) =>
+            {
+                _node.SetPathToImage(AssetDatabase.GetAssetPath(sprite));
+            };
+
         }
 
         private void OnAddImageButtonClicked()

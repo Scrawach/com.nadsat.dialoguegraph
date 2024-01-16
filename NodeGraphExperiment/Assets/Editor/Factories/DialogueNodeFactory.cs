@@ -12,14 +12,14 @@ namespace Editor.Factories
     {
         private readonly PersonRepository _persons;
         private readonly PhraseRepository _phrases;
-        private readonly EditorAssets _assets;
+        private readonly NodeViewListener _listener;
         private readonly GraphView _canvas;
 
-        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, EditorAssets assets, GraphView canvas)
+        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, GraphView canvas)
         {
             _persons = persons;
             _phrases = phrases;
-            _assets = assets;
+            _listener = listener;
             _canvas = canvas;
         }
 
@@ -28,14 +28,18 @@ namespace Editor.Factories
             {
                 Guid = Guid.NewGuid().ToString(), 
                 PersonId = person, 
-                Position = new Rect(position, Vector2.zero)
+                Position = new Rect(_canvas.contentViewContainer.WorldToLocal(position), Vector2.zero)
             });
 
         public DialogueNodeView CreateFrom(DialogueNode data)
         {
-            var view = new DialogueNodeView(_phrases, _persons, _assets);
-            view.Bind(data);
+            var view = new DialogueNodeView(_phrases, _persons);
             CreatePortsFor(view);
+
+            view.Bind(data);
+            view.SetPosition(data.Position);
+            
+            _listener.Register(view);
             _canvas.AddElement(view);
             return view;
         }

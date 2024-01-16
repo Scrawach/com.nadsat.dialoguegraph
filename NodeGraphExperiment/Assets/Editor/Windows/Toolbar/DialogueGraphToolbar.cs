@@ -1,21 +1,21 @@
 using System.Linq;
 using Editor.AssetManagement;
-using UnityEngine;
+using Editor.Drawing.Controls;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
 {
-    public class DialogueGraphToolbar : VisualElement
+    public class DialogueGraphToolbar : BaseControl
     {
+        private const string Uxml = "UXML/DialogueGraphToolbar";
+        
         public new class UxmlFactory : UxmlFactory<DialogueGraphToolbar, UxmlTraits> { }
 
         private readonly DropdownField _languageDropdown;
         private PhraseRepository _phraseRepository;
         
-        public DialogueGraphToolbar()
+        public DialogueGraphToolbar() : base(Uxml)
         {
-            var uxml = Resources.Load<VisualTreeAsset>("UXML/DialogueGraphToolbar");
-            uxml.CloneTree(this);
             _languageDropdown = this.Q<DropdownField>("language-dropdown");
             _languageDropdown.RegisterValueChangedCallback(OnLanguageChanged);
         }

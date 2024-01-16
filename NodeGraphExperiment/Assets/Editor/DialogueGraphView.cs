@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
+using Editor.Serialization;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;

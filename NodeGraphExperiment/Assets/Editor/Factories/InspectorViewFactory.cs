@@ -10,13 +10,13 @@ namespace Editor.Factories
 {
     public class InspectorViewFactory
     {
-        private readonly DialoguePersonDatabase _personDatabase;
+        private readonly PersonRepository _persons;
         private readonly SearchWindowProvider _searchWindow;
         private readonly PhraseRepository _phrases;
 
-        public InspectorViewFactory(DialoguePersonDatabase personDatabase, SearchWindowProvider searchWindow, PhraseRepository phrases)
+        public InspectorViewFactory(PersonRepository persons, SearchWindowProvider searchWindow, PhraseRepository phrases)
         {
-            _personDatabase = personDatabase;
+            _persons = persons;
             _searchWindow = searchWindow;
             _phrases = phrases;
         }
@@ -26,7 +26,7 @@ namespace Editor.Factories
             if (target is DialogueNodeView nodeView)
             {
                 var inspector = new DialogueNodeInspectorView(nodeView.Model, _searchWindow, _phrases);
-                inspector.UpdateDropdownChoices(_personDatabase.Persons.Select(p => p.Name));
+                inspector.UpdateDropdownChoices(_persons.All());
                 return inspector;
             }
 

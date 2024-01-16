@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor
+namespace Editor.Serialization
 {
     [Serializable]
     public class CopyPasteNodes
