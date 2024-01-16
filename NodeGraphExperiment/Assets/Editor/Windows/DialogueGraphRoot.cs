@@ -4,7 +4,6 @@ using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Shortcuts;
-using Editor.Undo;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using UnityEditor;
@@ -12,14 +11,14 @@ using UnityEngine.UIElements;
 
 namespace Editor.Windows
 {
-    public class DialogueGraph : BaseControl
+    public class DialogueGraphRoot : BaseControl
     {
         private const string Uxml = "UXML/DialogueGraphWindow";
 
         public DialogueGraphView DialogueGraphView { get; }
 
 
-        public DialogueGraph(EditorWindow root) : base(Uxml)
+        public DialogueGraphRoot(EditorWindow root) : base(Uxml)
         {
             DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();

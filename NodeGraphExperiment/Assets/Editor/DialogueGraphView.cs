@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Serialization;
+using Runtime;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -114,6 +115,12 @@ namespace Editor
             
             ClearSelection();
             AddToSelection(view);
+        }
+
+        public void Populate(DialogueGraph graph)
+        {
+            foreach (var node in graph.Nodes) 
+                _factory.CreateFrom(node);
         }
     }
 }

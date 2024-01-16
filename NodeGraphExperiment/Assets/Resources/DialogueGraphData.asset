@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f9fa1893a8d45b2bc660e17a312d567, type: 3}
+  m_Name: DialogueGraphData
+  m_EditorClassIdentifier: 
+  EntryNodeGuid: 
+  Nodes:
+  - Guid: 61d0a7fb-19d8-4e40-9f20-4eeb247c6d8e
+    Position:
+      serializedVersion: 2
+      x: 175.93542
+      y: 150.0592
+      width: 160
+      height: 90
+    PersonId: Elena
+    PhraseId: tutor_elena_001
+    PathToImage: Assets/Resources/Busted-no-victims.jpg
+  - Guid: bba40244-4c75-4003-ac92-419bb08fc6d6
+    Position:
+      serializedVersion: 2
+      x: 505.67908
+      y: 209.41797
+      width: 160
+      height: 90
+    PersonId: Mark
+    PhraseId: tutor_mark_002
+    PathToImage: 
+  Links: []
