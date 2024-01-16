@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Undo;
-using Editor.Undo.Commands;
 using Runtime;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -16,18 +15,15 @@ namespace Editor.Factories
         private readonly PersonRepository _persons;
         private readonly PhraseRepository _phrases;
         private readonly NodeViewListener _listener;
-        private readonly IUndoRegister _undoRegister;
         private readonly GraphView _canvas;
 
         private readonly List<DialogueNode> _nodes = new();
 
-        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, 
-            IUndoRegister undoRegister, GraphView canvas)
+        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, GraphView canvas)
         {
             _persons = persons;
             _phrases = phrases;
             _listener = listener;
-            _undoRegister = undoRegister;
             _canvas = canvas;
         }
 
@@ -48,13 +44,7 @@ namespace Editor.Factories
             view.Bind(data);
             view.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanelEvent);
             view.SetPosition(data.Position);
-
             _listener.Register(view);
-
-            var addElement = new AddGraphElement(view, _canvas);
-            addElement.Redo();
-            _undoRegister.Register(addElement);
-            
             return view;
         }
 
@@ -69,7 +59,7 @@ namespace Editor.Factories
             if (evt.target is DialogueNodeView view)
             {
                 _nodes.Remove(view.Model);
-                view.Unbind();
+                //view.Unbind();
             }
         }
 

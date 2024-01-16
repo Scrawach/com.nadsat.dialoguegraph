@@ -96,6 +96,7 @@ namespace Editor.Drawing.Nodes
             SetPerson(model.PersonId);
             SetPhrase(model.PhraseId);
             SetImage(model.PathToImage);
+            base.SetPosition(model.Position);
         }
 
         private void SetPhrase(string phraseId)

@@ -25,14 +25,13 @@ namespace Editor.Windows
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
 
-            var undoHistory = new UndoHistory();
-            var shortcuts = new ShortcutsProfile(undoHistory);
+            var shortcuts = new ShortcutsProfile();
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
             var searchWindow = new SearchWindowProvider(root, phraseRepository);
             var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
             var nodeViewListener = new NodeViewListener();
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, undoHistory, DialogueGraphView);
+            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, DialogueGraphView);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
 
             phraseRepository.Initialize();

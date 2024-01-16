@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Serialization;
+using Editor.Undo;
+using Editor.Undo.Commands;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -71,6 +73,15 @@ namespace Editor
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
+
+            if (graphViewChange.elementsToRemove != null)
+            {
+                foreach (var element in graphViewChange.elementsToRemove)
+                {
+                    Debug.Log($"{element}");
+                }
+            }
+            
             if (graphViewChange.edgesToCreate != null)
             {
                 foreach (var edge in graphViewChange.edgesToCreate)
@@ -91,19 +102,10 @@ namespace Editor
             }
         }
 
-        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-        {
-            return ports.ToList();
-        }
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
+            ports.ToList();
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
             _contextualMenu.BuildContextualMenu(evt, base.BuildContextualMenu);
-
-        public void AddNode(DialogueNodeView nodeView)
-        {
-            nodeView.Selected += (node) => OnNodeSelected?.Invoke(node);
-            nodeView.Unselected += (node) => OnNodeUnselected?.Invoke(node);
-            AddElement(nodeView);
-        }
     }
 }
