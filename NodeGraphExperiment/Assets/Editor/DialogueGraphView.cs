@@ -14,9 +14,6 @@ namespace Editor
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
-        public event Action<DialogueNodeView> OnNodeSelected;
-        public event Action<DialogueNodeView> OnNodeUnselected; 
-
         private DialogueNodeFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
         private readonly CopyPasteNodes _copyPaste;
@@ -70,27 +67,8 @@ namespace Editor
             _contextualMenu = contextualMenuBuilder;
         }
 
-        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
-        {
-
-            if (graphViewChange.elementsToRemove != null)
-            {
-                foreach (var element in graphViewChange.elementsToRemove)
-                {
-                    Debug.Log($"{element}");
-                }
-            }
-            
-            if (graphViewChange.edgesToCreate != null)
-            {
-                foreach (var edge in graphViewChange.edgesToCreate)
-                {
-                    edge.RegisterCallback<MouseDownEvent>(OnMouseDown);
-                }
-            }
-
-            return graphViewChange;
-        }
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange) =>
+            graphViewChange;
 
         private void OnMouseDown(MouseDownEvent evt)
         {
