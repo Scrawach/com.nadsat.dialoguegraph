@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,12 +9,25 @@ namespace Editor.Windows.Variables
     public class VariablesBlackboard : Blackboard
     {
         private readonly VariablesProvider _variables;
+        private readonly GraphView _root;
         private BlackboardSection _globalVariables;
         
         public VariablesBlackboard(VariablesProvider variables, GraphView root) : base(root)
         {
             _variables = variables;
+            _root = root;
             root.Add(this);
+            root.deleteSelection += OnDeleteSelection;
+        }
+
+        private void OnDeleteSelection(string operationName, GraphView.AskUser askuser)
+        {
+            foreach (var selectable in _root.selection)
+            {
+                if (selectable is BlackboardField field)
+                    RemoveField(field);
+            }
+            _root.DeleteSelection();
         }
 
         public void Initialize()
@@ -23,6 +37,7 @@ namespace Editor.Windows.Variables
             SetPosition(new Rect(10, 10, 200, 300));
             addItemRequested += OnAddItemRequested;
             editTextRequested += OnEditTextRequested;
+            
             _globalVariables = new BlackboardSection() {title = "Global Variables"};
             Add(_globalVariables);
             Hide();
