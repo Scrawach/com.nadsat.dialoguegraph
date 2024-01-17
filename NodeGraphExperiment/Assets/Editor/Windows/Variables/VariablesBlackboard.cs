@@ -7,12 +7,12 @@ namespace Editor.Windows.Variables
 {
     public class VariablesBlackboard : Blackboard
     {
-        private readonly VariablesProvider _variableses;
+        private readonly VariablesProvider _variables;
         private BlackboardSection _globalVariables;
         
-        public VariablesBlackboard(VariablesProvider variableses, GraphView root) : base(root)
+        public VariablesBlackboard(VariablesProvider variables, GraphView root) : base(root)
         {
-            _variableses = variableses;
+            _variables = variables;
             root.Add(this);
         }
 
@@ -33,13 +33,13 @@ namespace Editor.Windows.Variables
             var field = (BlackboardField) element;
             var oldVariableName = field.text;
 
-            if (_variableses.Contains(value))
+            if (_variables.Contains(value))
             {
                 EditorUtility.DisplayDialog("Error", "This variable name already exist, please chose another one!", "OK");
                 return;
             }
 
-            _variableses.Rename(oldVariableName, value);
+            _variables.Rename(oldVariableName, value);
             field.text = value;
         }
 
@@ -48,7 +48,7 @@ namespace Editor.Windows.Variables
             var variable = new BlackboardField() {text = variableName, typeText = "global"};
             variable.RegisterCallback<ContextualMenuPopulateEvent>(OnBuildMenu);
             _globalVariables.Add(variable);
-            _variableses.Add(variableName);
+            _variables.Add(variableName);
         }
 
         private void OnBuildMenu(ContextualMenuPopulateEvent evt)
@@ -64,7 +64,7 @@ namespace Editor.Windows.Variables
 
         private void RemoveField(BlackboardField field)
         {
-            _variableses.Remove(field.text);
+            _variables.Remove(field.text);
             _globalVariables.Remove(field);
         }
 
@@ -74,7 +74,7 @@ namespace Editor.Windows.Variables
         private string GenerateVariableName()
         {
             var initialName = "New Variable";
-            while (_variableses.Contains(initialName))
+            while (_variables.Contains(initialName))
                 initialName = $"{initialName}(1)";
             return initialName;
         }
