@@ -38,7 +38,7 @@ namespace Editor.Windows
             var nodesProvider = new NodesProvider();
             var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
             var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeListeners, DialogueGraphView);
-            var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
+            var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, nodeFactory);
 
             var variables = new VariablesProvider();
             var blackboard = new VariablesBlackboard(variables, DialogueGraphView);

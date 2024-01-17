@@ -2,6 +2,7 @@ using System;
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
+using Editor.Factories.NodeListeners;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -10,13 +11,13 @@ namespace Editor
     public class ContextualMenuBuilder
     {
         private readonly PersonRepository _persons;
+        private readonly NodesProvider _provider;
         private readonly DialogueNodeFactory _factory;
-
-        private DialogueNodeView _entryPoint;
         
-        public ContextualMenuBuilder(PersonRepository persons, DialogueNodeFactory factory)
+        public ContextualMenuBuilder(PersonRepository persons, NodesProvider provider, DialogueNodeFactory factory)
         {
             _persons = persons;
+            _provider = provider;
             _factory = factory;
         }
         
@@ -24,13 +25,11 @@ namespace Editor
         {
             if (evt.target is not GraphView)
             {
-                if (evt.target is DialogueNodeView dialogueNodeView)
+                if (evt.target is DialogueNodeView nodeView)
                 {
                     evt.menu.AppendAction("Set as Root", _ =>
                     {
-                        _entryPoint?.MarkAsRoot(false);
-                        _entryPoint = dialogueNodeView;
-                        _entryPoint.MarkAsRoot(true);
+                        _provider.MarkAsRootNode(nodeView);
                     });
                     
                     evt.menu.AppendSeparator();
