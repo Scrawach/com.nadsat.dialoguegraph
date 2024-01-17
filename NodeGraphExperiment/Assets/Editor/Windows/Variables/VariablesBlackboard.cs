@@ -28,6 +28,7 @@ namespace Editor.Windows.Variables
         {
             title = "Variables";
             subTitle = string.Empty;
+            SetPosition(new Rect(10, 10, 200, 300));
             addItemRequested += OnAddItemRequested;
             editTextRequested += OnEditTextRequested;
             _globalVariables = new BlackboardSection() {title = "Global Variables"};
