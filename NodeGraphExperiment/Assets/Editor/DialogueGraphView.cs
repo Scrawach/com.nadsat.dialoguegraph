@@ -46,7 +46,15 @@ namespace Editor
             IEnumerable<BlackboardField> fields = selection.OfType<BlackboardField>();
             foreach (var field in fields)
             {
-                var node = new Node();
+                var node = new VariableNodeView();
+                var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
+                input.portName = "";
+                var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
+                output.portName = "";
+                node.inputContainer.Add(input);
+                node.outputContainer.Add(output);
+                node.RefreshPorts();
+                node.RefreshExpandedState();
                 AddElement(node);
             }
         }
