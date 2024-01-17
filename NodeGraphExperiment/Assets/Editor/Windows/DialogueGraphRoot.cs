@@ -8,7 +8,9 @@ using Editor.Factories.NodeListeners;
 using Editor.Shortcuts;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
+using Editor.Windows.Variables;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows
@@ -38,10 +40,14 @@ namespace Editor.Windows
             var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeListeners, DialogueGraphView);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
 
+            var variables = new VariablesProvider();
+            var blackboard = new VariablesBlackboard(variables, DialogueGraphView);
+
             phraseRepository.Initialize();
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(phraseRepository);
             DialogueGraphView.Initialize(nodeFactory, contextualMenu);
+            blackboard.Initialize();
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);

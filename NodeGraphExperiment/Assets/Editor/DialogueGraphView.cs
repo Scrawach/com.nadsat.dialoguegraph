@@ -24,9 +24,7 @@ namespace Editor
             
             Insert(0, new GridBackground());
 
-            var zoomer = new ContentZoomer();
-            zoomer.maxScale = 2f;
-            this.AddManipulator(zoomer);
+            this.AddManipulator(new ContentZoomer() { maxScale = 2f, minScale = 0.1f});
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
