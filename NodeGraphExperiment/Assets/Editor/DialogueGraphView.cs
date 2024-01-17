@@ -18,6 +18,7 @@ namespace Editor
         private DialogueNodeFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
         private readonly CopyPasteNodes _copyPaste;
+        private VariableNodeFactory _variableFactory;
 
         public DialogueGraphView()
         {
@@ -44,19 +45,8 @@ namespace Editor
         {
             var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
             IEnumerable<BlackboardField> fields = selection.OfType<BlackboardField>();
-            foreach (var field in fields)
-            {
-                var node = new VariableNodeView();
-                var input = node.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(float));
-                input.portName = "";
-                var output = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(float));
-                output.portName = "";
-                node.inputContainer.Add(input);
-                node.outputContainer.Add(output);
-                node.RefreshPorts();
-                node.RefreshExpandedState();
-                AddElement(node);
-            }
+            foreach (var field in fields) 
+                _variableFactory.Create(evt.mousePosition, field.text);
         }
 
         private void OnDragUpdated(DragUpdatedEvent e)
@@ -87,9 +77,10 @@ namespace Editor
             }
         }
 
-        public void Initialize(DialogueNodeFactory factory, ContextualMenuBuilder contextualMenuBuilder)
+        public void Initialize(DialogueNodeFactory factory, VariableNodeFactory variableFactory, ContextualMenuBuilder contextualMenuBuilder)
         {
             _factory = factory;
+            _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
         }
 

@@ -42,11 +42,12 @@ namespace Editor.Windows
 
             var variables = new VariablesProvider();
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
+            var variableNodeFactory = new VariableNodeFactory(DialogueGraphView, variables);
 
             phraseRepository.Initialize();
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository);
-            DialogueGraphView.Initialize(nodeFactory, contextualMenu);
+            DialogueGraphView.Initialize(nodeFactory, variableNodeFactory, contextualMenu);
             variablesBlackboard.Initialize();
 
             DialogueGraphView.focusable = true;
