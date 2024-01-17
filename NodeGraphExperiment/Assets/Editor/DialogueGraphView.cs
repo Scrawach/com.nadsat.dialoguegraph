@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Serialization;
 using Runtime;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -31,10 +32,29 @@ namespace Editor
             
             var stylesheet = Resources.Load<StyleSheet>("Styles/DialogueGraph");
             styleSheets.Add(stylesheet);
+            RegisterCallback<DragUpdatedEvent>(OnDragUpdated);
+            RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
 
             graphViewChanged = OnGraphViewChanged;
             serializeGraphElements += OnCutCopyOperation;
             unserializeAndPaste += OnPasteOperation;
+        }
+
+        private void OnDragPerformEvent(DragPerformEvent evt)
+        {
+            var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
+            IEnumerable<BlackboardField> fields = selection.OfType<BlackboardField>();
+            foreach (var field in fields)
+            {
+                var node = new Node();
+                AddElement(node);
+            }
+        }
+
+        private void OnDragUpdated(DragUpdatedEvent e)
+        {
+            if (DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection && (selection.OfType<BlackboardField>().Count() >= 0))
+                DragAndDrop.visualMode = e.actionKey ? DragAndDropVisualMode.Copy : DragAndDropVisualMode.Move;
         }
 
         private string OnCutCopyOperation(IEnumerable<GraphElement> elements)
