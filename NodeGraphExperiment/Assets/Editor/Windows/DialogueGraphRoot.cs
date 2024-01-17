@@ -41,13 +41,13 @@ namespace Editor.Windows
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, nodeFactory);
 
             var variables = new VariablesProvider();
-            var blackboard = new VariablesBlackboard(variables, DialogueGraphView);
+            var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
 
             phraseRepository.Initialize();
             personRepository.Initialize();
-            dialogueGraphToolbar.Initialize(phraseRepository);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository);
             DialogueGraphView.Initialize(nodeFactory, contextualMenu);
-            blackboard.Initialize();
+            variablesBlackboard.Initialize();
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);

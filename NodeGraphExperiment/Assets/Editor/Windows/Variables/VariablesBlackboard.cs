@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Variables
@@ -31,6 +32,7 @@ namespace Editor.Windows.Variables
             editTextRequested += OnEditTextRequested;
             _globalVariables = new BlackboardSection() {title = "Global Variables"};
             Add(_globalVariables);
+            Hide();
         }
 
         private void OnEditTextRequested(Blackboard blackboard, VisualElement element, string value)
@@ -83,5 +85,14 @@ namespace Editor.Windows.Variables
                 initialName = $"{initialName}(1)";
             return initialName;
         }
+
+        public void Show() =>
+            SetDisplay(DisplayStyle.Flex);
+
+        public void Hide() =>
+            SetDisplay(DisplayStyle.None);
+
+        private void SetDisplay(DisplayStyle displayStyle) =>
+            this.Q<VisualElement>().style.display = displayStyle;
     }
 }
