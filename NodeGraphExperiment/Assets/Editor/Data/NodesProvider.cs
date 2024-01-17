@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Editor.Drawing.Nodes;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Data
@@ -11,14 +12,12 @@ namespace Editor.Data
 
         public void Register(DialogueNodeView node)
         {
-            _nodes.Add(node);
             node.RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             node.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
         }
 
         public void Unregister(DialogueNodeView node)
         {
-            _nodes.Remove(node);
             node.UnregisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             node.UnregisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
         }
@@ -37,8 +36,8 @@ namespace Editor.Data
 
         public void UpdateLanguage()
         {
-            foreach (var node in _nodes) 
-                node.Model.PersonId = node.Model.PersonId;
+            foreach (var node in _nodes)
+                node.Model.NotifyChanged();
         }
     }
 }

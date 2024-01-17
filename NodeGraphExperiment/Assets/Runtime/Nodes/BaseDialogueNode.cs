@@ -16,7 +16,7 @@ namespace Runtime.Nodes
             NotifyChanged();
         }
 
-        protected void NotifyChanged() =>
+        public void NotifyChanged() =>
             Changed?.Invoke();
     }
 }
