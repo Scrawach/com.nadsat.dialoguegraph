@@ -1,8 +1,9 @@
 using System;
+using Editor.Drawing.Nodes;
 
-namespace Editor.Drawing.Nodes
+namespace Editor.Factories.NodeListeners
 {
-    public class NodeViewListener
+    public class NodeViewListener : IDialogueNodeListener
     {
         public event Action<DialogueNodeView> Selected;
         public event Action<DialogueNodeView> Unselected;

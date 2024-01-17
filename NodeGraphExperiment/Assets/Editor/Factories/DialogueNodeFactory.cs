@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Editor.AssetManagement;
-using Editor.Data;
 using Editor.Drawing.Nodes;
-using Editor.Undo;
-using Runtime;
+using Editor.Factories.NodeListeners;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -16,17 +14,15 @@ namespace Editor.Factories
     {
         private readonly PersonRepository _persons;
         private readonly PhraseRepository _phrases;
-        private readonly NodeViewListener _listener;
-        private readonly NodesProvider _nodesProvider;
+        private readonly IDialogueNodeListener _listener;
         private readonly GraphView _canvas;
 
-        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, 
-            NodesProvider nodesProvider, GraphView canvas)
+        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, IDialogueNodeListener listener, 
+            GraphView canvas)
         {
             _persons = persons;
             _phrases = phrases;
             _listener = listener;
-            _nodesProvider = nodesProvider;
             _canvas = canvas;
         }
 
@@ -45,7 +41,6 @@ namespace Editor.Factories
 
             view.Bind(data);
             view.SetPosition(data.Position);
-            _nodesProvider.Register(view);
             _listener.Register(view);
             _canvas.AddElement(view);
             return view;

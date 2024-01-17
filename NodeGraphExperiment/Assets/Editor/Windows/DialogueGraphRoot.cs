@@ -4,6 +4,7 @@ using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
+using Editor.Factories.NodeListeners;
 using Editor.Shortcuts;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
@@ -33,7 +34,8 @@ namespace Editor.Windows
             var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
             var nodeViewListener = new NodeViewListener();
             var nodesProvider = new NodesProvider();
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, nodesProvider, DialogueGraphView);
+            var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
+            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeListeners, DialogueGraphView);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
 
             phraseRepository.Initialize();

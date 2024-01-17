@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using Editor.Drawing.Nodes;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Data
+namespace Editor.Factories.NodeListeners
 {
-    public class NodesProvider
+    public class NodesProvider : IDialogueNodeListener
     {
         private readonly List<DialogueNodeView> _nodes = new();
         public IReadOnlyList<DialogueNodeView> Nodes => _nodes;
