@@ -5,14 +5,6 @@ using UnityEngine.UIElements;
 
 namespace Editor.Windows.Variables
 {
-    public class Variable
-    {
-        public string Name;
-
-        public Variable(string name) =>
-            Name = name;
-    }
-    
     public class VariablesBlackboard : Blackboard
     {
         private readonly VariablesProvider _variableses;
@@ -41,7 +33,7 @@ namespace Editor.Windows.Variables
             var field = (BlackboardField) element;
             var oldVariableName = field.text;
 
-            if (_variableses.HasVariableWithName(value))
+            if (_variableses.Contains(value))
             {
                 EditorUtility.DisplayDialog("Error", "This variable name already exist, please chose another one!", "OK");
                 return;
@@ -82,7 +74,7 @@ namespace Editor.Windows.Variables
         private string GenerateVariableName()
         {
             var initialName = "New Variable";
-            while (_variableses.HasVariableWithName(initialName))
+            while (_variableses.Contains(initialName))
                 initialName = $"{initialName}(1)";
             return initialName;
         }
