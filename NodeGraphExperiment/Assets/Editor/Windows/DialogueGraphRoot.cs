@@ -1,4 +1,5 @@
 using Editor.AssetManagement;
+using Editor.Data;
 using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
@@ -31,7 +32,8 @@ namespace Editor.Windows
 
             var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
             var nodeViewListener = new NodeViewListener();
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, DialogueGraphView);
+            var nodesProvider = new NodesProvider();
+            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeViewListener, nodesProvider, DialogueGraphView);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodeFactory);
 
             phraseRepository.Initialize();
@@ -44,7 +46,7 @@ namespace Editor.Windows
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
-            phraseRepository.LanguageChanged += (language) => nodeFactory.UpdateLanguage();
+            phraseRepository.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
         }
     }
 }

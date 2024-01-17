@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Editor.AssetManagement;
+using Editor.Data;
 using Editor.Drawing.Nodes;
 using Editor.Undo;
 using Runtime;
@@ -16,15 +17,16 @@ namespace Editor.Factories
         private readonly PersonRepository _persons;
         private readonly PhraseRepository _phrases;
         private readonly NodeViewListener _listener;
+        private readonly NodesProvider _nodesProvider;
         private readonly GraphView _canvas;
 
-        private readonly List<DialogueNode> _nodes = new();
-
-        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, GraphView canvas)
+        public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, NodeViewListener listener, 
+            NodesProvider nodesProvider, GraphView canvas)
         {
             _persons = persons;
             _phrases = phrases;
             _listener = listener;
+            _nodesProvider = nodesProvider;
             _canvas = canvas;
         }
 
@@ -38,33 +40,17 @@ namespace Editor.Factories
 
         public DialogueNodeView CreateFrom(DialogueNode data)
         {
-            _nodes.Add(data);
             var view = new DialogueNodeView(_phrases, _persons);
             CreatePortsFor(view);
 
             view.Bind(data);
-            view.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanelEvent);
             view.SetPosition(data.Position);
+            _nodesProvider.Register(view);
             _listener.Register(view);
             _canvas.AddElement(view);
             return view;
         }
-
-        public void UpdateLanguage()
-        {
-            foreach (var node in _nodes) 
-                node.SetPhraseId(node.PhraseId);
-        }
-
-        private void OnDetachFromPanelEvent(DetachFromPanelEvent evt)
-        {
-            if (evt.target is DialogueNodeView view)
-            {
-                _nodes.Remove(view.Model);
-                //view.Unbind();
-            }
-        }
-
+        
         public void CreateGroup(Vector2 at)
         {
             var group = new Group();
