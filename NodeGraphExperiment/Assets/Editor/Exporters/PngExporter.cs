@@ -40,7 +40,7 @@ namespace Editor.Exporters
             if (_processing == null)
                 _processing = Processing();
 
-            var t = 1f;
+            var t = 0.1f;
             if (_processing.Current is float value)
             {
                 Debug.Log($"{_processing.Current}");
@@ -50,7 +50,6 @@ namespace Editor.Exporters
             if (_lastTime + t < Time.realtimeSinceStartup)
             {
                 _lastTime = Time.realtimeSinceStartup;
-                Debug.Log($"{_lastTime}!");
                 _isProcessing = _processing.MoveNext();
             }
             
@@ -65,6 +64,7 @@ namespace Editor.Exporters
             windowScreen.position += _window.position.position;
 
             var graphPosition = _graph.viewTransform.position;
+            _graph.viewTransform.scale = Vector3.one;
             var nodesArea = GetGraphArea(_graph, offset);
 
             _graph.viewTransform.position = -1 * nodesArea.position;
@@ -76,17 +76,48 @@ namespace Editor.Exporters
         {
             var tileSize = Vector2Int.CeilToInt(view.worldBound.size);
             var pixels = new Color[tileSize.x * tileSize.y * numberOfTiles.x * numberOfTiles.y];
+            var startPosition = view.viewTransform.position;
             for (var x = 0; x < numberOfTiles.x; x++)
             for (var y = 0; y < numberOfTiles.y; y++)
             {
                 var position = -1 * new Vector2(x, y) * tileSize;
-                view.viewTransform.position += (Vector3) position;
+                view.viewTransform.position = startPosition + (Vector3) position;
                 window.Repaint();
-                yield return 1.25f;
+                yield return 0.1f;
                 var screenPixels = ReadScreenPixels(screenPosition);
-                var savedPath = SaveAsPng(tileSize, screenPixels, "result");
-                Debug.Log($"{savedPath}");
+                
+                for (var px = 0; px < tileSize.x; px++)
+                {
+                    for (var py = 0; py < tileSize.y; py++)
+                    {
+                        var pixelIndex = px + tileSize.x * py;
+                        var targetCoords = new Vector2Int(px + x * tileSize.x, (py + (numberOfTiles.y - 1 - y) * tileSize.y));
+                        var targetIndex = targetCoords.x + (tileSize.x * numberOfTiles.x) * targetCoords.y;
+                        pixels[targetIndex] = screenPixels[pixelIndex];
+                    }
+                }
             }
+            
+            var savedPath = SaveAsPng(tileSize * numberOfTiles, pixels, "result");
+            Debug.Log($"{savedPath}");
+        }
+        
+        // [][][]
+        // [][][]
+        // [][][]
+        
+        // [][][][][][]
+        // [][][][][][]
+        // [][][][][][]
+        // [][][]
+        // [][][]
+        // [][][]
+
+        private Texture2D CreateTexture(Vector2Int size, Color[] pixels)
+        {
+            var texture = new Texture2D(size.x, size.y);
+            texture.SetPixels(pixels);
+            return texture;
         }
         
         private static Rect GetGraphArea(GraphView view, float offset)
