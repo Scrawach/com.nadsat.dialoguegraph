@@ -3,6 +3,7 @@ using Editor.Data;
 using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
+using Editor.Exporters;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Editor.Shortcuts;
@@ -20,10 +21,11 @@ namespace Editor.Windows
         private const string Uxml = "UXML/DialogueGraphWindow";
 
         public DialogueGraphView DialogueGraphView { get; }
-
+        public EditorWindow Root { get; }
 
         public DialogueGraphRoot(EditorWindow root) : base(Uxml)
         {
+            Root = root;
             DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
@@ -52,10 +54,20 @@ namespace Editor.Windows
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);
+            DialogueGraphView.RegisterCallback<ContextualMenuPopulateEvent>(OnBuildMenu);
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
             phraseRepository.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
+        }
+
+        private void OnBuildMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.AppendAction("Export to png", action =>
+            {
+                var exporter = new PngExporter(Root, DialogueGraphView);
+                exporter.Export();
+            });
         }
     }
 }

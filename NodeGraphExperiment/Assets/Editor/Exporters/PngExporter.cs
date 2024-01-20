@@ -41,11 +41,8 @@ namespace Editor.Exporters
                 _processing = Processing();
 
             var t = 0.1f;
-            if (_processing.Current is float value)
-            {
-                Debug.Log($"{_processing.Current}");
+            if (_processing.Current is float value) 
                 t = Mathf.Max(t, value);
-            }
 
             if (_lastTime + t < Time.realtimeSinceStartup)
             {
@@ -77,13 +74,15 @@ namespace Editor.Exporters
             var tileSize = Vector2Int.CeilToInt(view.worldBound.size);
             var pixels = new Color[tileSize.x * tileSize.y * numberOfTiles.x * numberOfTiles.y];
             var startPosition = view.viewTransform.position;
+
+            yield return 0.5f;
             for (var x = 0; x < numberOfTiles.x; x++)
             for (var y = 0; y < numberOfTiles.y; y++)
             {
                 var position = -1 * new Vector2(x, y) * tileSize;
                 view.viewTransform.position = startPosition + (Vector3) position;
                 window.Repaint();
-                yield return 0.1f;
+                yield return 0.05f;
                 var screenPixels = ReadScreenPixels(screenPosition);
                 
                 for (var px = 0; px < tileSize.x; px++)
@@ -99,19 +98,7 @@ namespace Editor.Exporters
             }
             
             var savedPath = SaveAsPng(tileSize * numberOfTiles, pixels, "result");
-            Debug.Log($"{savedPath}");
         }
-        
-        // [][][]
-        // [][][]
-        // [][][]
-        
-        // [][][][][][]
-        // [][][][][][]
-        // [][][][][][]
-        // [][][]
-        // [][][]
-        // [][][]
 
         private Texture2D CreateTexture(Vector2Int size, Color[] pixels)
         {
@@ -122,6 +109,9 @@ namespace Editor.Exporters
         
         private static Rect GetGraphArea(GraphView view, float offset)
         {
+            if (!view.nodes.Any())
+                return view.worldBound;
+            
             var area = view.nodes.First().GetPosition();
             
             foreach (var rect in view.nodes.Select(node => node.GetPosition()))
