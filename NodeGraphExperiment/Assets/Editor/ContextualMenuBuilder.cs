@@ -38,7 +38,9 @@ namespace Editor
                 return;
             }
             
-            //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
+            evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
+            evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
+            evt.menu.AppendSeparator();
             
             foreach (var person in _persons.All())
             {

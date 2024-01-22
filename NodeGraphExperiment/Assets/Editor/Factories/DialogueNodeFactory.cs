@@ -51,14 +51,24 @@ namespace Editor.Factories
             return view;
         }
         
-        public void CreateGroup(Vector2 at)
+        public Group CreateGroup(Vector2 at)
         {
             var group = new Group();
             var worldPosition = _canvas.contentViewContainer.WorldToLocal(at);
             group.SetPosition(new Rect(worldPosition, Vector2.zero));
             _canvas.AddElement(group);
+            return group;
         }
-        
+
+        public StickyNote CreateStickyNote(Vector2 at)
+        {
+            var stickyNote = new StickyNote();
+            var worldPosition = _canvas.contentViewContainer.WorldToLocal(at);
+            stickyNote.SetPosition(new Rect(worldPosition, Vector2.zero));
+            _canvas.AddElement(stickyNote);
+            return stickyNote;
+        }
+
         public RedirectNodeView CreateRedirectNode(Vector2 position, Edge target, EventCallback<MouseDownEvent> onMouseDown = null)
         {
             target.input.Disconnect(target);
@@ -81,7 +91,7 @@ namespace Editor.Factories
             _canvas.AddElement(rightEdge);
             return redirectNode;
         }
-        
+
         private static Edge CreateEdge(Port a, Port b, EventCallback<MouseDownEvent> onMouseDown = null)
         {
             var edge = a.ConnectTo(b);
