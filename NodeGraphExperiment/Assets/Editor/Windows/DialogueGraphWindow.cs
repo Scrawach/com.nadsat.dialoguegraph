@@ -2,6 +2,7 @@ using Editor.Drawing.Nodes;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows
@@ -27,11 +28,12 @@ namespace Editor.Windows
             hasUnsavedChanges = true;
             return graphViewChange;
         }
-
+        
         public override void SaveChanges()
         {
+            Debug.Log("SAVE CHANGES!");
             base.SaveChanges();
-            
+            return;
             _graphData.Nodes.Clear();
             foreach (var node in _graphView.nodes)
             {

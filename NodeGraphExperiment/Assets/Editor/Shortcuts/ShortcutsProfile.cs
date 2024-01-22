@@ -20,6 +20,10 @@ namespace Editor.Shortcuts
 
         public void Handle(KeyDownEvent keyDown)
         {
+            if (IsSave(keyDown))
+            {
+                Debug.Log($"SAVE!");
+            }
             if (IsFind(keyDown))
             {
                 _searchWindowProvider.FindNodes(keyDown.originalMousePosition, view =>
@@ -35,7 +39,13 @@ namespace Editor.Shortcuts
             {
                 _undoHistory.Redo();
             }
+            
+            keyDown.StopPropagation();
         }
+
+        private static bool IsSave(IKeyboardEvent keyDown) =>
+            keyDown.keyCode == KeyCode.S
+            && keyDown.modifiers == EventModifiers.Control;
 
         private static bool IsFind(IKeyboardEvent keyDown) =>
             keyDown.keyCode == KeyCode.F
