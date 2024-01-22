@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
+using Editor.Undo;
+using Editor.Undo.Commands;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -16,14 +18,16 @@ namespace Editor.Factories
         private readonly PhraseRepository _phrases;
         private readonly IDialogueNodeListener _listener;
         private readonly GraphView _canvas;
+        private readonly IUndoRegister _undoRegister;
 
         public DialogueNodeFactory(PersonRepository persons, PhraseRepository phrases, IDialogueNodeListener listener, 
-            GraphView canvas)
+            GraphView canvas, IUndoRegister undoRegister)
         {
             _persons = persons;
             _phrases = phrases;
             _listener = listener;
             _canvas = canvas;
+            _undoRegister = undoRegister;
         }
 
         public void CreatePersonNode(string person, Vector2 position) =>
@@ -41,6 +45,7 @@ namespace Editor.Factories
 
             view.Bind(data);
             view.SetPosition(data.Position);
+            _undoRegister.Register(new AddElement(view, _canvas));
             _listener.Register(view);
             _canvas.AddElement(view);
             return view;

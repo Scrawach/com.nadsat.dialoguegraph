@@ -9,11 +9,13 @@ namespace Editor.Shortcuts
     {
         private readonly SearchWindowProvider _searchWindowProvider;
         private readonly DialogueGraphView _graphView;
+        private readonly IUndoHistory _undoHistory;
 
-        public ShortcutsProfile(SearchWindowProvider searchWindow, DialogueGraphView graphView)
+        public ShortcutsProfile(SearchWindowProvider searchWindow, DialogueGraphView graphView, IUndoHistory undoHistory)
         {
             _searchWindowProvider = searchWindow;
             _graphView = graphView;
+            _undoHistory = undoHistory;
         }
 
         public void Handle(KeyDownEvent keyDown)
@@ -24,6 +26,14 @@ namespace Editor.Shortcuts
                 {
                     _graphView.Find(view);
                 });
+            }
+            else if (IsUndo(keyDown))
+            {
+                _undoHistory.Undo();
+            }
+            else if (IsRedo(keyDown))
+            {
+                _undoHistory.Redo();
             }
         }
 

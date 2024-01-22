@@ -2,12 +2,12 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Editor.Undo.Commands
 {
-    public class AddGraphElement : IUndoCommand
+    public class AddElement : IUndoCommand
     {
         private readonly GraphElement _graphElement;
         private readonly GraphView _canvas;
 
-        public AddGraphElement(GraphElement graphElement, GraphView canvas)
+        public AddElement(GraphElement graphElement, GraphView canvas)
         {
             _graphElement = graphElement;
             _canvas = canvas;

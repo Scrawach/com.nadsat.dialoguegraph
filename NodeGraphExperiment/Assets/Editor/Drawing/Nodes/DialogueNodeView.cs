@@ -75,12 +75,6 @@ namespace Editor.Drawing.Nodes
         public void Unbind() =>
             Model.Changed -= OnModelChanged;
 
-        public override void SetPosition(Rect newPos)
-        {
-            base.SetPosition(newPos);
-            Model.Position = newPos;
-        }
-
         public void MarkAsRoot(bool isRoot)
         {
             if (isRoot)

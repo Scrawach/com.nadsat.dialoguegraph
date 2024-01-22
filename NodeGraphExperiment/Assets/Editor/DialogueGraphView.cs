@@ -3,6 +3,8 @@ using System.Linq;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Serialization;
+using Editor.Undo;
+using Editor.Undo.Commands;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -19,6 +21,8 @@ namespace Editor
         private ContextualMenuBuilder _contextualMenu;
         private readonly CopyPasteNodes _copyPaste;
         private VariableNodeFactory _variableFactory;
+        private DialogueGraph _graph;
+        private IUndoRegister _undoRegister;
 
         public DialogueGraphView()
         {
@@ -77,15 +81,39 @@ namespace Editor
             }
         }
 
-        public void Initialize(DialogueNodeFactory factory, VariableNodeFactory variableFactory, ContextualMenuBuilder contextualMenuBuilder)
+        public void Initialize(DialogueNodeFactory factory, VariableNodeFactory variableFactory, 
+            ContextualMenuBuilder contextualMenuBuilder, IUndoRegister undoRegister)
         {
             _factory = factory;
             _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
+            _undoRegister = undoRegister;
         }
 
-        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange) =>
-            graphViewChange;
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+        {
+            if (graphViewChange.movedElements != null)
+            {
+                var moveCommand = new MoveElements(graphViewChange.movedElements.OfType<DialogueNodeView>());
+                _undoRegister.Register(moveCommand);
+                foreach (var dialogueNodeView in graphViewChange.movedElements.OfType<DialogueNodeView>())
+                {
+                    dialogueNodeView.Model.Position = dialogueNodeView.GetPosition();
+                }
+            }
+
+            if (graphViewChange.edgesToCreate != null)
+            {
+                _undoRegister.Register(new CreateEdges(this, graphViewChange.edgesToCreate));
+            }
+
+            if (graphViewChange.elementsToRemove != null)
+            {
+                _undoRegister.Register(new RemoveElements(this, graphViewChange.elementsToRemove));
+            }
+            
+            return graphViewChange;
+        }
 
         private void OnMouseDown(MouseDownEvent evt)
         {
@@ -114,6 +142,7 @@ namespace Editor
 
         public void Populate(DialogueGraph graph)
         {
+            _graph = graph;
             foreach (var node in graph.Nodes) 
                 _factory.CreateFrom(node);
         }

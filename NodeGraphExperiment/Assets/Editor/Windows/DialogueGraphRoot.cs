@@ -7,6 +7,7 @@ using Editor.Exporters;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Editor.Shortcuts;
+using Editor.Undo;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using Editor.Windows.Variables;
@@ -32,14 +33,15 @@ namespace Editor.Windows
 
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
+            var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
-            var shortcuts = new ShortcutsProfile(searchWindow, DialogueGraphView);
+            var shortcuts = new ShortcutsProfile(searchWindow, DialogueGraphView, undoHistory);
 
             var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
             var nodeViewListener = new NodeViewListener();
             var nodesProvider = new NodesProvider();
             var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeListeners, DialogueGraphView);
+            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeListeners, DialogueGraphView, undoHistory);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, nodeFactory);
 
             var variables = new VariablesProvider();
@@ -49,7 +51,7 @@ namespace Editor.Windows
             phraseRepository.Initialize();
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository);
-            DialogueGraphView.Initialize(nodeFactory, variableNodeFactory, contextualMenu);
+            DialogueGraphView.Initialize(nodeFactory, variableNodeFactory, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
 
             DialogueGraphView.focusable = true;
