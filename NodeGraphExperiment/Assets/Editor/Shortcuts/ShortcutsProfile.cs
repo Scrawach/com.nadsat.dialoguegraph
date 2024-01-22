@@ -1,63 +1,21 @@
-using Editor.Undo;
-using Editor.Windows.Search;
-using UnityEngine;
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace Editor.Shortcuts
 {
     public class ShortcutsProfile
     {
-        private readonly SearchWindowProvider _searchWindowProvider;
-        private readonly DialogueGraphView _graphView;
-        private readonly IUndoHistory _undoHistory;
+        private readonly ICustomShortcut[] _shortcuts;
 
-        public ShortcutsProfile(SearchWindowProvider searchWindow, DialogueGraphView graphView, IUndoHistory undoHistory)
-        {
-            _searchWindowProvider = searchWindow;
-            _graphView = graphView;
-            _undoHistory = undoHistory;
-        }
+        public ShortcutsProfile(params ICustomShortcut[] shortcuts) =>
+            _shortcuts = shortcuts;
 
         public void Handle(KeyDownEvent keyDown)
         {
-            if (IsSave(keyDown))
-            {
-                Debug.Log($"SAVE!");
-            }
-            if (IsFind(keyDown))
-            {
-                _searchWindowProvider.FindNodes(keyDown.originalMousePosition, view =>
-                {
-                    _graphView.Find(view);
-                });
-            }
-            else if (IsUndo(keyDown))
-            {
-                _undoHistory.Undo();
-            }
-            else if (IsRedo(keyDown))
-            {
-                _undoHistory.Redo();
-            }
-            
+            foreach (var shortcut in _shortcuts.Where(s => s.IsHandle(keyDown))) 
+                shortcut.Handle(keyDown);
+
             keyDown.StopPropagation();
         }
-
-        private static bool IsSave(IKeyboardEvent keyDown) =>
-            keyDown.keyCode == KeyCode.S
-            && keyDown.modifiers == EventModifiers.Control;
-
-        private static bool IsFind(IKeyboardEvent keyDown) =>
-            keyDown.keyCode == KeyCode.F
-            && keyDown.modifiers == EventModifiers.None;
-        
-        private static bool IsUndo(IKeyboardEvent keyDown) =>
-            keyDown.keyCode == KeyCode.Z 
-            && keyDown.modifiers == EventModifiers.Control;
-
-        private static bool IsRedo(IKeyboardEvent keyDown) =>
-            keyDown.keyCode == KeyCode.Z 
-            && keyDown.modifiers.HasFlag(EventModifiers.Shift)
-            && keyDown.modifiers.HasFlag(EventModifiers.Control);
     }
 }

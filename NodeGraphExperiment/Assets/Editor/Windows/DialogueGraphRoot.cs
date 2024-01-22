@@ -7,6 +7,7 @@ using Editor.Exporters;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Editor.Shortcuts;
+using Editor.Shortcuts.Concrete;
 using Editor.Undo;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
@@ -35,7 +36,12 @@ namespace Editor.Windows
             var personRepository = new PersonRepository();
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
-            var shortcuts = new ShortcutsProfile(searchWindow, DialogueGraphView, undoHistory);
+
+            var saveShortcut = new SaveShortcut();
+            var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
+            var undoShortcut = new UndoShortcut(undoHistory);
+            var redoShortcut = new RedoShortcut(undoHistory);
+            var shortcuts = new ShortcutsProfile(saveShortcut, findShortcut, undoShortcut, redoShortcut);
 
             var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
             var nodeViewListener = new NodeViewListener();
