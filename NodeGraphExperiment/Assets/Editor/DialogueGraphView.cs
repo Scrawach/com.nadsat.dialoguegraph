@@ -6,6 +6,7 @@ using Editor.Serialization;
 using Editor.Undo;
 using Editor.Undo.Commands;
 using Runtime;
+using Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -39,6 +40,7 @@ namespace Editor
             styleSheets.Add(stylesheet);
             RegisterCallback<DragUpdatedEvent>(OnDragUpdated);
             RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
+            RegisterCallback<MouseDownEvent>(OnMouseDown, TrickleDown.TrickleDown);
 
             graphViewChanged = OnGraphViewChanged;
             serializeGraphElements += OnCutCopyOperation;
@@ -143,8 +145,26 @@ namespace Editor
         public void Populate(DialogueGraph graph)
         {
             _graph = graph;
+
+            foreach (var graphElement in graphElements) 
+                RemoveElement(graphElement);
+
+            if (graph.Nodes == null)
+                return;
+            
             foreach (var node in graph.Nodes) 
                 _factory.CreateFrom(node);
+        }
+
+        public void Save()
+        {
+            _graph.Nodes = new List<DialogueNode>(nodes.Count());
+            foreach (var node in nodes)
+            {
+                if (node is DialogueNodeView nodeView) 
+                    _graph.Nodes.Add(nodeView.Model);
+            }
+            AssetDatabase.SaveAssetIfDirty(_graph);
         }
     }
 }

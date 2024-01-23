@@ -8,6 +8,7 @@ using Editor.Windows.Variables;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
@@ -25,7 +26,7 @@ namespace Editor.Windows.Toolbar
         private PhraseRepository _phraseRepository;
         private VariablesBlackboard _variablesBlackboard;
         private EditorWindow _root;
-        private GraphView _graphView;
+        private DialogueGraphView _graphView;
         private CreateGraphWindow _createWindow;
 
         public DialogueGraphToolbar() : base(Uxml)
@@ -40,7 +41,7 @@ namespace Editor.Windows.Toolbar
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
         }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, GraphView graphView, CreateGraphWindow createWindow)
+        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, DialogueGraphView graphView, CreateGraphWindow createWindow)
         {
             _phraseRepository = phrases;
             _variablesBlackboard = variablesBlackboard;
@@ -53,7 +54,7 @@ namespace Editor.Windows.Toolbar
 
         private void AppendMenuOptions(IToolbarMenuElement toolbar)
         {
-            toolbar.menu.AppendAction("Create New...", (a) => { _createWindow.Display(true); });
+            toolbar.menu.AppendAction("Create New...", (a) => { _createWindow.Open((graph) => _graphView.Populate(graph)); });
             toolbar.menu.AppendSeparator();
             toolbar.menu.AppendAction("Export/To Png", (a) =>
             {

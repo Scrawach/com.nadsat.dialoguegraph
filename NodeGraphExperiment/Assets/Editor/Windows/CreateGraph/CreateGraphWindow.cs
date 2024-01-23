@@ -20,6 +20,8 @@ namespace Editor.Windows.CreateGraph
         private readonly Label _warningLabel;
         private readonly Button _createButton;
         private readonly Button _closeButton;
+
+        private Action<DialogueGraph> _onCreated;
         
         public CreateGraphWindow() : base(Uxml)
         {
@@ -40,6 +42,12 @@ namespace Editor.Windows.CreateGraph
         {
             add => _closeButton.clicked += value;
             remove => _closeButton.clicked -= value;
+        }
+
+        public void Open(Action<DialogueGraph> onCreated = null)
+        {
+            _onCreated = onCreated;
+            this.Display(true);
         }
 
         private void OnCloseClicked() =>
@@ -70,7 +78,9 @@ namespace Editor.Windows.CreateGraph
             AssetDatabase.CreateAsset(graph, _locationField.value);
             AssetDatabase.SaveAssets();
             EditorGUIUtility.PingObject(graph);
+            _onCreated?.Invoke(graph);
             Created?.Invoke(graph);
+            OnCloseClicked();
         }
 
         private static bool WarningDialog() =>
