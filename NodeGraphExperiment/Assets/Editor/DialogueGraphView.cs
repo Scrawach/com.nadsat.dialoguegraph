@@ -18,9 +18,9 @@ namespace Editor
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
+        private readonly CopyPasteNodes _copyPaste;
         private DialogueNodeFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
-        private readonly CopyPasteNodes _copyPaste;
         private VariableNodeFactory _variableFactory;
         private DialogueGraph _graph;
         private IUndoRegister _undoRegister;
@@ -135,11 +135,16 @@ namespace Editor
         public void Find(DialogueNodeView view)
         {
             var viewPosition = view.GetPosition();
-            CalculateFrameTransform(viewPosition, layout, 0, out var translation, out var scaling);
-            UpdateViewTransform(translation, scaling);
+            MoveTo(viewPosition);
             
             ClearSelection();
             AddToSelection(view);
+        }
+
+        public void MoveTo(Rect target)
+        {
+            CalculateFrameTransform(target, layout, 0, out var translation, out var scaling);
+            UpdateViewTransform(translation, scaling);
         }
 
         public void Populate(DialogueGraph graph)
