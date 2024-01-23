@@ -126,7 +126,7 @@ namespace Editor.Exporters
         private Color[] ReadScreenPixels(Rect readRect) =>
             UnityEditorInternal.InternalEditorUtility.ReadScreenPixel(readRect.position, (int) readRect.width, (int) readRect.height);
 
-        public string SaveAsPng(Vector2Int size, Color[] pixels, string filename)
+        private string SaveAsPng(Vector2Int size, Color[] pixels, string filename)
         {
             var texture = new Texture2D(size.x, size.y, TextureFormat.RGBA32, false);
             texture.SetPixels(pixels, 0);
