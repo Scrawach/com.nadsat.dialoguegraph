@@ -4,11 +4,13 @@ using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Exporters;
+using Editor.Extensions;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Editor.Shortcuts;
 using Editor.Shortcuts.Concrete;
 using Editor.Undo;
+using Editor.Windows.CreateGraph;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using Editor.Windows.Variables;
@@ -31,7 +33,8 @@ namespace Editor.Windows
             DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
-
+            var createWindow = this.Q<CreateGraphWindow>();
+            
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
             var undoHistory = new UndoHistory();
@@ -54,9 +57,10 @@ namespace Editor.Windows
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
             var variableNodeFactory = new VariableNodeFactory(DialogueGraphView, variables);
 
+            createWindow.Display(false);
             phraseRepository.Initialize();
             personRepository.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository, Root, DialogueGraphView);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository, Root, DialogueGraphView, createWindow);
             DialogueGraphView.Initialize(nodeFactory, variableNodeFactory, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
 

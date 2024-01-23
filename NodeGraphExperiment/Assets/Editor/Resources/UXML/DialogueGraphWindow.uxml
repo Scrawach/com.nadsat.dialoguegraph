@@ -10,4 +10,5 @@
             <Editor.DialogueGraphView style="flex-grow: 1;" />
         </ui:VisualElement>
     </Editor.Drawing.Controls.SplitView>
+    <Editor.Windows.CreateGraph.CreateGraphWindow style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;" />
 </ui:UXML>

@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/Resources/Styles/SmallButton.uss?fileID=7433441132597879392&amp;guid=6d27daa43faa148ae99e66e739e2e90b&amp;type=3#SmallButton" />
+    <ui:VisualElement name="create-window-overlay" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.71); align-items: center; justify-content: space-around; align-self: center;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 0; background-color: rgb(56, 56, 56); flex-shrink: 0; justify-content: flex-start; align-self: center; align-items: stretch; width: 500px; height: 250px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px;">
+            <ui:VisualElement style="flex-grow: 1; margin-top: 10px; margin-left: 10px; width: auto; margin-bottom: 10px; margin-right: 10px;">
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Button text="X" display-tooltip-when-elided="true" name="close-button" class="small-button" style="position: absolute; right: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                    <ui:Label tabindex="-1" text="Create New Dialogue Graph" display-tooltip-when-elided="true" name="title-label" style="align-self: flex-start; font-size: 26px; -unity-font-style: bold; color: rgb(218, 218, 218); margin-top: 0; margin-right: 0; margin-left: 0; margin-bottom: 0;" />
+                    <ui:VisualElement name="divider" style="height: 2px; background-color: rgba(255, 255, 255, 0.31); margin-top: 6px; margin-bottom: 6px;" />
+                    <ui:TextField picking-mode="Ignore" label="Name" name="name-field" style="margin-bottom: 5px; margin-top: 5px;" />
+                    <ui:TextField picking-mode="Ignore" label="Location" name="location-field" readonly="true" style="margin-top: 5px; margin-bottom: 5px;" />
+                    <ui:Label tabindex="-1" text="This asset already exists! Creating a new one will overwrite it!" display-tooltip-when-elided="true" name="warning-label" style="color: rgba(255, 0, 0, 0.7); -unity-text-align: upper-right; font-size: 12px; margin-top: 0; padding-top: 0; margin-right: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-bottom: 0; margin-left: 0; display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1; justify-content: flex-end; flex-direction: row; align-items: auto;">
+                    <ui:Button text="Create" display-tooltip-when-elided="true" name="create-button" style="flex-grow: 0; width: 150px; height: 40px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

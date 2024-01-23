@@ -2,6 +2,8 @@ using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Controls;
 using Editor.Exporters;
+using Editor.Extensions;
+using Editor.Windows.CreateGraph;
 using Editor.Windows.Variables;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -24,6 +26,7 @@ namespace Editor.Windows.Toolbar
         private VariablesBlackboard _variablesBlackboard;
         private EditorWindow _root;
         private GraphView _graphView;
+        private CreateGraphWindow _createWindow;
 
         public DialogueGraphToolbar() : base(Uxml)
         {
@@ -37,19 +40,20 @@ namespace Editor.Windows.Toolbar
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
         }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, GraphView graphView)
+        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, GraphView graphView, CreateGraphWindow createWindow)
         {
             _phraseRepository = phrases;
             _variablesBlackboard = variablesBlackboard;
             _root = root;
             _graphView = graphView;
+            _createWindow = createWindow;
             _languageDropdown.value = phrases.CurrentLanguage;
             _languageDropdown.choices = phrases.AllLanguages().ToList();
         }
 
         private void AppendMenuOptions(IToolbarMenuElement toolbar)
         {
-            toolbar.menu.AppendAction("New Tree...", (a) => { });
+            toolbar.menu.AppendAction("Create New...", (a) => { _createWindow.Display(true); });
             toolbar.menu.AppendSeparator();
             toolbar.menu.AppendAction("Export/To Png", (a) =>
             {

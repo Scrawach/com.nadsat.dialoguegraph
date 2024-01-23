@@ -7,6 +7,7 @@ namespace Runtime
     [CreateAssetMenu(fileName = "DialogueGraphData", menuName = "Dialogue Graph/Create", order = 0)]
     public class DialogueGraph : ScriptableObject
     {
+        public string Name;
         public string EntryNodeGuid;
         public List<DialogueNode> Nodes;
         public List<NodeLinks> Links;
