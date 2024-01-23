@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -12,9 +10,10 @@ namespace Editor.Exporters
 {
     public class PngExporter
     {
+        private const string SavePath = "/Screenshots";
+        
         private readonly EditorWindow _window;
         private readonly GraphView _graph;
-        private readonly string _savePath = "/Screenshots";
 
         private bool _isProcessing;
         private IEnumerator _processing;
@@ -60,7 +59,6 @@ namespace Editor.Exporters
             var windowScreen = _graph.worldBound;
             windowScreen.position += _window.position.position;
 
-            var graphPosition = _graph.viewTransform.position;
             _graph.viewTransform.scale = Vector3.one;
             var nodesArea = GetGraphArea(_graph, offset);
 
@@ -137,7 +135,7 @@ namespace Editor.Exporters
             var bytes = texture.EncodeToPNG();
             Object.DestroyImmediate(texture, true);
 
-            Directory.CreateDirectory(Application.dataPath + _savePath);
+            Directory.CreateDirectory(Application.dataPath + SavePath);
             var path = GetUniqueName(filename);
             File.WriteAllBytes(path, bytes);
             AssetDatabase.Refresh();
@@ -146,12 +144,12 @@ namespace Editor.Exporters
         
         private string GetUniqueName(string name)
         {
-            var path = $"{Application.dataPath}{_savePath}/{name}.png";
+            var path = $"{Application.dataPath}{SavePath}/{name}.png";
             var counter = 0;
             
             while (File.Exists(path))
             {
-                path = $"{Application.dataPath}{_savePath}/{name}{counter:000}.png";
+                path = $"{Application.dataPath}{SavePath}/{name}{counter:000}.png";
                 counter++;
             }
 
