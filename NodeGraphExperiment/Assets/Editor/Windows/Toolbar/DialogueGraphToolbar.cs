@@ -1,7 +1,11 @@
 using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Controls;
+using Editor.Exporters;
 using Editor.Windows.Variables;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
@@ -12,14 +16,20 @@ namespace Editor.Windows.Toolbar
         
         public new class UxmlFactory : UxmlFactory<DialogueGraphToolbar, UxmlTraits> { }
 
+        private readonly ToolbarMenu _toolbarMenu;
         private readonly DropdownField _languageDropdown;
         private readonly Toggle _variablesToggle;
         
         private PhraseRepository _phraseRepository;
         private VariablesBlackboard _variablesBlackboard;
-        
+        private EditorWindow _root;
+        private GraphView _graphView;
+
         public DialogueGraphToolbar() : base(Uxml)
         {
+            _toolbarMenu = this.Q<ToolbarMenu>("assets-menu");
+            AppendMenuOptions(_toolbarMenu);
+            
             _languageDropdown = this.Q<DropdownField>("language-dropdown");
             _languageDropdown.RegisterValueChangedCallback(OnLanguageChanged);
 
@@ -27,12 +37,25 @@ namespace Editor.Windows.Toolbar
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
         }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases)
+        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, GraphView graphView)
         {
             _phraseRepository = phrases;
             _variablesBlackboard = variablesBlackboard;
+            _root = root;
+            _graphView = graphView;
             _languageDropdown.value = phrases.CurrentLanguage;
             _languageDropdown.choices = phrases.AllLanguages().ToList();
+        }
+
+        private void AppendMenuOptions(IToolbarMenuElement toolbar)
+        {
+            toolbar.menu.AppendAction("New Tree...", (a) => { });
+            toolbar.menu.AppendSeparator();
+            toolbar.menu.AppendAction("Export/To Png", (a) =>
+            {
+                var exporter = new PngExporter(_root, _graphView);
+                exporter.Export();
+            });
         }
 
         private void OnLanguageChanged(ChangeEvent<string> change) =>

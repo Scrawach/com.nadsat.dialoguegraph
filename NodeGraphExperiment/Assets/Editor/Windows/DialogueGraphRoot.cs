@@ -56,26 +56,16 @@ namespace Editor.Windows
 
             phraseRepository.Initialize();
             personRepository.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository, Root, DialogueGraphView);
             DialogueGraphView.Initialize(nodeFactory, variableNodeFactory, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);
-            DialogueGraphView.RegisterCallback<ContextualMenuPopulateEvent>(OnBuildMenu);
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
             phraseRepository.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
-        }
-
-        private void OnBuildMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.AppendAction("Export to png", action =>
-            {
-                var exporter = new PngExporter(Root, DialogueGraphView);
-                exporter.Export();
-            });
         }
     }
 }
