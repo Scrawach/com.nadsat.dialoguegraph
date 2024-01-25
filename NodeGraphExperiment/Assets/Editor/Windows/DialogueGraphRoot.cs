@@ -37,7 +37,7 @@ namespace Editor.Windows
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
 
-            var saveShortcut = new SaveShortcut();
+            var saveShortcut = new SaveShortcut(DialogueGraphView);
             var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
             var undoShortcut = new UndoShortcut(undoHistory);
             var redoShortcut = new RedoShortcut(undoHistory);
