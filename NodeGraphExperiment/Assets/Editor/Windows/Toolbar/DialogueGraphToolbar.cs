@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using Editor.AssetManagement;
+using Editor.Drawing;
 using Editor.Drawing.Controls;
 using Editor.Exporters;
 using Editor.Windows.CreateGraph;

@@ -1,9 +1,7 @@
 using Editor.AssetManagement;
-using Editor.Data;
+using Editor.Drawing;
 using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
-using Editor.Drawing.Nodes;
-using Editor.Exporters;
 using Editor.Extensions;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
@@ -15,10 +13,9 @@ using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using Editor.Windows.Variables;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Windows
+namespace Editor
 {
     public class DialogueGraphRoot : BaseControl
     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Editor.AssetManagement;
+using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;

@@ -1,9 +1,10 @@
+using Editor.Windows;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace Editor.Windows
+namespace Editor
 {
     public static class DialogueGraphOpen
     {
