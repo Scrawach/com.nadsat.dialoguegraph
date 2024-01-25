@@ -23,7 +23,11 @@ namespace Editor.Windows
             root.Add(graph);
 
             _graphView.graphViewChanged += OnChange;
+            _graphView.Saved += OnSaved;
         }
+
+        private void OnSaved() =>
+            hasUnsavedChanges = false;
 
         private GraphViewChange OnChange(GraphViewChange graphViewChange)
         {

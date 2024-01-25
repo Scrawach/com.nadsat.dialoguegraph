@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
@@ -46,6 +47,8 @@ namespace Editor.Drawing
             serializeGraphElements += OnCutCopyOperation;
             unserializeAndPaste += OnPasteOperation;
         }
+
+        public event Action Saved;
 
         private void OnDragPerformEvent(DragPerformEvent evt)
         {
@@ -169,6 +172,7 @@ namespace Editor.Drawing
                 if (node is DialogueNodeView nodeView) 
                     _graph.Nodes.Add(nodeView.Model);
             }
+            Saved?.Invoke();
             AssetDatabase.SaveAssetIfDirty(_graph);
         }
     }
