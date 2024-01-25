@@ -1,14 +1,13 @@
+using System.IO;
 using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Controls;
 using Editor.Exporters;
-using Editor.Extensions;
 using Editor.Windows.CreateGraph;
 using Editor.Windows.Variables;
+using Runtime;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
@@ -55,6 +54,9 @@ namespace Editor.Windows.Toolbar
         private void AppendMenuOptions(IToolbarMenuElement toolbar)
         {
             toolbar.menu.AppendAction("Create New...", (a) => { _createWindow.Open((graph) => _graphView.Populate(graph)); });
+            toolbar.menu.AppendAction("Open/Open...", (a) => OpenAsset());
+            AppendExistingDialogueGraphs(toolbar);
+
             toolbar.menu.AppendSeparator();
             toolbar.menu.AppendAction("Export/To Png", (a) =>
             {
@@ -62,6 +64,30 @@ namespace Editor.Windows.Toolbar
                 exporter.Export();
             });
         }
+
+        private void AppendExistingDialogueGraphs(IToolbarMenuElement toolbar)
+        {
+            var dialogueGraphAssets = new DialogueGraphAssets();
+            toolbar.menu.AppendSeparator("Open/");
+            foreach (var graph in dialogueGraphAssets.LoadAll())
+                toolbar.menu.AppendAction($"Open/{graph.Name}", (a) => { _graphView.Populate(graph); });
+        }
+
+        private void OpenAsset()
+        {
+            var filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/Resources/Dialogues", "asset");
+            var fromAssetPath = filePath.Split("Assets/");
+            var pathToAsset = Path.Combine("Assets", fromAssetPath[1]);
+            var asset = AssetDatabase.LoadAssetAtPath<DialogueGraph>(pathToAsset);
+
+            if (asset != null)
+                _graphView.Populate(asset);
+            else
+                OpenInvalidAssetWarningWindow();
+        }
+
+        private bool OpenInvalidAssetWarningWindow() =>
+            EditorUtility.DisplayDialog("Error", "You trying open invalid asset! You can load only DialogueGraph asset!", "OK");
 
         private void OnLanguageChanged(ChangeEvent<string> change) =>
             _phraseRepository.ChangeLanguage(change.newValue);
