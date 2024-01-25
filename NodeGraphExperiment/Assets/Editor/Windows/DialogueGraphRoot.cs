@@ -15,7 +15,7 @@ using Editor.Windows.Variables;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Editor
+namespace Editor.Windows
 {
     public class DialogueGraphRoot : BaseControl
     {
