@@ -8,6 +8,7 @@ using Editor.Windows.Variables;
 using Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
@@ -76,6 +77,10 @@ namespace Editor.Windows.Toolbar
         private void OpenAsset()
         {
             var filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/Resources/Dialogues", "asset");
+
+            if (string.IsNullOrWhiteSpace(filePath))
+                return;
+            
             var fromAssetPath = filePath.Split("Assets/");
             var pathToAsset = Path.Combine("Assets", fromAssetPath[1]);
             var asset = AssetDatabase.LoadAssetAtPath<DialogueGraph>(pathToAsset);
