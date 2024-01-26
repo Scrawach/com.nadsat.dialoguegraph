@@ -49,6 +49,9 @@ namespace Editor
                         _factory.CreatePersonNode(person, position: action.eventInfo.mousePosition);
                     });
             }
+            
+            evt.menu.AppendSeparator();
+            onBaseContextualMenu?.Invoke(evt);
         }
     }
 }

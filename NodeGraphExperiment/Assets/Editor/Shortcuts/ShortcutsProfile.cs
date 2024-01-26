@@ -12,10 +12,11 @@ namespace Editor.Shortcuts
 
         public void Handle(KeyDownEvent keyDown)
         {
-            foreach (var shortcut in _shortcuts.Where(s => s.IsHandle(keyDown))) 
+            foreach (var shortcut in _shortcuts.Where(s => s.IsHandle(keyDown)))
+            {
                 shortcut.Handle(keyDown);
-
-            keyDown.StopPropagation();
+                keyDown.StopPropagation();
+            }
         }
     }
 }

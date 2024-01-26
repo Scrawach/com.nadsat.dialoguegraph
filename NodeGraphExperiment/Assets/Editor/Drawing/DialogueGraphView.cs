@@ -22,7 +22,7 @@ namespace Editor.Drawing
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
-        private readonly CopyPasteNodes _copyPaste;
+        private CopyPasteNodes _copyPaste;
         private DialogueNodeFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
         private VariableNodeFactory _variableFactory;
@@ -32,8 +32,7 @@ namespace Editor.Drawing
 
         public DialogueGraphView()
         {
-            _copyPaste = new CopyPasteNodes();
-            
+           
             Insert(0, new GridBackground());
 
             this.AddManipulator(new ContentZoomer() { maxScale = 2f, minScale = 0.1f});
@@ -74,20 +73,13 @@ namespace Editor.Drawing
             foreach (var element in elements) 
                 _copyPaste.Add(element);
             
-            return "hey";
+            return "not empty string";
         }
 
         private void OnPasteOperation(string operationName, string data)
         {
             ClearSelection();
-            foreach (var element in _copyPaste.ElementsToCopy)
-            {
-                if (element is DialogueNodeView dialogueNodeView)
-                {
-                    var node = _factory.Copy(dialogueNodeView);
-                    AddToSelection(node);
-                }
-            }
+            _copyPaste.Paste(this);
         }
 
         public void Initialize(NodesProvider nodesProvider, DialogueNodeFactory factory, VariableNodeFactory variableFactory,
@@ -98,6 +90,7 @@ namespace Editor.Drawing
             _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
             _undoRegister = undoRegister;
+            _copyPaste = new CopyPasteNodes(_factory, _nodesProvider);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
