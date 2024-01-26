@@ -38,16 +38,22 @@ namespace Editor.Factories
                 Position = new Rect(_canvas.contentViewContainer.WorldToLocal(position), Vector2.zero)
             });
 
-        public DialogueNodeView CreateFrom(DialogueNode data)
+        public DialogueNodeView CreateWithoutUndo(DialogueNode data)
         {
             var view = new DialogueNodeView(_phrases, _persons);
             CreatePortsFor(view);
 
             view.Bind(data);
             view.SetPosition(data.Position);
-            _undoRegister.Register(new AddElement(view, _canvas));
             _listener.Register(view);
             _canvas.AddElement(view);
+            return view;
+        }
+        
+        public DialogueNodeView CreateFrom(DialogueNode data)
+        {
+            var view = CreateWithoutUndo(data);
+            _undoRegister.Register(new AddElement(view, _canvas));
             return view;
         }
         

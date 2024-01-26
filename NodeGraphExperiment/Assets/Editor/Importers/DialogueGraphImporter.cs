@@ -29,7 +29,7 @@ namespace Editor.Importers
                 return;
             
             foreach (var node in graph.Nodes) 
-                _factory.CreateFrom(node);
+                _factory.CreateWithoutUndo(node);
 
             foreach (var edge in ConnectNodes(_nodes, graph)) 
                 _graphView.AddElement(edge);
