@@ -82,8 +82,14 @@ namespace Editor.Factories
             target.Clear();
             _canvas.RemoveElement(target);
 
-            var redirectNode = new RedirectNodeView() { title = "" };
-            
+            var redirectNode = new RedirectNodeView
+            {
+                title = "",
+                Model = new RedirectNode()
+                {
+                    Guid = Guid.NewGuid().ToString()
+                }
+            };
             redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
 
             var (input, output) = CreatePortsFor(redirectNode);

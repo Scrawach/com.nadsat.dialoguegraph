@@ -32,7 +32,7 @@ namespace Editor.Drawing
 
         public DialogueGraphView()
         {
-           
+            EditorPrefs.SetBool("GraphSnapping", false);
             Insert(0, new GridBackground());
 
             this.AddManipulator(new ContentZoomer() { maxScale = 2f, minScale = 0.1f});
@@ -90,7 +90,7 @@ namespace Editor.Drawing
             _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
             _undoRegister = undoRegister;
-            _copyPaste = new CopyPasteNodes(_factory, _nodesProvider);
+            _copyPaste = new CopyPasteNodes(_factory, _nodesProvider, _undoRegister);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)

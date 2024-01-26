@@ -1,9 +1,7 @@
-﻿using Runtime.Nodes;
+﻿using System;
 
-namespace Runtime
+namespace Runtime.Nodes
 {
-    public class RedirectNode : BaseDialogueNode
-    {
-        
-    }
+    [Serializable]
+    public class RedirectNode : BaseDialogueNode { }
 }

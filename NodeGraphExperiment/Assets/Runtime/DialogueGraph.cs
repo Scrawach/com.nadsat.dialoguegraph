@@ -10,6 +10,7 @@ namespace Runtime
         public string Name;
         public string EntryNodeGuid;
         public List<DialogueNode> Nodes;
+        public List<RedirectNode> RedirectNodes;
         public List<NodeLinks> Links;
     }
 

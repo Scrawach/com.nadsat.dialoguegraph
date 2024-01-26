@@ -5,6 +5,8 @@ using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
+using Editor.Undo;
+using Editor.Undo.Commands;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -18,11 +20,13 @@ namespace Editor.Serialization
         
         private readonly DialogueNodeFactory _factory;
         private readonly NodesProvider _provider;
+        private readonly IUndoRegister _undoRegister;
 
-        public CopyPasteNodes(DialogueNodeFactory factory, NodesProvider provider)
+        public CopyPasteNodes(DialogueNodeFactory factory, NodesProvider provider, IUndoRegister undoRegister)
         {
             _factory = factory;
             _provider = provider;
+            _undoRegister = undoRegister;
         }
 
 
@@ -35,18 +39,40 @@ namespace Editor.Serialization
         public void Paste(DialogueGraphView graphView)
         {
             var mapping = new Dictionary<string, string>();
-
-            foreach (var element in ElementsToCopy)
+            var copiedElements = new List<GraphElement>(ElementsToCopy.Count);
+                
+            foreach (var node in CreateDialogueNodesFrom(ElementsToCopy, mapping))
             {
-                if (element is DialogueNodeView nodeView)
-                {
-                    var model = Copy(nodeView.Model);
-                    var node = _factory.CreateWithoutUndo(model);
-                    mapping.Add(nodeView.Model.Guid, model.Guid);
-                    graphView.AddToSelection(node);
-                }
+                copiedElements.Add(node);
+                graphView.AddToSelection(node);
             }
 
+            foreach (var edge in CreateEdgesFrom(ElementsToCopy, mapping))
+            {
+                copiedElements.Add(edge);
+                graphView.AddElement(edge);
+                graphView.AddToSelection(edge);
+            }
+            
+            _undoRegister.Register(new AddElements(graphView, copiedElements));
+        }
+
+        private IEnumerable<DialogueNodeView> CreateDialogueNodesFrom(IEnumerable<GraphElement> elementsToCopy, IDictionary<string, string> mapping)
+        {
+            foreach (var element in ElementsToCopy)
+            {
+                if (element is not DialogueNodeView nodeView) 
+                    continue;
+                
+                var model = Copy(nodeView.Model);
+                var node = _factory.CreateWithoutUndo(model);
+                mapping.Add(nodeView.Model.Guid, model.Guid);
+                yield return node;
+            }
+        }
+
+        private IEnumerable<Edge> CreateEdgesFrom(IEnumerable<GraphElement> elementsToCopy, IReadOnlyDictionary<string, string> mapping)
+        {
             foreach (var element in ElementsToCopy)
             {
                 if (element is Edge edge)
@@ -67,8 +93,7 @@ namespace Editor.Serialization
                     var parent = _provider.GetById(parentGuid);
                     var child = _provider.GetById(childGuid);
                     var newEdge = Connect(parent.outputContainer[0] as Port, child.inputContainer[0] as Port);
-                    graphView.AddElement(newEdge);
-                    graphView.AddToSelection(newEdge);
+                    yield return newEdge;
                 }
             }
         }
