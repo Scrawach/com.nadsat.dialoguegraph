@@ -34,7 +34,9 @@ namespace Editor.Importers
             foreach (var edge in ConnectNodes(_nodes, graph)) 
                 _graphView.AddElement(edge);
             
-            _nodes.GetById(graph.EntryNodeGuid).MarkAsRoot(true);
+            var rootNode = _nodes.GetById(graph.EntryNodeGuid);
+            _nodes.RootNode = rootNode;
+            rootNode.MarkAsRoot(true);
         }
 
         private static IEnumerable<Edge> ConnectNodes(NodesProvider nodes, DialogueGraph graph)
