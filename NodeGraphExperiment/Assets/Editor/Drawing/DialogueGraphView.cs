@@ -26,7 +26,7 @@ namespace Editor.Drawing
         private DialogueNodeFactory _factory;
         private ContextualMenuBuilder _contextualMenu;
         private VariableNodeFactory _variableFactory;
-        private DialogueGraph _graph;
+        private DialogueGraphContainer _graphContainer;
         private IUndoRegister _undoRegister;
         private NodesProvider _nodesProvider;
 
@@ -155,16 +155,16 @@ namespace Editor.Drawing
             UpdateViewTransform(translation, scaling);
         }
 
-        public void Populate(DialogueGraph graph)
+        public void Populate(DialogueGraphContainer graph)
         {
-            _graph = graph;
+            _graphContainer = graph;
             var importer = new DialogueGraphImporter(this, _factory, _nodesProvider);
-            importer.Import(graph);
+            importer.Import(graph.Graph);
         }
 
         public void Save()
         {
-            var exporter = new DialogueGraphExporter(this, _nodesProvider, _graph);
+            var exporter = new DialogueGraphExporter(this, _nodesProvider, _graphContainer);
             exporter.Export();
             Saved?.Invoke();
         }

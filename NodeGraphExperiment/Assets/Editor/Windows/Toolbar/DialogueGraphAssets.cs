@@ -12,9 +12,9 @@ namespace Editor.Windows.Toolbar
             return null;
         }
 
-        public IEnumerable<DialogueGraph> LoadAll() =>
+        public IEnumerable<DialogueGraphContainer> LoadAll() =>
             AssetDatabase.FindAssets("t:DialogueGraph")
                 .Select(AssetDatabase.GUIDToAssetPath)
-                .Select(AssetDatabase.LoadAssetAtPath<DialogueGraph>);
+                .Select(AssetDatabase.LoadAssetAtPath<DialogueGraphContainer>);
     }
 }

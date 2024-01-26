@@ -21,7 +21,7 @@ namespace Editor.Windows.CreateGraph
         private readonly Button _createButton;
         private readonly Button _closeButton;
 
-        private Action<DialogueGraph> _onCreated;
+        private Action<DialogueGraphContainer> _onCreated;
         
         public CreateGraphWindow() : base(Uxml)
         {
@@ -44,7 +44,7 @@ namespace Editor.Windows.CreateGraph
             remove => _closeButton.clicked -= value;
         }
 
-        public void Open(Action<DialogueGraph> onCreated = null)
+        public void Open(Action<DialogueGraphContainer> onCreated = null)
         {
             _onCreated = onCreated;
             this.Display(true);
@@ -73,12 +73,16 @@ namespace Editor.Windows.CreateGraph
                 return;
 
             CreateDirectoriesForFile(_locationField.value);
-            var graph = ScriptableObject.CreateInstance<DialogueGraph>();
-            graph.Name = _nameField.value;
-            AssetDatabase.CreateAsset(graph, _locationField.value);
+            var container = ScriptableObject.CreateInstance<DialogueGraphContainer>();
+            var graph = new DialogueGraph
+            {
+                Name = _nameField.value
+            };
+            container.Graph = graph;
+            AssetDatabase.CreateAsset(container, _locationField.value);
             AssetDatabase.SaveAssets();
-            EditorGUIUtility.PingObject(graph);
-            _onCreated?.Invoke(graph);
+            EditorGUIUtility.PingObject(container);
+            _onCreated?.Invoke(container);
             Created?.Invoke(graph);
             OnCloseClicked();
         }

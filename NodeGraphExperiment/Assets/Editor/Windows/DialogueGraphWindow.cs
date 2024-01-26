@@ -11,7 +11,7 @@ namespace Editor.Windows
     {
         private DialogueGraphView _graphView;
 
-        public void Populate(DialogueGraph graph) =>
+        public void Populate(DialogueGraphContainer graph) =>
             _graphView.Populate(graph);
 
         public void CreateGUI()

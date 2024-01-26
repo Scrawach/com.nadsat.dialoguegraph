@@ -6,7 +6,6 @@ using Editor.Factories.NodeListeners;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Exporters
@@ -15,9 +14,9 @@ namespace Editor.Exporters
     {
         private readonly DialogueGraphView _graphView;
         private readonly NodesProvider _nodes;
-        private readonly DialogueGraph _graph;
+        private readonly DialogueGraphContainer _graph;
 
-        public DialogueGraphExporter(DialogueGraphView graphView, NodesProvider nodes, DialogueGraph graph)
+        public DialogueGraphExporter(DialogueGraphView graphView, NodesProvider nodes, DialogueGraphContainer graph)
         {
             _graphView = graphView;
             _nodes = nodes;
@@ -26,13 +25,13 @@ namespace Editor.Exporters
 
         public void Export()
         {
-            _graph.Nodes = _nodes.Nodes.Select(node => node.Model).ToList();
-            _graph.Links = GetLinksFrom(_graphView.edges).ToList();
+            _graph.Graph.Nodes = _nodes.Nodes.Select(node => node.Model).ToList();
+            _graph.Graph.Links = GetLinksFrom(_graphView.edges).ToList();
 
             if (_nodes.RootNode == null)
                 _nodes.RootNode = _nodes.Nodes.First();
             
-            _graph.EntryNodeGuid = _nodes.RootNode.Model.Guid;
+            _graph.Graph.EntryNodeGuid = _nodes.RootNode.Model.Guid;
             
             AssetDatabase.SaveAssetIfDirty(_graph);
             EditorGUIUtility.PingObject(_graph);

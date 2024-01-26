@@ -72,7 +72,7 @@ namespace Editor.Windows.Toolbar
             var dialogueGraphAssets = new DialogueGraphAssets();
             toolbar.menu.AppendSeparator("Open/");
             foreach (var graph in dialogueGraphAssets.LoadAll())
-                toolbar.menu.AppendAction($"Open/{graph.Name}", (a) => { _graphView.Populate(graph); });
+                toolbar.menu.AppendAction($"Open/{graph.Graph.Name}", (a) => { _graphView.Populate(graph); });
         }
 
         private void OpenAsset()
@@ -84,7 +84,7 @@ namespace Editor.Windows.Toolbar
             
             var fromAssetPath = filePath.Split("Assets/");
             var pathToAsset = Path.Combine("Assets", fromAssetPath[1]);
-            var asset = AssetDatabase.LoadAssetAtPath<DialogueGraph>(pathToAsset);
+            var asset = AssetDatabase.LoadAssetAtPath<DialogueGraphContainer>(pathToAsset);
 
             if (asset != null)
                 _graphView.Populate(asset);

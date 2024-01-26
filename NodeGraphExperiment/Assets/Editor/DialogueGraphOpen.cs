@@ -12,7 +12,7 @@ namespace Editor
         public static void OpenWindow() =>
             OpenDialogueGraphWindow();
 
-        public static void OpenWindow(DialogueGraph graph)
+        public static void OpenWindow(DialogueGraphContainer graph)
         {
             var window = OpenDialogueGraphWindow();
             window.Populate(graph);
@@ -28,7 +28,7 @@ namespace Editor
         [OnOpenAsset]
         public static bool OnOpenDialogueGraph(int instanceId, int line)
         {
-            if (Selection.activeObject is not DialogueGraph graph) 
+            if (Selection.activeObject is not DialogueGraphContainer graph) 
                 return false;
             
             OpenWindow(graph);
