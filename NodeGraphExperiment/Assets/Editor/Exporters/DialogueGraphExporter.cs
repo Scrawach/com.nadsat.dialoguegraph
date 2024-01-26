@@ -4,6 +4,7 @@ using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
 using Runtime;
+using Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -27,6 +28,7 @@ namespace Editor.Exporters
         {
             _graph.Graph.Nodes = _nodes.Nodes.Select(node => node.Model).ToList();
             _graph.Graph.Links = GetLinksFrom(_graphView.edges).ToList();
+            _graph.Graph.RedirectNodes = GetRedirectNodesFrom(_graphView.nodes).ToList();
 
             if (_nodes.RootNode == null)
                 _nodes.RootNode = _nodes.Nodes.First();
@@ -37,12 +39,17 @@ namespace Editor.Exporters
             EditorGUIUtility.PingObject(_graph);
         }
 
+        private static IEnumerable<RedirectNode> GetRedirectNodesFrom(UQueryState<Node> nodes) =>
+            nodes
+                .Where(n => n is RedirectNodeView)
+                .Select(node => ((RedirectNodeView) node).Model);
+
         private static IEnumerable<NodeLinks> GetLinksFrom(UQueryState<Edge> edges)
         {
             foreach (var edge in edges.Where(e => e.input.node != null))
             {
-                var parentNode = edge.output.node as DialogueNodeView;
-                var childNode = edge.input.node as DialogueNodeView;
+                var parentNode = (dynamic) edge.output.node;
+                var childNode = (dynamic) edge.input.node;
 
                 yield return new NodeLinks()
                 {

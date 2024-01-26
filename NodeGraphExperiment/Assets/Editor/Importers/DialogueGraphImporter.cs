@@ -22,16 +22,27 @@ namespace Editor.Importers
         
         public void Import(DialogueGraph graph)
         {
+            var mapping = new Dictionary<string, Node>();
+            
             foreach (var graphElement in _graphView.graphElements) 
                 _graphView.RemoveElement(graphElement);
 
             if (graph.Nodes == null)
                 return;
-            
-            foreach (var node in graph.Nodes) 
-                _factory.CreateWithoutUndo(node);
 
-            foreach (var edge in ConnectNodes(_nodes, graph)) 
+            foreach (var node in graph.Nodes)
+            {
+                var view = _factory.CreateWithoutUndo(node);
+                mapping.Add(node.Guid, view);
+            }
+
+            foreach (var node in graph.RedirectNodes)
+            {
+                var view = _factory.CreateRedirectNode(node);
+                mapping.Add(node.Guid, view);
+            }
+
+            foreach (var edge in ConnectNodes(mapping, graph)) 
                 _graphView.AddElement(edge);
             
             var rootNode = _nodes.GetById(graph.EntryNodeGuid);
@@ -39,12 +50,12 @@ namespace Editor.Importers
             rootNode.MarkAsRoot(true);
         }
 
-        private static IEnumerable<Edge> ConnectNodes(NodesProvider nodes, DialogueGraph graph)
+        private static IEnumerable<Edge> ConnectNodes(IReadOnlyDictionary<string, Node> mapping, DialogueGraph graph)
         {
             foreach (var link in graph.Links)
             {
-                var parent = nodes.GetById(link.FromGuid);
-                var child = nodes.GetById(link.ToGuid);
+                var parent = mapping[link.FromGuid];
+                var child = mapping[link.ToGuid];
                 var inputPort = child.inputContainer[0] as Port;
                 var outputPort = parent.outputContainer[0] as Port;
                 yield return Connect(outputPort, inputPort);

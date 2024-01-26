@@ -82,25 +82,28 @@ namespace Editor.Factories
             target.Clear();
             _canvas.RemoveElement(target);
 
-            var redirectNode = new RedirectNodeView
-            {
-                title = "",
-                Model = new RedirectNode()
-                {
-                    Guid = Guid.NewGuid().ToString()
-                }
-            };
-            redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
-
-            var (input, output) = CreatePortsFor(redirectNode);
+            var newRedirectModel = new RedirectNode {Guid = Guid.NewGuid().ToString(), Position = new Rect(position, Vector2.zero)};
+            var redirectNode = CreateRedirectNode(newRedirectModel);
             redirectNode.SetPosition(new Rect(position, Vector2.zero));
             
-            var leftEdge = CreateEdge(target.output, input, onMouseDown);
-            var rightEdge = CreateEdge(target.input, output, onMouseDown);
+            var leftEdge = CreateEdge(target.output, redirectNode.inputContainer[0] as Port, onMouseDown);
+            var rightEdge = CreateEdge(target.input, redirectNode.outputContainer[0] as Port, onMouseDown);
                         
             _canvas.AddElement(redirectNode);
             _canvas.AddElement(leftEdge);
             _canvas.AddElement(rightEdge);
+            return redirectNode;
+        }
+
+        public RedirectNodeView CreateRedirectNode(RedirectNode model)
+        {
+            var redirectNode = new RedirectNodeView {title = "",};
+            CreatePortsFor(redirectNode);
+            redirectNode.Bind(model);
+            redirectNode.SetPosition(model.Position);
+            redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
+            redirectNode.SetPosition(model.Position);
+            _canvas.AddElement(redirectNode);
             return redirectNode;
         }
 

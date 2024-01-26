@@ -1,15 +1,13 @@
 using System;
 using Editor.AssetManagement;
-using Runtime;
 using Runtime.Nodes;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Nodes
 {
-    public class DialogueNodeView : Node
+    public class DialogueNodeView : BaseNodeView<DialogueNode>
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/DialogueNodeView.uxml";
         private const string UssEntryNode = "entry-node";
@@ -31,8 +29,6 @@ namespace Editor.Drawing.Nodes
         private readonly VisualElement _iconContainer;
         private readonly VisualElement _nodeBorder;
 
-        public DialogueNode Model;
-        
         public DialogueNodeView(PhraseRepository phrases, PersonRepository persons) 
             : base(UxmlPath)
         {
@@ -64,17 +60,7 @@ namespace Editor.Drawing.Nodes
             base.OnUnselected();
             Unselected?.Invoke(this);
         }
-
-        public void Bind(DialogueNode node)
-        {
-            Model = node;
-            Model.Changed += OnModelChanged;
-            OnModelChanged();
-        }
-
-        public void Unbind() =>
-            Model.Changed -= OnModelChanged;
-
+        
         public void MarkAsRoot(bool isRoot)
         {
             if (isRoot)
@@ -82,8 +68,8 @@ namespace Editor.Drawing.Nodes
             else
                 _nodeBorder.RemoveFromClassList(UssEntryNode);
         }
-        
-        private void OnModelChanged() =>
+
+        protected override void OnModelChanged() =>
             Draw(Model);
 
         private void Draw(DialogueNode model)

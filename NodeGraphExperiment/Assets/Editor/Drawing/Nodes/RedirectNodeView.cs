@@ -1,10 +1,10 @@
 using Runtime.Nodes;
-using UnityEditor.Experimental.GraphView;
 
 namespace Editor.Drawing.Nodes
 {
-    public class RedirectNodeView : Node
+    public class RedirectNodeView : BaseNodeView<RedirectNode>
     {
-        public RedirectNode Model;
+        protected override void OnModelChanged() =>
+            SetPosition(Model.Position);
     }
 }
