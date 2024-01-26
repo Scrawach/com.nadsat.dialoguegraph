@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Editor.Drawing.Nodes;
+using Editor.Exporters;
 using Editor.Factories;
+using Editor.Factories.NodeListeners;
+using Editor.Importers;
 using Editor.Serialization;
 using Editor.Undo;
 using Editor.Undo.Commands;
@@ -25,6 +28,7 @@ namespace Editor.Drawing
         private VariableNodeFactory _variableFactory;
         private DialogueGraph _graph;
         private IUndoRegister _undoRegister;
+        private NodesProvider _nodesProvider;
 
         public DialogueGraphView()
         {
@@ -86,9 +90,10 @@ namespace Editor.Drawing
             }
         }
 
-        public void Initialize(DialogueNodeFactory factory, VariableNodeFactory variableFactory, 
+        public void Initialize(NodesProvider nodesProvider, DialogueNodeFactory factory, VariableNodeFactory variableFactory,
             ContextualMenuBuilder contextualMenuBuilder, IUndoRegister undoRegister)
         {
+            _nodesProvider = nodesProvider;
             _factory = factory;
             _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
@@ -153,27 +158,15 @@ namespace Editor.Drawing
         public void Populate(DialogueGraph graph)
         {
             _graph = graph;
-
-            foreach (var graphElement in graphElements) 
-                RemoveElement(graphElement);
-
-            if (graph.Nodes == null)
-                return;
-            
-            foreach (var node in graph.Nodes) 
-                _factory.CreateFrom(node);
+            var importer = new DialogueGraphImporter(this, _factory, _nodesProvider);
+            importer.Import(graph);
         }
 
         public void Save()
         {
-            _graph.Nodes = new List<DialogueNode>(nodes.Count());
-            foreach (var node in nodes)
-            {
-                if (node is DialogueNodeView nodeView) 
-                    _graph.Nodes.Add(nodeView.Model);
-            }
+            var exporter = new DialogueGraphExporter(this, _nodesProvider, _graph);
+            exporter.Export();
             Saved?.Invoke();
-            AssetDatabase.SaveAssetIfDirty(_graph);
         }
     }
 }

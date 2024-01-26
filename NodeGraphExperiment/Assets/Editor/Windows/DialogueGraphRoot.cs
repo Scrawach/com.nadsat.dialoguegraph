@@ -2,6 +2,7 @@ using Editor.AssetManagement;
 using Editor.Drawing;
 using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
+using Editor.Exporters;
 using Editor.Extensions;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
@@ -58,7 +59,7 @@ namespace Editor.Windows
             phraseRepository.Initialize();
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository, Root, DialogueGraphView, createWindow);
-            DialogueGraphView.Initialize(nodeFactory, variableNodeFactory, contextualMenu, undoHistory);
+            DialogueGraphView.Initialize(nodesProvider, nodeFactory, variableNodeFactory, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
 
             DialogueGraphView.focusable = true;

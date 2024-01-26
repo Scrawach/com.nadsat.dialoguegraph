@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Editor.Drawing.Nodes;
 using UnityEngine.UIElements;
 
@@ -47,5 +48,8 @@ namespace Editor.Factories.NodeListeners
             foreach (var node in _nodes)
                 node.Model.NotifyChanged();
         }
+
+        public DialogueNodeView GetById(string guid) =>
+            Nodes.First(node => node.Model.Guid == guid);
     }
 }
