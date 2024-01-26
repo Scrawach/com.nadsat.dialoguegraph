@@ -1,9 +1,10 @@
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 namespace Editor.Drawing.Nodes
 {
-    public abstract class BaseNodeView<TModel> : Node where TModel : BaseDialogueNode
+    public abstract class BaseNodeView<TModel> : Node, IMovableNode where TModel : BaseDialogueNode
     {
         protected BaseNodeView(string uxml) : base(uxml) { }
 
@@ -25,5 +26,11 @@ namespace Editor.Drawing.Nodes
         }
 
         protected abstract void OnModelChanged();
+
+        public Rect GetPreviousPosition() =>
+            Model.Position;
+
+        public void SavePosition(Rect position) =>
+            Model.SetPosition(position);
     }
 }

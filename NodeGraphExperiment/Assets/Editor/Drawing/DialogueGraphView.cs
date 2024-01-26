@@ -97,16 +97,11 @@ namespace Editor.Drawing
         {
             if (graphViewChange.movedElements != null)
             {
-                var moveCommand = new MoveElements(graphViewChange.movedElements);
+                var movableNodes = graphViewChange.movedElements.OfType<IMovableNode>().ToArray();
+                var moveCommand = new MoveNodes(movableNodes);
                 _undoRegister.Register(moveCommand);
-                foreach (var dialogueNodeView in graphViewChange.movedElements.OfType<DialogueNodeView>())
-                {
-                    dialogueNodeView.Model.Position = dialogueNodeView.GetPosition();
-                }
-                foreach (var redirectNodeView in graphViewChange.movedElements.OfType<RedirectNodeView>())
-                {
-                    redirectNodeView.Model.Position = redirectNodeView.GetPosition();
-                }
+                foreach (var element in movableNodes) 
+                    element.SavePosition(element.GetPosition());
             }
 
             if (graphViewChange.edgesToCreate != null)

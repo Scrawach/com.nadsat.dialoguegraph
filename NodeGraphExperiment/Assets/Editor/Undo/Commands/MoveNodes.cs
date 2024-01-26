@@ -5,29 +5,29 @@ using UnityEngine;
 
 namespace Editor.Undo.Commands
 {
-    public class MoveRedirectNodes : IUndoCommand
+    public class MoveNodes : IUndoCommand
     {
-        private readonly List<RedirectNodeView> _movedElements;
+        private readonly List<IMovableNode> _movedElements;
         private readonly List<Rect>_newPositions;
         private readonly List<Rect> _oldPositions;
 
-        public MoveRedirectNodes(IEnumerable<RedirectNodeView> movedElements)
+        public MoveNodes(IEnumerable<IMovableNode> movedElements)
         {
             _movedElements = movedElements.ToList();
             _newPositions = _movedElements.Select(x => x.GetPosition()).ToList();
-            _oldPositions = _movedElements.Select(x => x.Model.Position).ToList();
+            _oldPositions = _movedElements.Select(x => x.GetPreviousPosition()).ToList();
         }
 
         public void Undo()
         {
             for (var i = 0; i < _movedElements.Count; i++) 
-                _movedElements[i].Model.SetPosition(_oldPositions[i]);
+                _movedElements[i].SavePosition(_oldPositions[i]);
         }
 
         public void Redo()
         {
             for (var i = 0; i < _movedElements.Count; i++) 
-                _movedElements[i].Model.SetPosition(_newPositions[i]);
+                _movedElements[i].SavePosition(_newPositions[i]);
         }
 
         public override string ToString() =>
