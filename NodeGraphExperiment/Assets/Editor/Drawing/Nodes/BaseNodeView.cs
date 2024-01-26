@@ -25,6 +25,33 @@ namespace Editor.Drawing.Nodes
             Model = null;
         }
 
+        public void AddInputAndOutputPorts(string inputPortName = "", string outputPortName = "")
+        {
+            AddInput(inputPortName);
+            AddOutput(outputPortName);
+        }
+
+        public void AddInput(string portName = "")
+        {
+            var input = CreatePort(portName, Direction.Input);
+            inputContainer.Add(input);
+            RefreshPorts();
+        }
+
+        public void AddOutput(string portName = "")
+        {
+            var output = CreatePort(portName, Direction.Output);
+            outputContainer.Add(output);
+            RefreshPorts();
+        }
+
+        private Port CreatePort(string portName, Direction direction)
+        {
+            var port = InstantiatePort(Orientation.Horizontal, direction, Port.Capacity.Multi, typeof(float));
+            port.portName = portName;
+            return port;
+        }
+
         protected abstract void OnModelChanged();
 
         public Rect GetPreviousPosition() =>

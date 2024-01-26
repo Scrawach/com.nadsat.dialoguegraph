@@ -10,10 +10,10 @@ namespace Editor.Importers
     public class DialogueGraphImporter
     {
         private readonly DialogueGraphView _graphView;
-        private readonly DialogueNodeFactory _factory;
+        private readonly INodeViewFactory _factory;
         private readonly NodesProvider _nodes;
 
-        public DialogueGraphImporter(DialogueGraphView graphView, DialogueNodeFactory factory, NodesProvider nodes)
+        public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes)
         {
             _graphView = graphView;
             _factory = factory;
@@ -32,13 +32,13 @@ namespace Editor.Importers
 
             foreach (var node in graph.Nodes)
             {
-                var view = _factory.CreateWithoutUndo(node);
+                var view = _factory.CreateDialogue(node);
                 mapping.Add(node.Guid, view);
             }
 
             foreach (var node in graph.RedirectNodes)
             {
-                var view = _factory.CreateRedirectNode(node);
+                var view = _factory.CreateRedirect(node);
                 mapping.Add(node.Guid, view);
             }
 

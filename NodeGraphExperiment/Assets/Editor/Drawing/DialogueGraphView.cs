@@ -23,7 +23,8 @@ namespace Editor.Drawing
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
         private CopyPasteNodes _copyPaste;
-        private DialogueNodeFactory _factory;
+        private INodeViewFactory _factory;
+        private RedirectNodeFactory _redirectFactory;
         private ContextualMenuBuilder _contextualMenu;
         private VariableNodeFactory _variableFactory;
         private DialogueGraphContainer _graphContainer;
@@ -82,15 +83,17 @@ namespace Editor.Drawing
             _copyPaste.Paste(this);
         }
 
-        public void Initialize(NodesProvider nodesProvider, DialogueNodeFactory factory, VariableNodeFactory variableFactory,
-            ContextualMenuBuilder contextualMenuBuilder, IUndoRegister undoRegister)
+        public void Initialize(NodesProvider nodesProvider, UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, 
+            CopyPasteNodes copyPasteNodes, VariableNodeFactory variableFactory, ContextualMenuBuilder contextualMenuBuilder, 
+            IUndoRegister undoRegister)
         {
             _nodesProvider = nodesProvider;
             _factory = factory;
             _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
             _undoRegister = undoRegister;
-            _copyPaste = new CopyPasteNodes(_factory, _nodesProvider, _undoRegister);
+            _copyPaste = copyPasteNodes;
+            _redirectFactory = redirectNodeFactory;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -119,11 +122,8 @@ namespace Editor.Drawing
 
         private void OnMouseDown(MouseDownEvent evt)
         {
-            if (evt.clickCount >= 2 && evt is { target: Edge edge })
-            {
-                var worldPosition = contentViewContainer.WorldToLocal(evt.mousePosition);
-                _factory.CreateRedirectNode(worldPosition, edge, OnMouseDown);
-            }
+            if (evt.clickCount >= 2 && evt is { target: Edge edge }) 
+                _redirectFactory.CreateRedirect(edge, evt.mousePosition, OnMouseDown);
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>

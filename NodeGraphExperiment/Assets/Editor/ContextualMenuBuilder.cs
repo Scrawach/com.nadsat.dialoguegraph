@@ -12,13 +12,15 @@ namespace Editor
     {
         private readonly PersonRepository _persons;
         private readonly NodesProvider _provider;
-        private readonly DialogueNodeFactory _factory;
-        
-        public ContextualMenuBuilder(PersonRepository persons, NodesProvider provider, DialogueNodeFactory factory)
+        private readonly ElementsFactory _factory;
+        private readonly PersonTemplateFactory _templateFactory;
+
+        public ContextualMenuBuilder(PersonRepository persons, NodesProvider provider, ElementsFactory factory, PersonTemplateFactory templateFactory)
         {
             _persons = persons;
             _provider = provider;
             _factory = factory;
+            _templateFactory = templateFactory;
         }
         
         public void BuildContextualMenu(ContextualMenuPopulateEvent evt, Action<ContextualMenuPopulateEvent> onBaseContextualMenu = null)
@@ -46,7 +48,7 @@ namespace Editor
             {
                 evt.menu.AppendAction($"Templates/{person}", (action) =>
                     {
-                        _factory.CreatePersonNode(person, position: action.eventInfo.mousePosition);
+                        _templateFactory.CreateDialogue(person, action.eventInfo.mousePosition);
                     });
             }
             

@@ -6,6 +6,7 @@ using Editor.Exporters;
 using Editor.Extensions;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
+using Editor.Serialization;
 using Editor.Shortcuts;
 using Editor.Shortcuts.Concrete;
 using Editor.Undo;
@@ -48,18 +49,25 @@ namespace Editor.Windows
             var nodeViewListener = new NodeViewListener();
             var nodesProvider = new NodesProvider();
             var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
-            var nodeFactory = new DialogueNodeFactory(personRepository, phraseRepository, nodeListeners, DialogueGraphView, undoHistory);
-            var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, nodeFactory);
+
+            var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners);
+            var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
+            var elementFactory = new ElementsFactory(DialogueGraphView);
+            var personTemplateFactory = new PersonTemplateFactory(undoNodeFactory, DialogueGraphView);
+            var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
+            var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, elementFactory, personTemplateFactory);
 
             var variables = new VariablesProvider();
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
             var variableNodeFactory = new VariableNodeFactory(DialogueGraphView, variables);
 
+            var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
+
             createWindow.Display(false);
             phraseRepository.Initialize();
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository, Root, DialogueGraphView, createWindow);
-            DialogueGraphView.Initialize(nodesProvider, nodeFactory, variableNodeFactory, contextualMenu, undoHistory);
+            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, variableNodeFactory, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
 
             DialogueGraphView.focusable = true;

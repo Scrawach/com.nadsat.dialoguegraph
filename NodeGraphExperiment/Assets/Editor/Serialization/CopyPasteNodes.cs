@@ -18,11 +18,11 @@ namespace Editor.Serialization
     {
         public List<GraphElement> ElementsToCopy = new List<GraphElement>();
         
-        private readonly DialogueNodeFactory _factory;
+        private readonly INodeViewFactory _factory;
         private readonly NodesProvider _provider;
         private readonly IUndoRegister _undoRegister;
 
-        public CopyPasteNodes(DialogueNodeFactory factory, NodesProvider provider, IUndoRegister undoRegister)
+        public CopyPasteNodes(INodeViewFactory factory, NodesProvider provider, IUndoRegister undoRegister)
         {
             _factory = factory;
             _provider = provider;
@@ -65,7 +65,7 @@ namespace Editor.Serialization
                     continue;
                 
                 var model = Copy(nodeView.Model);
-                var node = _factory.CreateWithoutUndo(model);
+                var node = _factory.CreateDialogue(model);
                 mapping.Add(nodeView.Model.Guid, model.Guid);
                 yield return node;
             }
