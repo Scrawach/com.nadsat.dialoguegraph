@@ -9,7 +9,6 @@ using Editor.Windows.Variables;
 using Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
@@ -46,16 +45,6 @@ namespace Editor.Windows.Toolbar
         {
             _toolbarMenu.menu.ClearItems();
             AppendMenuOptions(_toolbarMenu);
-        }
-
-        private void OnClicked(ClickEvent evt)
-        {
-            Debug.Log("CLICKED!");
-        }
-
-        private void OnPointerDown(PointerDownEvent evt)
-        {
-            Debug.Log($"POINTER DOWN!");
         }
 
         public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, DialogueGraphView graphView, CreateGraphWindow createWindow)
