@@ -33,13 +33,29 @@ namespace Editor.Windows.Toolbar
         public DialogueGraphToolbar() : base(Uxml)
         {
             _toolbarMenu = this.Q<ToolbarMenu>("assets-menu");
-            AppendMenuOptions(_toolbarMenu);
+            _toolbarMenu.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
             
             _languageDropdown = this.Q<DropdownField>("language-dropdown");
             _languageDropdown.RegisterValueChangedCallback(OnLanguageChanged);
 
             _variablesToggle = this.Q<Toggle>("variables-toggle");
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
+        }
+
+        private void OnPointerEnter(PointerEnterEvent evt)
+        {
+            _toolbarMenu.menu.ClearItems();
+            AppendMenuOptions(_toolbarMenu);
+        }
+
+        private void OnClicked(ClickEvent evt)
+        {
+            Debug.Log("CLICKED!");
+        }
+
+        private void OnPointerDown(PointerDownEvent evt)
+        {
+            Debug.Log($"POINTER DOWN!");
         }
 
         public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, DialogueGraphView graphView, CreateGraphWindow createWindow)

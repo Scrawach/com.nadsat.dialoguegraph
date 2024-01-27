@@ -7,13 +7,15 @@ namespace Editor.Windows.Toolbar
 {
     public class DialogueGraphAssets
     {
-        public string[] GetExistingNames()
-        {
-            return null;
-        }
+        private const string DialogueGraphContainer = "t:DialogueGraphContainer";
+
+        public string[] GetExistingNames() =>
+            LoadAll()
+                .Select(container => container.Graph.Name)
+                .ToArray();
 
         public IEnumerable<DialogueGraphContainer> LoadAll() =>
-            AssetDatabase.FindAssets("t:DialogueGraph")
+            AssetDatabase.FindAssets(DialogueGraphContainer)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<DialogueGraphContainer>);
     }
