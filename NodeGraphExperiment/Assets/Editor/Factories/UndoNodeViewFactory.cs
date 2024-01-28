@@ -25,6 +25,15 @@ namespace Editor.Factories
         public RedirectNodeView CreateRedirect(RedirectNode node) =>
             RegisterCreated(_factory.CreateRedirect(node));
 
+        public ChoicesNodeView CreateChoices(ChoicesNode node) =>
+            RegisterCreated(_factory.CreateChoices(node));
+
+        public SwitchNodeView CreateSwitch(SwitchNode node) =>
+            RegisterCreated(_factory.CreateSwitch(node));
+
+        public ChangeVariableNodeView CreateChangeVariable(ChangeVariableNode node) =>
+            RegisterCreated(_factory.CreateChangeVariable(node));
+        
         private TViewNode RegisterCreated<TViewNode>(TViewNode node) where TViewNode : GraphElement
         {
             _undoRegister.Register(new AddElement(node, _graphView));

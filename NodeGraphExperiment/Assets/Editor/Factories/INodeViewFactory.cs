@@ -8,5 +8,8 @@ namespace Editor.Factories
     {
         DialogueNodeView CreateDialogue(DialogueNode node);
         RedirectNodeView CreateRedirect(RedirectNode node);
+        ChoicesNodeView CreateChoices(ChoicesNode node);
+        SwitchNodeView CreateSwitch(SwitchNode node);
+        ChangeVariableNodeView CreateChangeVariable(ChangeVariableNode node);
     }
 }

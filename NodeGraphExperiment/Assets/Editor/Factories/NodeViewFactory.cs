@@ -26,28 +26,45 @@ namespace Editor.Factories
         public DialogueNodeView CreateDialogue(DialogueNode node)
         {
             var view = new DialogueNodeView(_phrases, _persons);
-            view.AddInputAndOutputPorts();
-            
-            view.Bind(node);
-            view.SetPosition(node.Position);
-            
+            view = BindAndPlace(view, node);
             _listener.Register(view);
-            _canvas.AddElement(view);
             return view;
         }
 
         public RedirectNodeView CreateRedirect(RedirectNode node)
         {
             var redirectNode = new RedirectNodeView {title = "",};
-            redirectNode.AddInputAndOutputPorts();
-            
-            redirectNode.Bind(node);
-            redirectNode.SetPosition(node.Position);
-            
             redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
-            
-            _canvas.AddElement(redirectNode);
-            return redirectNode;
+            return BindAndPlace(redirectNode, node);
+        }
+
+        public ChoicesNodeView CreateChoices(ChoicesNode choices)
+        {
+            var view = new ChoicesNodeView();
+            return BindAndPlace(view, choices);
+        }
+
+        public ChangeVariableNodeView CreateChangeVariable(ChangeVariableNode variable)
+        {
+            var view = new ChangeVariableNodeView();
+            return BindAndPlace(view, variable);
+        }
+
+        public SwitchNodeView CreateSwitch(SwitchNode node)
+        {
+            var view = new SwitchNodeView();
+            return BindAndPlace(view, node);
+        }
+
+        private TNodeView BindAndPlace<TNodeView, TModel>(TNodeView view, TModel model)
+            where TNodeView : BaseNodeView<TModel>
+            where TModel : BaseDialogueNode
+        {
+            view.AddInputAndOutputPorts();
+            view.Bind(model);
+            view.SetPosition(model.Position);
+            _canvas.AddElement(view);
+            return view;
         }
     }
 }
