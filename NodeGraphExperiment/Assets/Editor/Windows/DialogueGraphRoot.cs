@@ -55,7 +55,8 @@ namespace Editor.Windows
             var elementFactory = new ElementsFactory(DialogueGraphView);
             var personTemplateFactory = new PersonTemplateFactory(undoNodeFactory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
-            var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, elementFactory, personTemplateFactory);
+            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, personRepository);
+            var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, elementFactory, nodesCreationMenuBuilder);
 
             var variables = new VariablesProvider();
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);

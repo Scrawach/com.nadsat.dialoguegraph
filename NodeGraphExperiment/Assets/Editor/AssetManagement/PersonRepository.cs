@@ -8,6 +8,13 @@ namespace Editor.AssetManagement
     {
         private DialoguePersonDatabase _database;
 
+        private readonly PersonData _nonePerson = new()
+        {
+            Color = Color.gray,
+            Icon = null,
+            Name = "None"
+        };
+
         public void Initialize() =>
             _database = Resources.Load<DialoguePersonDatabase>("Dialogue Person Database");
 
@@ -15,6 +22,6 @@ namespace Editor.AssetManagement
             _database.Persons.Select(x => x.Name).ToArray();
 
         public PersonData Get(string key) =>
-            _database.FindByName(key);
+            _database.FindByName(key) ?? _nonePerson;
     }
 }

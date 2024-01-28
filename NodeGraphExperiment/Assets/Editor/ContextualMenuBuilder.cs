@@ -13,14 +13,14 @@ namespace Editor
         private readonly PersonRepository _persons;
         private readonly NodesProvider _provider;
         private readonly ElementsFactory _factory;
-        private readonly PersonTemplateFactory _templateFactory;
+        private readonly NodesCreationMenuBuilder _nodesCreationMenuBuilder;
 
-        public ContextualMenuBuilder(PersonRepository persons, NodesProvider provider, ElementsFactory factory, PersonTemplateFactory templateFactory)
+        public ContextualMenuBuilder(PersonRepository persons, NodesProvider provider, ElementsFactory factory, NodesCreationMenuBuilder nodesCreationMenuBuilder)
         {
             _persons = persons;
             _provider = provider;
             _factory = factory;
-            _templateFactory = templateFactory;
+            _nodesCreationMenuBuilder = nodesCreationMenuBuilder;
         }
         
         public void BuildContextualMenu(ContextualMenuPopulateEvent evt, Action<ContextualMenuPopulateEvent> onBaseContextualMenu = null)
@@ -40,19 +40,10 @@ namespace Editor
                 return;
             }
             
-            evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
-            evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
-            evt.menu.AppendSeparator();
+            _nodesCreationMenuBuilder.Build(evt);
             
-            foreach (var person in _persons.All())
-            {
-                evt.menu.AppendAction($"Templates/{person}", (action) =>
-                    {
-                        _templateFactory.CreateDialogue(person, action.eventInfo.mousePosition);
-                    });
-            }
-            
-            evt.menu.AppendSeparator();
+            //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
+            //evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
             onBaseContextualMenu?.Invoke(evt);
         }
     }

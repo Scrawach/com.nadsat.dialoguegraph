@@ -11,6 +11,6 @@ namespace Editor.AssetManagement
         public List<PersonData> Persons;
 
         public PersonData FindByName(string personName) =>
-            Persons.First(person => person.Name == personName);
+            Persons.FirstOrDefault(person => person.Name == personName);
     }
 }
