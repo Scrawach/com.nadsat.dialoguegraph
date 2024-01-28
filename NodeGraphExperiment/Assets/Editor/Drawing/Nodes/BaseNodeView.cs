@@ -21,7 +21,7 @@ namespace Editor.Drawing.Nodes
 
         public void Unbind()
         {
-            Model.Changed += OnModelChanged;
+            Model.Changed -= OnModelChanged;
             Model = null;
         }
 
