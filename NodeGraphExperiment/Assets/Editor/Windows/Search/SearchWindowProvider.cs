@@ -74,14 +74,15 @@ namespace Editor.Windows.Search
         
         private (string[] choices, string[] tooltips) BuildPhrases()
         {
-            var keys = _phraseRepository.AllKeys();
-            var tooltips = new string[keys.Length];
-            for (var i = 0; i < tooltips.Length; i++)
-            {
-                tooltips[i] = _phraseRepository.Get(keys[i]);
-            }
+            return (null, null);
+            //var keys = _phraseRepository.AllKeys();
+            //var tooltips = new string[keys.Length];
+            //for (var i = 0; i < tooltips.Length; i++)
+            //{
+            //    tooltips[i] = _phraseRepository.Get(keys[i]);
+            //}
 
-            return (keys, tooltips);
+            //return (keys, tooltips);
         }
     }
 }

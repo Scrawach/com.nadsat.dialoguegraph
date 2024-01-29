@@ -28,7 +28,7 @@ namespace Editor.Drawing.Inspector
         private readonly SearchWindowProvider _searchWindow;
         private readonly PhraseRepository _phrases;
 
-        private PhraseTextControl _activePhrase;
+        private CardControl _activePhrase;
         private ImageFieldControl _activeImage;
         
         public DialogueNodeInspectorView(DialogueNode node, SearchWindowProvider searchWindow, PhraseRepository phrases)
@@ -75,7 +75,7 @@ namespace Editor.Drawing.Inspector
                 _phrasesContainer.Remove(_activePhrase);
             
             var phrase = _phrases.Get(phraseId);
-            var control = new PhraseTextControl(phraseId, phrase);
+            var control = new CardControl(phraseId, phrase);
             
             _activePhrase = control;
             _addPhraseButton.style.display = DisplayStyle.None;
@@ -87,6 +87,12 @@ namespace Editor.Drawing.Inspector
                 _node.SetPhraseId(string.Empty);
                 _phrasesContainer.Remove(control);
                 _addPhraseButton.style.display = DisplayStyle.Flex;
+            };
+
+            control.TextEdited += (value) =>
+            {
+                _phrases.Update(phraseId, value);
+                _node.NotifyChanged();
             };
         }
         
@@ -129,8 +135,9 @@ namespace Editor.Drawing.Inspector
         
         private void OnAddPhraseButtonClicked()
         {
-            var point = _addPhraseButton.LocalToWorld(Vector2.zero); 
-            _searchWindow.FindPhrase(point, (key) => _node.SetPhraseId(key));
+            var phraseId = _phrases.Create(_node.PersonId);
+            _node.SetPhraseId(phraseId);
+            SetPhrase(phraseId);
         }
 
         private void OnDropdownChanged(ChangeEvent<string> action) =>

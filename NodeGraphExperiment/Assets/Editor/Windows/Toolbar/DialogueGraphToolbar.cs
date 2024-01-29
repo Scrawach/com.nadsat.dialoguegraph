@@ -22,8 +22,8 @@ namespace Editor.Windows.Toolbar
         private readonly ToolbarMenu _toolbarMenu;
         private readonly DropdownField _languageDropdown;
         private readonly Toggle _variablesToggle;
-        
-        private PhraseRepository _phraseRepository;
+
+        private LanguageProvider _languageProvider;
         private VariablesBlackboard _variablesBlackboard;
         private EditorWindow _root;
         private DialogueGraphView _graphView;
@@ -47,15 +47,15 @@ namespace Editor.Windows.Toolbar
             AppendMenuOptions(_toolbarMenu);
         }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, PhraseRepository phrases, EditorWindow root, DialogueGraphView graphView, CreateGraphWindow createWindow)
+        public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider, EditorWindow root, DialogueGraphView graphView, CreateGraphWindow createWindow)
         {
-            _phraseRepository = phrases;
+            _languageProvider = languageProvider;
             _variablesBlackboard = variablesBlackboard;
             _root = root;
             _graphView = graphView;
             _createWindow = createWindow;
-            _languageDropdown.value = phrases.CurrentLanguage;
-            _languageDropdown.choices = phrases.AllLanguages().ToList();
+            _languageDropdown.value = _languageProvider.CurrentLanguage;
+            _languageDropdown.choices = _languageProvider.AllLanguages().ToList();
         }
 
         private void AppendMenuOptions(IToolbarMenuElement toolbar)
@@ -101,7 +101,7 @@ namespace Editor.Windows.Toolbar
             EditorUtility.DisplayDialog("Error", "You trying open invalid asset! You can load only DialogueGraph asset!", "OK");
 
         private void OnLanguageChanged(ChangeEvent<string> change) =>
-            _phraseRepository.ChangeLanguage(change.newValue);
+            _languageProvider.ChangeLanguage(change.newValue);
 
         private void OnVariablesToggled(ChangeEvent<bool> evt)
         {

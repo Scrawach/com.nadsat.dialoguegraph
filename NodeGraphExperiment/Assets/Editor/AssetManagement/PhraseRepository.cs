@@ -7,6 +7,30 @@ namespace Editor.AssetManagement
 {
     public class PhraseRepository
     {
+        private readonly Dictionary<string, string> _content = new();
+
+        private int _lastIndex;
+        
+        public string Create(string personId)
+        {
+            var id = GenerateUniquePhraseId(personId);
+            _content[id] = "none";
+            _lastIndex++;
+            return id;
+        }
+
+        public string Get(string phraseId) =>
+            _content[phraseId];
+
+        private string GenerateUniquePhraseId(string personId) =>
+            $"LVL.{personId}.{_lastIndex:D3}";
+
+        public void Update(string phraseId, string content) =>
+            _content[phraseId] = content;
+    }
+    
+    public class PhraseRepositoryOld
+    {
         private readonly Dictionary<string, LocalizedString> _content = new();
         
         private LocalizedTable _localizedTable;

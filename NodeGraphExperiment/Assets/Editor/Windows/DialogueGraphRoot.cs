@@ -33,7 +33,8 @@ namespace Editor.Windows
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             var createWindow = this.Q<CreateGraphWindow>();
-            
+
+            var languageProvider = new LanguageProvider();
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
             var choicesRepository = new ChoicesRepository();
@@ -66,18 +67,18 @@ namespace Editor.Windows
             var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
 
             createWindow.Display(false);
-            phraseRepository.Initialize();
             personRepository.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, phraseRepository, Root, DialogueGraphView, createWindow);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, createWindow);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, variableNodeFactory, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
+            languageProvider.ChangeLanguage("Russian");
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
-            phraseRepository.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
+            languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
         }
     }
 }
