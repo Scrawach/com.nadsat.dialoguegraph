@@ -27,6 +27,8 @@ namespace Editor.Drawing.Inspector
 
         private void OnAddChoiceClicked()
         {
+            var card = new CardControl("test", "test");
+            _choicesContainer.Add(card);
             _node.AddChoice("Test");
         }
 
