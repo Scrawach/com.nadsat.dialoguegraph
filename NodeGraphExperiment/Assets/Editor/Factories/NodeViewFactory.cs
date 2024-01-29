@@ -13,14 +13,17 @@ namespace Editor.Factories
         private readonly PersonRepository _persons;
         private readonly PhraseRepository _phrases;
         private readonly IDialogueNodeListener _listener;
+        private readonly ChoicesRepository _choices;
         private readonly GraphView _canvas;
 
-        public NodeViewFactory(PersonRepository persons, PhraseRepository phrases, GraphView canvas, IDialogueNodeListener listener)
+        public NodeViewFactory(PersonRepository persons, PhraseRepository phrases, GraphView canvas, IDialogueNodeListener listener,
+            ChoicesRepository choices)
         {
             _persons = persons;
             _phrases = phrases;
             _canvas = canvas;
             _listener = listener;
+            _choices = choices;
         }
         
         public DialogueNodeView CreateDialogue(DialogueNode node)
@@ -39,7 +42,7 @@ namespace Editor.Factories
 
         public ChoicesNodeView CreateChoices(ChoicesNode choices)
         {
-            var view = new ChoicesNodeView();
+            var view = new ChoicesNodeView(_choices);
             return BindAndPlace(view, choices);
         }
 

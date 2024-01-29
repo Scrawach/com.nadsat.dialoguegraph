@@ -13,12 +13,14 @@ namespace Editor.Factories
         private readonly PersonRepository _persons;
         private readonly SearchWindowProvider _searchWindow;
         private readonly PhraseRepository _phrases;
+        private readonly ChoicesRepository _choices;
 
-        public InspectorViewFactory(PersonRepository persons, SearchWindowProvider searchWindow, PhraseRepository phrases)
+        public InspectorViewFactory(PersonRepository persons, SearchWindowProvider searchWindow, PhraseRepository phrases, ChoicesRepository choices)
         {
             _persons = persons;
             _searchWindow = searchWindow;
             _phrases = phrases;
+            _choices = choices;
         }
 
         public VisualElement Build(VisualElement target)
@@ -31,7 +33,7 @@ namespace Editor.Factories
             }
             else if (target is ChoicesNodeView choicesView)
             {
-                var inspector = new ChoicesNodeInspectorView(choicesView.Model);
+                var inspector = new ChoicesNodeInspectorView(choicesView.Model, _choices);
                 return inspector;
             }
 

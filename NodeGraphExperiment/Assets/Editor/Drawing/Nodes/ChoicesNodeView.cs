@@ -1,18 +1,22 @@
-﻿using Runtime.Nodes;
+﻿using Editor.AssetManagement;
+using Runtime.Nodes;
 
 namespace Editor.Drawing.Nodes
 {
     public class ChoicesNodeView : BaseNodeView<ChoicesNode>
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/ChoicesNodeView.uxml";
+        
+        private readonly ChoicesRepository _choices;
 
-        public ChoicesNodeView() : base(UxmlPath) { }
+        public ChoicesNodeView(ChoicesRepository choices) : base(UxmlPath) =>
+            _choices = choices;
 
         protected override void OnModelChanged()
         {
             outputContainer.Clear();
             foreach (var button in Model.Choices) 
-                AddOutput(button);
+                AddOutput(_choices.Get(button));
         }
     }
 }

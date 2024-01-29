@@ -39,6 +39,14 @@ namespace Editor.Drawing.Controls
             Description.selection.isSelectable = true;
         }
 
+        public event Action<string> TextEdited;
+
+        public event Action Closed
+        {
+            add => _close.clicked += value;
+            remove => _close.clicked -= value;
+        }
+
         private void OnKeyDownEvent(KeyDownEvent evt)
         {
             if (evt.keyCode == KeyCode.Return)
@@ -58,14 +66,9 @@ namespace Editor.Drawing.Controls
             if (text[lastIndex] == '\n')
                 text = text.Remove(lastIndex, 1);
             Description.text = text;
+            TextEdited?.Invoke(text);
         }
 
-        public event Action Closed
-        {
-            add => _close.clicked += value;
-            remove => _close.clicked -= value;
-        }
-        
         private void OnMouseDownEvent(MouseDownEvent e)
         {
             if (e.clickCount != 2 || e.button != 0)

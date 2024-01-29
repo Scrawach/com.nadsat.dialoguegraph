@@ -36,6 +36,7 @@ namespace Editor.Windows
             
             var phraseRepository = new PhraseRepository();
             var personRepository = new PersonRepository();
+            var choicesRepository = new ChoicesRepository();
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
 
@@ -45,12 +46,12 @@ namespace Editor.Windows
             var redoShortcut = new RedoShortcut(undoHistory);
             var shortcuts = new ShortcutsProfile(saveShortcut, findShortcut, undoShortcut, redoShortcut);
 
-            var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository);
+            var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository, choicesRepository);
             var nodeViewListener = new NodeViewListener();
             var nodesProvider = new NodesProvider();
             var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
 
-            var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners);
+            var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var elementFactory = new ElementsFactory(DialogueGraphView);
             var personTemplateFactory = new PersonTemplateFactory(undoNodeFactory, DialogueGraphView);

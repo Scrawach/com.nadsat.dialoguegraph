@@ -11,7 +11,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="center" picking-mode="Ignore" style="flex-grow: 1; height: auto; min-height: auto; width: 100%; max-height: none;">
-                <ui:VisualElement name="body" style="flex-direction: row; flex-grow: 1; flex-shrink: 1; flex-basis: 10%;">
+                <ui:VisualElement name="body" style="flex-direction: column; flex-grow: 1; flex-shrink: 1; flex-basis: 10%;">
                     <ui:VisualElement name="input" style="flex-grow: 1; justify-content: flex-start; align-items: flex-start; flex-shrink: 1;" />
                     <ui:VisualElement name="output" style="flex-grow: 1; align-items: flex-end; justify-content: flex-start; background-color: rgba(0, 0, 0, 0.24);" />
                 </ui:VisualElement>
