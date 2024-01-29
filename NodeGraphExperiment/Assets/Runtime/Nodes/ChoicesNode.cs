@@ -6,11 +6,17 @@ namespace Runtime.Nodes
     [Serializable]
     public class ChoicesNode : BaseDialogueNode
     {
-        public List<string> Buttons = new();
+        public List<string> Choices = new();
         
-        public void AddChoice(string buttonId)
+        public void AddChoice(string choiceId)
         {
-            Buttons.Add(buttonId);
+            Choices.Add(choiceId);
+            NotifyChanged();
+        }
+
+        public void RemoveChoice(string choiceId)
+        {
+            Choices.Remove(choiceId);
             NotifyChanged();
         }
     }

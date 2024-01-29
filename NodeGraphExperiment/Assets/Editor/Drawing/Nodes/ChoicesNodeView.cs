@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Runtime.Nodes;
+﻿using Runtime.Nodes;
 
 namespace Editor.Drawing.Nodes
 {
@@ -8,17 +7,11 @@ namespace Editor.Drawing.Nodes
         private const string UxmlPath = "Assets/Editor/Resources/UXML/ChoicesNodeView.uxml";
 
         public ChoicesNodeView() : base(UxmlPath) { }
-        
-        public void AddChoice(string buttonId) =>
-            Model.AddChoice(buttonId);
 
         protected override void OnModelChanged()
         {
-            var outputChildren = outputContainer.Children().ToArray();
-            foreach (var child in outputChildren) 
-                outputContainer.Remove(child);
-            
-            foreach (var button in Model.Buttons) 
+            outputContainer.Clear();
+            foreach (var button in Model.Choices) 
                 AddOutput(button);
         }
     }
