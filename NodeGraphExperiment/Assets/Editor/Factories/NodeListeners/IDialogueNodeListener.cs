@@ -1,10 +1,10 @@
-using Editor.Drawing.Nodes;
+using UnityEditor.Experimental.GraphView;
 
 namespace Editor.Factories.NodeListeners
 {
     public interface IDialogueNodeListener
     {
-        void Register(DialogueNodeView node);
-        void Unregister(DialogueNodeView node);
+        void Register(Node node);
+        void Unregister(Node node);
     }
 }

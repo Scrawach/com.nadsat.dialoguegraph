@@ -1,7 +1,9 @@
 using System;
 using Editor.AssetManagement;
+using Editor.Extensions;
 using Runtime.Nodes;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -46,21 +48,6 @@ namespace Editor.Drawing.Nodes
             _nodeBorder = this.Q<VisualElement>("node-border");
         }
 
-        public event Action<DialogueNodeView> Selected;
-        public event Action<DialogueNodeView> Unselected; 
-
-        public override void OnSelected()
-        {
-            base.OnSelected();
-            Selected?.Invoke(this);
-        }
-
-        public override void OnUnselected()
-        {
-            base.OnUnselected();
-            Unselected?.Invoke(this);
-        }
-        
         public void MarkAsRoot(bool isRoot)
         {
             if (isRoot)
@@ -104,12 +91,12 @@ namespace Editor.Drawing.Nodes
 
             if (avatar != null)
             {
-                _imageContainer.style.display = DisplayStyle.Flex;
+                _avatar.Display(true);
                 _avatar.style.backgroundImage = new StyleBackground(avatar);
             }
             else
             {
-                _avatar.style.display = DisplayStyle.None;
+                _avatar.Display(false);
             }
         }
 

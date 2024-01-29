@@ -1,16 +1,33 @@
+using System;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Editor.Drawing.Nodes
 {
-    public abstract class BaseNodeView<TModel> : Node, IMovableNode where TModel : BaseDialogueNode
+    public abstract class BaseNodeView<TModel> : Node, IMovableNode, ISelectableNode 
+        where TModel : BaseDialogueNode
     {
         protected BaseNodeView(string uxml) : base(uxml) { }
 
         protected BaseNodeView() { }
         
         public TModel Model { get; private set; }
+        
+        public event Action<Node> Selected;
+        public event Action<Node> UnSelected; 
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            Selected?.Invoke(this);
+        }
+
+        public override void OnUnselected()
+        {
+            base.OnUnselected();
+            UnSelected?.Invoke(this);
+        }
 
         public void Bind(TModel model)
         {

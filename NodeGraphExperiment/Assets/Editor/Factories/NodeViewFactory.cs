@@ -27,7 +27,6 @@ namespace Editor.Factories
         {
             var view = new DialogueNodeView(_phrases, _persons);
             view = BindAndPlace(view, node);
-            _listener.Register(view);
             return view;
         }
 
@@ -64,6 +63,7 @@ namespace Editor.Factories
             view.Bind(model);
             view.SetPosition(model.Position);
             _canvas.AddElement(view);
+            _listener.Register(view);
             return view;
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Editor.Drawing.Nodes;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace Editor.Factories.NodeListeners
@@ -12,13 +13,13 @@ namespace Editor.Factories.NodeListeners
 
         public DialogueNodeView RootNode;
 
-        public void Register(DialogueNodeView node)
+        public void Register(Node node)
         {
             node.RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             node.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
         }
 
-        public void Unregister(DialogueNodeView node)
+        public void Unregister(Node node)
         {
             node.UnregisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             node.UnregisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);

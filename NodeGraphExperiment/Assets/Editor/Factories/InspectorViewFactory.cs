@@ -29,6 +29,11 @@ namespace Editor.Factories
                 inspector.UpdateDropdownChoices(_persons.All());
                 return inspector;
             }
+            else if (target is ChoicesNodeView choicesView)
+            {
+                var inspector = new ChoicesNodeInspectorView(choicesView.Model);
+                return inspector;
+            }
 
             throw new Exception("Invalid visual element!");
         }
