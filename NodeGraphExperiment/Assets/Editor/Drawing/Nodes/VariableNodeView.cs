@@ -1,11 +1,12 @@
 using System.Linq;
 using Editor.Windows.Variables;
+using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Nodes
 {
-    public class VariableNodeView : Node
+    public class VariableNodeView : BaseNodeView<VariableNode>
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/VariableNodeView.uxml";
 
@@ -31,5 +32,10 @@ namespace Editor.Drawing.Nodes
 
         public void SetVariable(string variableName) =>
             _variablesDropdown.value = variableName;
+
+        protected override void OnModelChanged()
+        {
+            
+        }
     }
 }

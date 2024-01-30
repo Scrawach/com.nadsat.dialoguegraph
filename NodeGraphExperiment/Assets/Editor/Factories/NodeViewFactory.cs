@@ -1,6 +1,7 @@
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
+using Editor.Windows.Variables;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -14,16 +15,18 @@ namespace Editor.Factories
         private readonly PhraseRepository _phrases;
         private readonly IDialogueNodeListener _listener;
         private readonly ChoicesRepository _choices;
+        private readonly VariablesProvider _variables;
         private readonly GraphView _canvas;
 
         public NodeViewFactory(PersonRepository persons, PhraseRepository phrases, GraphView canvas, IDialogueNodeListener listener,
-            ChoicesRepository choices)
+            ChoicesRepository choices, VariablesProvider variables)
         {
             _persons = persons;
             _phrases = phrases;
             _canvas = canvas;
             _listener = listener;
             _choices = choices;
+            _variables = variables;
         }
         
         public DialogueNodeView CreateDialogue(DialogueNode node)
@@ -46,9 +49,9 @@ namespace Editor.Factories
             return BindAndPlace(view, choices);
         }
 
-        public ChangeVariableNodeView CreateChangeVariable(ChangeVariableNode variable)
+        public VariableNodeView CreateVariable(VariableNode variable)
         {
-            var view = new ChangeVariableNodeView();
+            var view = new VariableNodeView(_variables);
             return BindAndPlace(view, variable);
         }
 

@@ -7,7 +7,12 @@ namespace Editor.Drawing.Nodes
         private const string UxmlPath = "Assets/Editor/Resources/UXML/SwitchNodeView.uxml";
 
         public SwitchNodeView() : base(UxmlPath) { }
-        
-        protected override void OnModelChanged() { }
+
+        protected override void OnModelChanged()
+        {
+            outputContainer.Clear();
+            foreach (var branch in Model.Branches) 
+                AddOutput(branch.Condition);
+        }
     }
 }

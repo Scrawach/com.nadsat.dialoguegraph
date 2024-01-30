@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Editor.AssetManagement;
+using Editor.Factories;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Factories
+namespace Editor.ContextualMenu
 {
     public class NodesCreationMenuBuilder
     {
@@ -25,7 +26,7 @@ namespace Editor.Factories
                 ["Dialogue Node"] = (position) => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
                 ["Choices Node"] = (position) => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
                 ["Switch Node"] = (position) => nodeViewFactory.CreateSwitch(NewModel<SwitchNode>(position)),
-                ["Variable Node"] = (position) => nodeViewFactory.CreateChangeVariable(NewModel<ChangeVariableNode>(position)),
+                ["Variable Node"] = (position) => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position)),
             };
         }
 

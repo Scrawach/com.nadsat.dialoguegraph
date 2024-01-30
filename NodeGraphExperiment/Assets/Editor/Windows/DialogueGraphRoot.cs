@@ -1,4 +1,5 @@
 using Editor.AssetManagement;
+using Editor.ContextualMenu;
 using Editor.Drawing;
 using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
@@ -52,18 +53,18 @@ namespace Editor.Windows
             var nodesProvider = new NodesProvider();
             var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
 
-            var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository);
+            var variables = new VariablesProvider();
+            var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
+            var variableNodeFactory = new VariableNodeFactory(DialogueGraphView, variables);
+            
+            var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var elementFactory = new ElementsFactory(DialogueGraphView);
             var personTemplateFactory = new PersonTemplateFactory(undoNodeFactory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, personRepository);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, elementFactory, nodesCreationMenuBuilder);
-
-            var variables = new VariablesProvider();
-            var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
-            var variableNodeFactory = new VariableNodeFactory(DialogueGraphView, variables);
-
+            
             var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
 
             createWindow.Display(false);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Runtime.Cases
 {
@@ -6,6 +7,12 @@ namespace Runtime.Cases
     {
         public CaseType Type;
         public List<string> Conditions;
+    }
+
+    public class VariableCase
+    {
+        public string VariableName;
+        public Vector2Int Range;
     }
 
     public enum CaseType

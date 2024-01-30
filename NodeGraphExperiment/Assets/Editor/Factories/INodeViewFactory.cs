@@ -10,6 +10,6 @@ namespace Editor.Factories
         RedirectNodeView CreateRedirect(RedirectNode node);
         ChoicesNodeView CreateChoices(ChoicesNode node);
         SwitchNodeView CreateSwitch(SwitchNode node);
-        ChangeVariableNodeView CreateChangeVariable(ChangeVariableNode node);
+        VariableNodeView CreateVariable(VariableNode node);
     }
 }

@@ -36,6 +36,11 @@ namespace Editor.Factories
                 var inspector = new ChoicesNodeInspectorView(choicesView.Model, _choices);
                 return inspector;
             }
+            else if (target is SwitchNodeView switchNodeView)
+            {
+                var inspector = new SwitchNodeInspectorView(switchNodeView.Model);
+                return inspector;
+            }
 
             throw new Exception("Invalid visual element!");
         }

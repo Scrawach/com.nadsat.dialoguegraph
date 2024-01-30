@@ -6,7 +6,7 @@ using Editor.Factories.NodeListeners;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor
+namespace Editor.ContextualMenu
 {
     public class ContextualMenuBuilder
     {

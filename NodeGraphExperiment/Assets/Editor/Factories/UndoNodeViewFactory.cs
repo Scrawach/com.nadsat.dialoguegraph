@@ -31,8 +31,8 @@ namespace Editor.Factories
         public SwitchNodeView CreateSwitch(SwitchNode node) =>
             RegisterCreated(_factory.CreateSwitch(node));
 
-        public ChangeVariableNodeView CreateChangeVariable(ChangeVariableNode node) =>
-            RegisterCreated(_factory.CreateChangeVariable(node));
+        public VariableNodeView CreateVariable(VariableNode node) =>
+            RegisterCreated(_factory.CreateVariable(node));
         
         private TViewNode RegisterCreated<TViewNode>(TViewNode node) where TViewNode : GraphElement
         {
