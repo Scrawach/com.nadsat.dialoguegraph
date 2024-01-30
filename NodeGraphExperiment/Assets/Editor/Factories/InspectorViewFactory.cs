@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
@@ -22,28 +20,21 @@ namespace Editor.Factories
             _phrases = phrases;
             _choices = choices;
         }
+        
+        public VisualElement Build(VisualElement target) =>
+            target switch
+            {
+                DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
+                ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
+                SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model),
+                _ => new VisualElement()
+            };
 
-        public VisualElement Build(VisualElement target)
+        private VisualElement CreateDialogueNodeInspector(DialogueNodeView nodeView)
         {
-            if (target is DialogueNodeView nodeView)
-            {
-                var inspector = new DialogueNodeInspectorView(nodeView.Model, _searchWindow, _phrases);
-                inspector.UpdateDropdownChoices(_persons.All());
-                return inspector;
-            }
-            else if (target is ChoicesNodeView choicesView)
-            {
-                var inspector = new ChoicesNodeInspectorView(choicesView.Model, _choices);
-                return inspector;
-            }
-            else if (target is SwitchNodeView switchNodeView)
-            {
-                var inspector = new SwitchNodeInspectorView(switchNodeView.Model);
-                return inspector;
-            }
-
-            return new VisualElement();
-            throw new Exception("Invalid visual element!");
+            var inspector = new DialogueNodeInspectorView(nodeView.Model, _searchWindow, _phrases);
+            inspector.UpdateDropdownChoices(_persons.All());
+            return inspector;
         }
     }
 }
