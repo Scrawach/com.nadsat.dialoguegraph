@@ -55,7 +55,6 @@ namespace Editor.Windows
 
             var variables = new VariablesProvider();
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
-            var variableNodeFactory = new VariableNodeFactory(DialogueGraphView, variables);
             
             var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
@@ -70,7 +69,7 @@ namespace Editor.Windows
             createWindow.Display(false);
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, createWindow);
-            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, variableNodeFactory, contextualMenu, undoHistory);
+            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, contextualMenu, undoHistory);
             variablesBlackboard.Initialize();
             languageProvider.ChangeLanguage("Russian");
 

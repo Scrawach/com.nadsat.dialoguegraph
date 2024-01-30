@@ -27,7 +27,6 @@ namespace Editor.Drawing
         private INodeViewFactory _factory;
         private RedirectNodeFactory _redirectFactory;
         private ContextualMenuBuilder _contextualMenu;
-        private VariableNodeFactory _variableFactory;
         private DialogueGraphContainer _graphContainer;
         private IUndoRegister _undoRegister;
         private NodesProvider _nodesProvider;
@@ -60,7 +59,12 @@ namespace Editor.Drawing
             var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
             IEnumerable<BlackboardField> fields = selection.OfType<BlackboardField>();
             foreach (var field in fields) 
-                _variableFactory.Create(evt.mousePosition, field.text);
+                _factory.CreateVariable(new VariableNode()
+                {
+                    Guid = Guid.NewGuid().ToString(),
+                    Name = field.text,
+                    Position = contentViewContainer.WorldToLocal(new Rect(evt.mousePosition, Vector2.zero))
+                });
         }
 
         private void OnDragUpdated(DragUpdatedEvent e)
@@ -85,12 +89,10 @@ namespace Editor.Drawing
         }
 
         public void Initialize(NodesProvider nodesProvider, UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, 
-            CopyPasteNodes copyPasteNodes, VariableNodeFactory variableFactory, ContextualMenuBuilder contextualMenuBuilder, 
-            IUndoRegister undoRegister)
+            CopyPasteNodes copyPasteNodes, ContextualMenuBuilder contextualMenuBuilder, IUndoRegister undoRegister)
         {
             _nodesProvider = nodesProvider;
             _factory = factory;
-            _variableFactory = variableFactory;
             _contextualMenu = contextualMenuBuilder;
             _undoRegister = undoRegister;
             _copyPaste = copyPasteNodes;

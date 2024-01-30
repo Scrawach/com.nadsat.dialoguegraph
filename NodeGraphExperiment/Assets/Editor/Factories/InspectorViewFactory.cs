@@ -42,6 +42,7 @@ namespace Editor.Factories
                 return inspector;
             }
 
+            return new VisualElement();
             throw new Exception("Invalid visual element!");
         }
     }
