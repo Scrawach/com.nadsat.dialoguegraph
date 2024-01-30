@@ -2,6 +2,7 @@ using System;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Nodes
 {
@@ -66,6 +67,15 @@ namespace Editor.Drawing.Nodes
         {
             var port = InstantiatePort(Orientation.Horizontal, direction, Port.Capacity.Multi, typeof(float));
             port.portName = portName;
+            return ConfiguredPortStyle(port);
+        }
+
+        private Port ConfiguredPortStyle(Port port)
+        {
+            port.style.height = new StyleLength(StyleKeyword.Auto);
+            port.style.minHeight = new StyleLength(new Length(24, LengthUnit.Pixel));
+            port.Q<Label>().style.height = new StyleLength(StyleKeyword.Auto);
+            port.Q<Label>().style.whiteSpace = new StyleEnum<WhiteSpace>(WhiteSpace.Normal);
             return port;
         }
 
