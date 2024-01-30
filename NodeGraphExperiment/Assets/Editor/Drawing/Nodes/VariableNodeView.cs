@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Editor.Windows.Variables;
 using Runtime.Nodes;
@@ -19,7 +20,7 @@ namespace Editor.Drawing.Nodes
             _numberField = this.Q<IntegerField>("number-field");
 
             _variablesDropdown.choices = variables.All().Select(v => v.Name).ToList();
-            _variablesDropdown.value = _variablesDropdown.choices.First();
+            _variablesDropdown.value = _variablesDropdown.choices.FirstOrDefault() ?? string.Empty;
             variables.Changed += () =>
             {
                 _variablesDropdown.choices = variables.All().Select(v => v.Name).ToList();

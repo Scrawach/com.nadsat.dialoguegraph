@@ -37,9 +37,7 @@ namespace Editor.Windows.Variables
 
         public void Remove(string variableName)
         {
-            
-            var result = _globalVariables.RemoveAll(v => v.Name == variableName);
-            Debug.Log($"{variableName} {result}");
+            _globalVariables.RemoveAll(v => v.Name == variableName);
             Changed?.Invoke();
         }
     }
