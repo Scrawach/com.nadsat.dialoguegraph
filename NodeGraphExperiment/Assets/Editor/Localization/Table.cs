@@ -79,7 +79,6 @@ namespace Editor.Localization
                 var key = content[0];
                 var values = content.Skip(1).ToList();
                 _content[key] = values;
-                Debug.Log($"{key} = {values}");
             }
         }
 
