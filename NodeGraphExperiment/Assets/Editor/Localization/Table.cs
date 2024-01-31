@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Runtime.Localization;
+using UnityEngine;
 
 namespace Editor.Localization
 {
@@ -78,6 +79,7 @@ namespace Editor.Localization
                 var key = content[0];
                 var values = content.Skip(1).ToList();
                 _content[key] = values;
+                Debug.Log($"{key} = {values}");
             }
         }
 

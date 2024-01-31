@@ -9,18 +9,19 @@ namespace Editor.Windows
 {
     public class DialogueGraphWindow : EditorWindow
     {
+        private DialogueGraphRoot _graphRoot;
         private DialogueGraphView _graphView;
 
         public void Populate(DialogueGraphContainer graph) =>
-            _graphView.Populate(graph);
+            _graphRoot.Populate(graph);
 
         public void CreateGUI()
         {
             var root = rootVisualElement;
-            var graph = new DialogueGraphRoot(this);
-            _graphView = graph.DialogueGraphView;
-            graph.StretchToParentSize();
-            root.Add(graph);
+            _graphRoot = new DialogueGraphRoot(this);
+            _graphView = _graphRoot.DialogueGraphView;
+            _graphRoot.StretchToParentSize();
+            root.Add(_graphRoot);
 
             _graphView.graphViewChanged += OnChange;
             _graphView.Saved += OnSaved;

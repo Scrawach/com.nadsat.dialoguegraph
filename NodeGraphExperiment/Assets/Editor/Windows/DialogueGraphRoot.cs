@@ -17,6 +17,7 @@ using Editor.Windows.CreateGraph;
 using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using Editor.Windows.Variables;
+using Runtime;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -24,6 +25,7 @@ namespace Editor.Windows
 {
     public class DialogueGraphRoot : BaseControl
     {
+        private readonly MultiTable _multiTable;
         private const string Uxml = "UXML/DialogueGraphWindow";
 
         public DialogueGraphView DialogueGraphView { get; }
@@ -37,11 +39,11 @@ namespace Editor.Windows
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             var createWindow = this.Q<CreateGraphWindow>();
 
-            var multiTable = new MultiTable();
+            _multiTable = new MultiTable();
             var languageProvider = new LanguageProvider();
-            var phraseRepository = new PhraseRepository(multiTable);
+            var phraseRepository = new PhraseRepository(_multiTable);
             var personRepository = new PersonRepository();
-            var choicesRepository = new ChoicesRepository(multiTable);
+            var choicesRepository = new ChoicesRepository(_multiTable);
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
 
@@ -85,9 +87,16 @@ namespace Editor.Windows
 
             DialogueGraphView.Saved += () =>
             {
-                var exporter = new CsvExporter(multiTable);
+                var exporter = new CsvExporter(_multiTable);
                 exporter.Export();
             };
+        }
+
+        public void Populate(DialogueGraphContainer container)
+        {
+            var csvImporter = new CsvImporter(_multiTable);
+            csvImporter.Import();
+            DialogueGraphView.Populate(container);
         }
     }
 }
