@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Editor.Drawing;
+using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Runtime;
+using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 namespace Editor.Importers
 {
@@ -26,29 +30,32 @@ namespace Editor.Importers
             
             foreach (var graphElement in _graphView.graphElements) 
                 _graphView.RemoveElement(graphElement);
-
-            if (graph.Nodes == null)
-                return;
-
-            foreach (var node in graph.Nodes)
+            
+            foreach (var node in graph.GetNodes())
             {
-                var view = _factory.CreateDialogue(node);
-                mapping.Add(node.Guid, view);
-            }
-
-            foreach (var node in graph.RedirectNodes)
-            {
-                var view = _factory.CreateRedirect(node);
+                var view = CreateFrom(node);
                 mapping.Add(node.Guid, view);
             }
 
             foreach (var edge in ConnectNodes(mapping, graph)) 
                 _graphView.AddElement(edge);
             
-            var rootNode = _nodes.GetById(graph.EntryNodeGuid);
+            var rootNode = mapping[graph.EntryNodeGuid] as DialogueNodeView;
             _nodes.RootNode = rootNode;
             rootNode.MarkAsRoot(true);
         }
+        
+        private Node CreateFrom<TModel>(TModel model) 
+            where TModel : BaseDialogueNode =>
+            model switch
+            {
+                DialogueNode dialogue => _factory.CreateDialogue(dialogue),
+                ChoicesNode dialogue => _factory.CreateChoices(dialogue),
+                SwitchNode dialogue => _factory.CreateSwitch(dialogue),
+                VariableNode dialogue => _factory.CreateVariable(dialogue),
+                RedirectNode dialogue => _factory.CreateRedirect(dialogue),
+                _ => throw new ArgumentException()
+            };
 
         private static IEnumerable<Edge> ConnectNodes(IReadOnlyDictionary<string, Node> mapping, DialogueGraph graph)
         {
@@ -56,10 +63,40 @@ namespace Editor.Importers
             {
                 var parent = mapping[link.FromGuid];
                 var child = mapping[link.ToGuid];
-                var inputPort = child.inputContainer[0] as Port;
-                var outputPort = parent.outputContainer[0] as Port;
+                Port inputPort;
+                Port outputPort;
+
+                if (child.inputContainer.childCount > 1)
+                {
+                    inputPort = FindPort(child.inputContainer, link.ToPortId);
+                }
+                else
+                {
+                    inputPort = child.inputContainer[0] as Port;
+                }
+
+                if (parent.outputContainer.childCount > 1)
+                {
+                    outputPort = FindPort(parent.outputContainer, link.FromPortId);
+                }
+                else
+                {
+                    outputPort = parent.outputContainer[0] as Port;
+                }
+                
                 yield return Connect(outputPort, inputPort);
             }
+        }
+
+        private static Port FindPort(VisualElement container, string portId)
+        {
+            foreach (var element in container.Children())
+            {
+                if (element is Port port && port.viewDataKey == portId)
+                    return port;
+            }
+
+            throw new ArgumentException($"Not find {portId}");
         }
         
         private static Edge Connect(Port output, Port input)

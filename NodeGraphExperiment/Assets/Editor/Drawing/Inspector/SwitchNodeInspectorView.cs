@@ -1,3 +1,4 @@
+using System;
 using Editor.Drawing.Controls;
 using Runtime.Nodes;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Editor.Drawing.Inspector
 
         private void OnAddClicked()
         {
-            _node.AddBranch(new Branch());
+            _node.AddBranch(new Branch { Guid = Guid.NewGuid().ToString() });
         }
 
         private CardControl CreateCardControl(Branch branch)

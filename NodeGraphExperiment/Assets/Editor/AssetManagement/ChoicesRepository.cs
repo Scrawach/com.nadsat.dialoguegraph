@@ -16,8 +16,12 @@ namespace Editor.AssetManagement
             return id;
         }
 
-        public string Get(string choiceId) =>
-            _content[choiceId];
+        public string Get(string choiceId)
+        {
+            if (_content.ContainsKey(choiceId))
+                return _content[choiceId];
+            return "none";
+        }
 
         public string Update(string choiceId, string content) =>
             _content[choiceId] = content;

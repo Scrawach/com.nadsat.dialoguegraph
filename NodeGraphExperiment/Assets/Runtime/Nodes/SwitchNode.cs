@@ -24,6 +24,7 @@ namespace Runtime.Nodes
         }
     }
 
+    [Serializable]
     public class Branch
     {
         public string Guid;

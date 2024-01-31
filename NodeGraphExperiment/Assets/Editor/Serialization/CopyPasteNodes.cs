@@ -105,7 +105,7 @@ namespace Editor.Serialization
                 PathToImage = original.PathToImage,
                 PersonId = original.PersonId,
                 PhraseId = original.PhraseId,
-                Position = new Rect(original.Position.position + new Vector2(25, 25), original.Position.size)
+                Position = new Rect(original.Position + new Vector2(25, 25), Vector2.zero)
             };
 
         private static Edge Connect(Port output, Port input)

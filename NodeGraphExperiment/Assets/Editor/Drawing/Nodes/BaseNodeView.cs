@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Nodes
 {
-    public abstract class BaseNodeView<TModel> : Node, IMovableNode, ISelectableNode 
+    public abstract class BaseNodeView<TModel> : Node, IMovableNode, ISelectableNode, IModelHandle
         where TModel : BaseDialogueNode
     {
         protected BaseNodeView(string uxml) : base(uxml) { }
@@ -14,6 +14,8 @@ namespace Editor.Drawing.Nodes
         protected BaseNodeView() { }
         
         public TModel Model { get; private set; }
+
+        BaseDialogueNode IModelHandle.Model => Model;
         
         public event Action<Node> Selected;
         public event Action<Node> UnSelected; 
@@ -56,9 +58,14 @@ namespace Editor.Drawing.Nodes
             RefreshPorts();
         }
 
-        public void AddOutput(string portName = "")
+        public void AddOutput(string portName = "") =>
+            AddOutput(portName, string.Empty);
+
+        public void AddOutput(string portName = "", string portId = "")
         {
             var output = CreatePort(portName, Direction.Output);
+            if (!string.IsNullOrWhiteSpace(portId))
+                output.viewDataKey = portId;
             outputContainer.Add(output);
             RefreshPorts();
         }

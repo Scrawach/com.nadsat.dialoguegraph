@@ -6,7 +6,7 @@ namespace Runtime.Nodes
     public class BaseDialogueNode
     {
         public string Guid;
-        public Rect Position;
+        public Vector2Data Position;
 
         public event Action Changed;
         

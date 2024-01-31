@@ -16,7 +16,7 @@ namespace Editor.Drawing.Nodes
         {
             outputContainer.Clear();
             foreach (var button in Model.Choices) 
-                AddOutput(_choices.Get(button));
+                AddOutput(_choices.Get(button), button);
         }
     }
 }

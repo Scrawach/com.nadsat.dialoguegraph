@@ -12,7 +12,7 @@ namespace Editor.Drawing.Nodes
         {
             outputContainer.Clear();
             foreach (var branch in Model.Branches) 
-                AddOutput(branch.Condition);
+                AddOutput(branch.Condition, branch.Guid);
         }
     }
 }

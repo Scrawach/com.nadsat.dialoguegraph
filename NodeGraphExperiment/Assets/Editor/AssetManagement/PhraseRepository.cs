@@ -19,8 +19,12 @@ namespace Editor.AssetManagement
             return id;
         }
 
-        public string Get(string phraseId) =>
-            _content[phraseId];
+        public string Get(string phraseId)
+        {
+            if (_content.ContainsKey(phraseId))
+                return _content[phraseId];
+            return "none";
+        }
 
         private string GenerateUniquePhraseId(string personId) =>
             $"LVL.{personId}.{_lastIndex:D3}";
