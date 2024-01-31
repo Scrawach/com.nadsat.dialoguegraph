@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Editor.AssetManagement
 {
@@ -22,6 +23,14 @@ namespace Editor.AssetManagement
                 return _content[choiceId];
             return "none";
         }
+        
+        public CsvTableInfo ExportToCsv() =>
+            new CsvTableInfo()
+            {
+                Name = "Choices",
+                Headers = "Keys,Russian",
+                Lines = _content.Select(keyValuePair => $"\"{keyValuePair.Key}\",\"{keyValuePair.Value}\"").ToArray()
+            };
 
         public string Update(string choiceId, string content) =>
             _content[choiceId] = content;

@@ -7,30 +7,39 @@ namespace Editor.AssetManagement
 {
     public class PhraseRepository
     {
-        private readonly Dictionary<string, string> _content = new();
+        private readonly Dictionary<string, TableRepository> _content = new();
 
         private int _lastIndex;
         
         public string Create(string personId)
         {
-            var id = GenerateUniquePhraseId(personId);
-            _content[id] = "none";
-            _lastIndex++;
-            return id;
+            if (!_content.ContainsKey(personId))
+                _content[personId] = new TableRepository(personId);
+            var repository = _content[personId];
+            return repository.Create();
         }
+
+        public CsvTableInfo[] ExportToCsv() =>
+            _content.Values
+                .Select(table => table.ExportToCsv())
+                .ToArray();
 
         public string Get(string phraseId)
         {
-            if (_content.ContainsKey(phraseId))
-                return _content[phraseId];
+            foreach (var table in Tables(phraseId))
+                return table.Get(phraseId);
+
             return "none";
         }
 
-        private string GenerateUniquePhraseId(string personId) =>
-            $"LVL.{personId}.{_lastIndex:D3}";
+        public void Update(string phraseId, string content)
+        {
+            foreach (var table in Tables(phraseId)) 
+                table.Update(phraseId, content);
+        }
 
-        public void Update(string phraseId, string content) =>
-            _content[phraseId] = content;
+        private IEnumerable<TableRepository> Tables(string phraseId) =>
+            _content.Values.Where(table => table.ContainsKey(phraseId));
     }
     
     public class PhraseRepositoryOld

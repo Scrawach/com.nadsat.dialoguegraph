@@ -79,6 +79,12 @@ namespace Editor.Windows
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
             languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
+
+            DialogueGraphView.Saved += () =>
+            {
+                var exporter = new TableExporter(phraseRepository, choicesRepository);
+                exporter.Export();
+            };
         }
     }
 }
