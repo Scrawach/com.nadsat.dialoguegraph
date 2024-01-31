@@ -14,11 +14,10 @@ namespace Editor.AssetManagement
     public class TableRepository
     {
         private readonly Dictionary<string, string> _content = new();
-        private readonly string _name;
+        private string _name;
 
         public TableRepository(string name) =>
             _name = name;
-
 
         public string Create(string value = "")
         {
@@ -41,6 +40,12 @@ namespace Editor.AssetManagement
                 Headers = "Keys,Russian",
                 Lines = _content.Select(keyValuePair => $"\"{keyValuePair.Key}\",\"{keyValuePair.Value}\"").ToArray()
             };
+
+        public void Import(CsvTableInfo info)
+        {
+            _name = info.Name;
+            
+        }
 
         public void Remove(string phraseId) =>
             _content.Remove(phraseId);

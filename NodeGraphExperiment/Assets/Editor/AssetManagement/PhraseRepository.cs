@@ -1,45 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Editor.Importers;
+using Editor.Localization;
 using Runtime.Localization;
 
 namespace Editor.AssetManagement
 {
     public class PhraseRepository
     {
-        private readonly Dictionary<string, TableRepository> _content = new();
+        private readonly MultiTable _table;
 
-        private int _lastIndex;
+        public PhraseRepository(MultiTable table) =>
+            _table = table;
         
-        public string Create(string personId)
-        {
-            if (!_content.ContainsKey(personId))
-                _content[personId] = new TableRepository(personId);
-            var repository = _content[personId];
-            return repository.Create();
-        }
+        public string Create(string personId) =>
+            _table.Create(personId);
+        
+        public string Get(string phraseId) =>
+            _table.Get(phraseId);
 
-        public CsvTableInfo[] ExportToCsv() =>
-            _content.Values
-                .Select(table => table.ExportToCsv())
-                .ToArray();
-
-        public string Get(string phraseId)
-        {
-            foreach (var table in Tables(phraseId))
-                return table.Get(phraseId);
-
-            return "none";
-        }
-
-        public void Update(string phraseId, string content)
-        {
-            foreach (var table in Tables(phraseId)) 
-                table.Update(phraseId, content);
-        }
-
-        private IEnumerable<TableRepository> Tables(string phraseId) =>
-            _content.Values.Where(table => table.ContainsKey(phraseId));
+        public void Update(string phraseId, string value) =>
+            _table.Update(phraseId, value);
     }
     
     public class PhraseRepositoryOld

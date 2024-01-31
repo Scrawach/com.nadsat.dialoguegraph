@@ -7,6 +7,8 @@ using Editor.Exporters;
 using Editor.Extensions;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
+using Editor.Importers;
+using Editor.Localization;
 using Editor.Serialization;
 using Editor.Shortcuts;
 using Editor.Shortcuts.Concrete;
@@ -35,10 +37,11 @@ namespace Editor.Windows
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             var createWindow = this.Q<CreateGraphWindow>();
 
+            var multiTable = new MultiTable();
             var languageProvider = new LanguageProvider();
-            var phraseRepository = new PhraseRepository();
+            var phraseRepository = new PhraseRepository(multiTable);
             var personRepository = new PersonRepository();
-            var choicesRepository = new ChoicesRepository();
+            var choicesRepository = new ChoicesRepository(multiTable);
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
 
@@ -82,7 +85,7 @@ namespace Editor.Windows
 
             DialogueGraphView.Saved += () =>
             {
-                var exporter = new TableExporter(phraseRepository, choicesRepository);
+                var exporter = new CsvExporter(multiTable);
                 exporter.Export();
             };
         }

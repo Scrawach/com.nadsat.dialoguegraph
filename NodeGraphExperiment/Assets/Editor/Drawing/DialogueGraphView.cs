@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Editor.AssetManagement;
 using Editor.ContextualMenu;
 using Editor.Drawing.Nodes;
 using Editor.Exporters;
@@ -155,6 +156,9 @@ namespace Editor.Drawing
             _graphContainer = graph;
             var importer = new DialogueGraphImporter(this, _factory, _nodesProvider);
             importer.Import(graph.Graph);
+
+            var csvImporter = new CsvImporter(null, null);
+            csvImporter.Import();
         }
 
         public void Save()

@@ -1,41 +1,23 @@
-using System.Collections.Generic;
-using System.Linq;
+using Editor.Importers;
+using Editor.Localization;
 
 namespace Editor.AssetManagement
 {
     public class ChoicesRepository
     {
-        private readonly Dictionary<string, string> _content = new();
+        private readonly MultiTable _table;
+
+        public ChoicesRepository(MultiTable table) =>
+            _table = table;
         
-        private int _lastId;
+        public string Create() =>
+            _table.Create("BUTTON");
 
-        public string Create()
-        {
-            var id = GenerateUniqueChoiceId();
-            _content[id] = "none";
-            _lastId++;
-            return id;
-        }
+        public string Get(string choiceId) =>
+            _table.Get(choiceId);
 
-        public string Get(string choiceId)
-        {
-            if (_content.ContainsKey(choiceId))
-                return _content[choiceId];
-            return "none";
-        }
-        
-        public CsvTableInfo ExportToCsv() =>
-            new CsvTableInfo()
-            {
-                Name = "Choices",
-                Headers = "Keys,Russian",
-                Lines = _content.Select(keyValuePair => $"\"{keyValuePair.Key}\",\"{keyValuePair.Value}\"").ToArray()
-            };
 
-        public string Update(string choiceId, string content) =>
-            _content[choiceId] = content;
-
-        private string GenerateUniqueChoiceId() =>
-            $"LVL.BTN.{_lastId:D3}";
+        public void Update(string choiceId, string content) =>
+            _table.Update(choiceId, content);
     }
 }
