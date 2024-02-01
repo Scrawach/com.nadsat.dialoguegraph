@@ -9,6 +9,7 @@ using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Editor.Importers;
 using Editor.Localization;
+using Editor.Manipulators;
 using Editor.Serialization;
 using Editor.Shortcuts;
 using Editor.Shortcuts.Concrete;
@@ -64,7 +65,6 @@ namespace Editor.Windows
             var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var elementFactory = new ElementsFactory(DialogueGraphView);
-            var personTemplateFactory = new PersonTemplateFactory(undoNodeFactory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, personRepository);
             var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, elementFactory, nodesCreationMenuBuilder);
@@ -79,7 +79,8 @@ namespace Editor.Windows
             languageProvider.ChangeLanguage("Russian");
 
             DialogueGraphView.focusable = true;
-            DialogueGraphView.RegisterCallback<KeyDownEvent>(shortcuts.Handle);
+            DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
+            DialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();

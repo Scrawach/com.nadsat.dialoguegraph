@@ -12,7 +12,6 @@ using Editor.Serialization;
 using Editor.Undo;
 using Editor.Undo.Commands;
 using Runtime;
-using Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -44,8 +43,6 @@ namespace Editor.Drawing
             
             var stylesheet = Resources.Load<StyleSheet>("Styles/DialogueGraph");
             styleSheets.Add(stylesheet);
-            RegisterCallback<DragUpdatedEvent>(OnDragUpdated);
-            RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
             RegisterCallback<MouseDownEvent>(OnMouseDown, TrickleDown.TrickleDown);
 
             graphViewChanged = OnGraphViewChanged;
@@ -54,25 +51,6 @@ namespace Editor.Drawing
         }
 
         public event Action Saved;
-
-        private void OnDragPerformEvent(DragPerformEvent evt)
-        {
-            var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
-            IEnumerable<BlackboardField> fields = selection.OfType<BlackboardField>();
-            foreach (var field in fields) 
-                _factory.CreateVariable(new VariableNode()
-                {
-                    Guid = Guid.NewGuid().ToString(),
-                    Name = field.text,
-                    Position = contentViewContainer.WorldToLocal(new Rect(evt.mousePosition, Vector2.zero))
-                });
-        }
-
-        private void OnDragUpdated(DragUpdatedEvent e)
-        {
-            if (DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection && (selection.OfType<BlackboardField>().Count() >= 0))
-                DragAndDrop.visualMode = e.actionKey ? DragAndDropVisualMode.Copy : DragAndDropVisualMode.Move;
-        }
 
         private string OnCutCopyOperation(IEnumerable<GraphElement> elements)
         {
