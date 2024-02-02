@@ -7,7 +7,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Editor.Drawing.Nodes
 {
-    public class SwitchNodeView : BaseNodeView<SwitchNode>
+    public class SwitchNodeView : BaseNodeView<SwitchNode>, IRemovablePorts
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/SwitchNodeView.uxml";
 

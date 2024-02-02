@@ -7,7 +7,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Editor.Drawing.Nodes
 {
-    public class ChoicesNodeView : BaseNodeView<ChoicesNode>
+    public class ChoicesNodeView : BaseNodeView<ChoicesNode>, IRemovablePorts
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/ChoicesNodeView.uxml";
         

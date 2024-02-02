@@ -1,4 +1,6 @@
 using Editor.Shortcuts;
+using Editor.Undo;
+using Editor.Undo.Commands;
 using UnityEngine.UIElements;
 
 namespace Editor.Manipulators

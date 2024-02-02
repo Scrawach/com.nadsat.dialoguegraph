@@ -4,6 +4,7 @@ using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
+using Editor.Manipulators;
 using Editor.Windows.Variables;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
@@ -49,7 +50,7 @@ namespace Editor.Factories
         public ChoicesNodeView CreateChoices(ChoicesNode choices)
         {
             var view = new ChoicesNodeView(_choices);
-            view.PortRemoved += OnPortRemoved();
+            view.AddManipulator(new RemovePortsListener(_canvas));
             return BindAndPlace(view, choices);
         }
 
@@ -62,26 +63,10 @@ namespace Editor.Factories
         public SwitchNodeView CreateSwitch(SwitchNode node)
         {
             var view = new SwitchNodeView();
-            view.PortRemoved += OnPortRemoved();
+            view.AddManipulator(new RemovePortsListener(_canvas));
             return BindAndPlace(view, node);
         }
-
-        private Action<IEnumerable<Port>> OnPortRemoved() =>
-            (elements) =>
-            {
-                foreach (var element in elements)
-                {
-                    _canvas.RemoveElement(element);
-
-                    foreach (var connection in element.connections.ToArray())
-                    {
-                        connection.input.Disconnect(connection);
-                        connection.output.Disconnect(connection);
-                        _canvas.RemoveElement(connection);
-                    }
-                }
-            };
-
+        
         private TNodeView BindAndPlace<TNodeView, TModel>(TNodeView view, TModel model)
             where TNodeView : BaseNodeView<TModel>
             where TModel : BaseDialogueNode
