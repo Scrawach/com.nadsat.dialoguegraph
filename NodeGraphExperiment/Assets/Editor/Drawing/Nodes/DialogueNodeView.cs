@@ -10,8 +10,6 @@ namespace Editor.Drawing.Nodes
     public class DialogueNodeView : BaseNodeView<DialogueNode>
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/DialogueNodeView.uxml";
-        private const string UssEntryNode = "entry-node";
-        
         private readonly PhraseRepository _phrases;
         private readonly DialogueDatabase _database;
         private readonly EditorAssets _assets;
@@ -27,7 +25,6 @@ namespace Editor.Drawing.Nodes
         private readonly VisualElement _imageContainer;
         
         private readonly VisualElement _iconContainer;
-        private readonly VisualElement _nodeBorder;
 
         public DialogueNodeView(PhraseRepository phrases, DialogueDatabase database) 
             : base(UxmlPath)
@@ -43,15 +40,6 @@ namespace Editor.Drawing.Nodes
             _image = this.Q<VisualElement>("image");
             _imageContainer = this.Q<VisualElement>("image-container");
             _iconContainer = this.Q<VisualElement>("icons-container");
-            _nodeBorder = this.Q<VisualElement>("node-border");
-        }
-
-        public void MarkAsRoot(bool isRoot)
-        {
-            if (isRoot)
-                _nodeBorder.AddToClassList(UssEntryNode);
-            else
-                _nodeBorder.RemoveFromClassList(UssEntryNode);
         }
 
         protected override void OnModelChanged() =>

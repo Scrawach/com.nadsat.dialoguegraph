@@ -26,7 +26,7 @@ namespace Editor.ContextualMenu
         {
             if (evt.target is not GraphView)
             {
-                if (evt.target is DialogueNodeView nodeView)
+                if (evt.target is IModelHandle nodeView)
                 {
                     evt.menu.InsertAction(0, "Set as Root", _ =>
                     {

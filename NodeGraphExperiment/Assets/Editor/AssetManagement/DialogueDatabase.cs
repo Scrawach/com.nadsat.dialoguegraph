@@ -26,7 +26,6 @@ namespace Editor.AssetManagement
 
         private DialogueGraphDatabase GetOrCreateDatabase(string path)
         {
-            Debug.Log($"{path}");
             var database = AssetDatabase.LoadAssetAtPath<DialogueGraphDatabase>(path);
 
             if (database == null)

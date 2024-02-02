@@ -36,7 +36,7 @@ namespace Editor.Exporters
             if (_nodes.RootNode == null)
                 _nodes.RootNode = _nodes.Nodes.First();
             
-            _graph.Graph.EntryNodeGuid = _nodes.RootNode.Model.Guid;
+            _graph.Graph.EntryNodeGuid = _nodes.RootNode?.Model.Guid;
 
             var jsonExporter = new JsonExporter();
             jsonExporter.Export("Tutor", _graphView);

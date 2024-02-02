@@ -11,12 +11,15 @@ namespace Editor.Factories.NodeListeners
         private readonly List<DialogueNodeView> _nodes = new();
         public IReadOnlyList<DialogueNodeView> Nodes => _nodes;
 
-        public DialogueNodeView RootNode;
+        public IModelHandle RootNode;
 
         public void Register(Node node)
         {
             node.RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             node.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
+
+            if (RootNode == null && node is IModelHandle modelHandle)
+                MarkAsRootNode(modelHandle);
         }
 
         public void Unregister(Node node)
@@ -25,7 +28,7 @@ namespace Editor.Factories.NodeListeners
             node.UnregisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
         }
 
-        public void MarkAsRootNode(DialogueNodeView view)
+        public void MarkAsRootNode(IModelHandle view)
         {
             RootNode?.MarkAsRoot(false);
             RootNode = view;

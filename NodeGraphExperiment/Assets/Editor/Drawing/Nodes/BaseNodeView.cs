@@ -6,10 +6,15 @@ using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Nodes
 {
-    public abstract class BaseNodeView<TModel> : Node, IMovableNode, ISelectableNode, IModelHandle
+    public abstract class BaseNodeView<TModel> : Node, IMovableNode, ISelectableNode, IModelHandle, IRootable
         where TModel : BaseDialogueNode
     {
-        protected BaseNodeView(string uxml) : base(uxml) { }
+        private const string UssEntryNode = "entry-node";
+
+        private readonly VisualElement _nodeBorder;
+        
+        protected BaseNodeView(string uxml) : base(uxml) =>
+            _nodeBorder = this.Q<VisualElement>("node-border");
 
         protected BaseNodeView() { }
         
@@ -43,6 +48,14 @@ namespace Editor.Drawing.Nodes
         {
             Model.Changed -= OnModelChanged;
             Model = null;
+        }
+        
+        public void MarkAsRoot(bool isRoot)
+        {
+            if (isRoot)
+                _nodeBorder.AddToClassList(UssEntryNode);
+            else
+                _nodeBorder.RemoveFromClassList(UssEntryNode);
         }
 
         public void AddInputAndOutputPorts(string inputPortName = "", string outputPortName = "")
