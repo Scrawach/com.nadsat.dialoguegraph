@@ -1,5 +1,9 @@
-﻿using Editor.AssetManagement;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Editor.AssetManagement;
 using Runtime.Nodes;
+using UnityEditor.Experimental.GraphView;
 
 namespace Editor.Drawing.Nodes
 {
@@ -12,11 +16,27 @@ namespace Editor.Drawing.Nodes
         public ChoicesNodeView(ChoicesRepository choices) : base(UxmlPath) =>
             _choices = choices;
 
+        public event Action<IEnumerable<Port>> PortRemoved;
+        
         protected override void OnModelChanged()
         {
-            outputContainer.Clear();
-            foreach (var button in Model.Choices) 
-                AddOutput(_choices.Get(button), button);
+            var ports = outputContainer.Children().Cast<Port>().ToArray();
+            PortRemoved?.Invoke(GetUnusedPorts(Model, ports));
+            CreateMissingOutputPorts(Model, ports);
+        }
+
+        private static IEnumerable<Port> GetUnusedPorts(ChoicesNode model, IEnumerable<Port> ports) =>
+            ports.Where(port => !model.Choices.Contains(port.viewDataKey));
+
+        private void CreateMissingOutputPorts(ChoicesNode model, Port[] ports)
+        {
+            foreach (var choice in model.Choices)
+            {
+                if (ports.FirstOrDefault(port => port.viewDataKey == choice) != null)
+                    continue;
+                
+                AddOutput(_choices.Get(choice), choice);
+            }
         }
     }
 }

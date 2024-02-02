@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.AssetManagement;
-using Editor.ContextualMenu;
 using Editor.Drawing.Nodes;
 using Editor.Exporters;
 using Editor.Factories;
@@ -96,7 +94,7 @@ namespace Editor.Drawing
             {
                 _undoRegister.Register(new RemoveElements(this, graphViewChange.elementsToRemove));
             }
-            
+
             return graphViewChange;
         }
 
