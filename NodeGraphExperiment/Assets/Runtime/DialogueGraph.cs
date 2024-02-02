@@ -9,12 +9,12 @@ namespace Runtime
     {
         public string Name;
         public string EntryNodeGuid;
-        public List<DialogueNode> Nodes;
-        public List<ChoicesNode> ChoiceNodes;
-        public List<SwitchNode> SwitchNodes;
-        public List<VariableNode> VariableNodes;
-        public List<RedirectNode> RedirectNodes;
-        public List<NodeLinks> Links;
+        public List<DialogueNode> Nodes = new();
+        public List<ChoicesNode> ChoiceNodes = new();
+        public List<SwitchNode> SwitchNodes = new();
+        public List<VariableNode> VariableNodes = new();
+        public List<RedirectNode> RedirectNodes = new();
+        public List<NodeLinks> Links = new();
 
         public List<BaseDialogueNode> GetNodes()
         {

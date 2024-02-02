@@ -39,10 +39,13 @@ namespace Editor.Importers
 
             foreach (var edge in ConnectNodes(mapping, graph)) 
                 _graphView.AddElement(edge);
-            
-            var rootNode = mapping[graph.EntryNodeGuid] as DialogueNodeView;
-            _nodes.RootNode = rootNode;
-            rootNode.MarkAsRoot(true);
+
+            if (!string.IsNullOrWhiteSpace(graph.EntryNodeGuid))
+            {
+                var rootNode = mapping[graph.EntryNodeGuid] as IModelHandle;
+                _nodes.RootNode = rootNode;
+                rootNode.MarkAsRoot(true);
+            }
         }
         
         private Node CreateFrom<TModel>(TModel model) 
