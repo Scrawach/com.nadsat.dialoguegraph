@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Editor.AssetManagement;
 using Editor.Factories;
 using Runtime.Nodes;
@@ -38,14 +39,14 @@ namespace Editor.ContextualMenu
 
         private void BuildCreationMenu(ContextualMenuPopulateEvent evt)
         {
-            foreach (var builder in _builders.Keys)
-                evt.menu.AppendAction($"Create Node/{builder}", action => _builders[builder].Invoke(action.eventInfo.mousePosition));
+            foreach (var builder in _builders.Keys.Reverse())
+                evt.menu.InsertAction(0, $"Create Node/{builder}", action => _builders[builder].Invoke(action.eventInfo.mousePosition));
         }
 
         private void BuildTemplateNodes(ContextualMenuPopulateEvent evt)
         {
             foreach (var personId in _persons.All())
-                evt.menu.AppendAction($"Templates/{personId}", (action) =>
+                evt.menu.InsertAction(1, $"Templates/{personId}", (action) =>
                 {
                     _nodeViewFactory.CreateDialogue(DialogueForPerson(personId, action.eventInfo.mousePosition));
                 });

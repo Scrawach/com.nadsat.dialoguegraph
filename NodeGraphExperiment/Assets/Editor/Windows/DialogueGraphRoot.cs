@@ -64,23 +64,22 @@ namespace Editor.Windows
             
             var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
-            var elementFactory = new ElementsFactory(DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, personRepository);
-            var contextualMenu = new ContextualMenuBuilder(personRepository, nodesProvider, elementFactory, nodesCreationMenuBuilder);
             
             var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
 
             createWindow.Display(false);
             personRepository.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, createWindow);
-            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, contextualMenu, undoHistory);
+            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory);
             variablesBlackboard.Initialize();
             languageProvider.ChangeLanguage("Russian");
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
             DialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
+            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder));
             
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();

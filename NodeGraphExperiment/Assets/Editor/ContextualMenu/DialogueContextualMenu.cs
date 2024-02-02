@@ -1,50 +1,47 @@
-using System;
-using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
-using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace Editor.ContextualMenu
 {
-    public class ContextualMenuBuilder
+    public class DialogueContextualMenu : Manipulator
     {
-        private readonly PersonRepository _persons;
         private readonly NodesProvider _provider;
-        private readonly ElementsFactory _factory;
-        private readonly NodesCreationMenuBuilder _nodesCreationMenuBuilder;
+        private readonly NodesCreationMenuBuilder _nodesCreationMenu;
 
-        public ContextualMenuBuilder(PersonRepository persons, NodesProvider provider, ElementsFactory factory, NodesCreationMenuBuilder nodesCreationMenuBuilder)
+        public DialogueContextualMenu(NodesProvider provider, NodesCreationMenuBuilder nodesCreationMenu)
         {
-            _persons = persons;
             _provider = provider;
-            _factory = factory;
-            _nodesCreationMenuBuilder = nodesCreationMenuBuilder;
+            _nodesCreationMenu = nodesCreationMenu;
         }
         
-        public void BuildContextualMenu(ContextualMenuPopulateEvent evt, Action<ContextualMenuPopulateEvent> onBaseContextualMenu = null)
+        protected override void RegisterCallbacksOnTarget() =>
+            target.RegisterCallback<ContextualMenuPopulateEvent>(OnContextualMenuBuild);
+
+        protected override void UnregisterCallbacksFromTarget() =>
+            target.UnregisterCallback<ContextualMenuPopulateEvent>(OnContextualMenuBuild);
+
+        private void OnContextualMenuBuild(ContextualMenuPopulateEvent evt)
         {
             if (evt.target is not GraphView)
             {
                 if (evt.target is DialogueNodeView nodeView)
                 {
-                    evt.menu.AppendAction("Set as Root", _ =>
+                    evt.menu.InsertAction(0, "Set as Root", _ =>
                     {
                         _provider.MarkAsRootNode(nodeView);
                     });
                     
                     evt.menu.AppendSeparator();
                 }
-                onBaseContextualMenu?.Invoke(evt);
                 return;
             }
             
-            _nodesCreationMenuBuilder.Build(evt);
+            _nodesCreationMenu.Build(evt);
             
             //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
-            onBaseContextualMenu?.Invoke(evt);
         }
     }
 }

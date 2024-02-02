@@ -26,7 +26,6 @@ namespace Editor.Drawing
         private CopyPasteNodes _copyPaste;
         private INodeViewFactory _factory;
         private RedirectNodeFactory _redirectFactory;
-        private ContextualMenuBuilder _contextualMenu;
         private DialogueGraphContainer _graphContainer;
         private IUndoRegister _undoRegister;
         private NodesProvider _nodesProvider;
@@ -68,11 +67,10 @@ namespace Editor.Drawing
         }
 
         public void Initialize(NodesProvider nodesProvider, UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, 
-            CopyPasteNodes copyPasteNodes, ContextualMenuBuilder contextualMenuBuilder, IUndoRegister undoRegister)
+            CopyPasteNodes copyPasteNodes, IUndoRegister undoRegister)
         {
             _nodesProvider = nodesProvider;
             _factory = factory;
-            _contextualMenu = contextualMenuBuilder;
             _undoRegister = undoRegister;
             _copyPaste = copyPasteNodes;
             _redirectFactory = redirectNodeFactory;
@@ -110,9 +108,6 @@ namespace Editor.Drawing
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
             ports.ToList();
-
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) =>
-            _contextualMenu.BuildContextualMenu(evt, base.BuildContextualMenu);
 
         public void Find(DialogueNodeView view)
         {
