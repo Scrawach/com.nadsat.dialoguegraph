@@ -8,14 +8,14 @@ namespace Editor.Factories
 {
     public class InspectorViewFactory
     {
-        private readonly PersonRepository _persons;
+        private readonly DialogueDatabase _database;
         private readonly SearchWindowProvider _searchWindow;
         private readonly PhraseRepository _phrases;
         private readonly ChoicesRepository _choices;
 
-        public InspectorViewFactory(PersonRepository persons, SearchWindowProvider searchWindow, PhraseRepository phrases, ChoicesRepository choices)
+        public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, ChoicesRepository choices)
         {
-            _persons = persons;
+            _database = database;
             _searchWindow = searchWindow;
             _phrases = phrases;
             _choices = choices;
@@ -33,7 +33,7 @@ namespace Editor.Factories
         private VisualElement CreateDialogueNodeInspector(DialogueNodeView nodeView)
         {
             var inspector = new DialogueNodeInspectorView(nodeView.Model, _searchWindow, _phrases);
-            inspector.UpdateDropdownChoices(_persons.All());
+            inspector.UpdateDropdownChoices(_database.All());
             return inspector;
         }
     }

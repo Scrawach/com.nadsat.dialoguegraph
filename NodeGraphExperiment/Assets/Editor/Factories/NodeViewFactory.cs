@@ -15,14 +15,14 @@ namespace Editor.Factories
 {
     public class NodeViewFactory : INodeViewFactory
     {
-        private readonly PersonRepository _persons;
+        private readonly DialogueDatabase _persons;
         private readonly PhraseRepository _phrases;
         private readonly IDialogueNodeListener _listener;
         private readonly ChoicesRepository _choices;
         private readonly VariablesProvider _variables;
         private readonly GraphView _canvas;
 
-        public NodeViewFactory(PersonRepository persons, PhraseRepository phrases, GraphView canvas, IDialogueNodeListener listener,
+        public NodeViewFactory(DialogueDatabase persons, PhraseRepository phrases, GraphView canvas, IDialogueNodeListener listener,
             ChoicesRepository choices, VariablesProvider variables)
         {
             _persons = persons;

@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Data
+namespace Runtime
 {
     [Serializable]
     public class PersonData

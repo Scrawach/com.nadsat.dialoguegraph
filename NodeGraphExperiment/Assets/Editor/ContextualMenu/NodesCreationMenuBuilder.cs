@@ -15,13 +15,13 @@ namespace Editor.ContextualMenu
         private readonly GraphView _graphView;
         private readonly INodeViewFactory _nodeViewFactory;
         private readonly Dictionary<string, Action<Vector2>> _builders;
-        private readonly PersonRepository _persons;
+        private readonly DialogueDatabase _database;
 
-        public NodesCreationMenuBuilder(GraphView graphView, INodeViewFactory nodeViewFactory, PersonRepository persons)
+        public NodesCreationMenuBuilder(GraphView graphView, INodeViewFactory nodeViewFactory, DialogueDatabase database)
         {
             _graphView = graphView;
             _nodeViewFactory = nodeViewFactory;
-            _persons = persons;
+            _database = database;
             _builders = new Dictionary<string, Action<Vector2>>()
             {
                 ["Dialogue Node"] = (position) => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
@@ -45,7 +45,7 @@ namespace Editor.ContextualMenu
 
         private void BuildTemplateNodes(ContextualMenuPopulateEvent evt)
         {
-            foreach (var personId in _persons.All())
+            foreach (var personId in _database.All())
                 evt.menu.InsertAction(1, $"Templates/{personId}", (action) =>
                 {
                     _nodeViewFactory.CreateDialogue(DialogueForPerson(personId, action.eventInfo.mousePosition));

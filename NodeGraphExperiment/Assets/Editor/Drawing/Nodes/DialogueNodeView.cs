@@ -1,9 +1,7 @@
-using System;
 using Editor.AssetManagement;
 using Editor.Extensions;
 using Runtime.Nodes;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +13,7 @@ namespace Editor.Drawing.Nodes
         private const string UssEntryNode = "entry-node";
         
         private readonly PhraseRepository _phrases;
-        private readonly PersonRepository _persons;
+        private readonly DialogueDatabase _database;
         private readonly EditorAssets _assets;
         
         private readonly Label _personNameLabel;
@@ -31,11 +29,11 @@ namespace Editor.Drawing.Nodes
         private readonly VisualElement _iconContainer;
         private readonly VisualElement _nodeBorder;
 
-        public DialogueNodeView(PhraseRepository phrases, PersonRepository persons) 
+        public DialogueNodeView(PhraseRepository phrases, DialogueDatabase database) 
             : base(UxmlPath)
         {
             _phrases = phrases;
-            _persons = persons;
+            _database = database;
 
             _personNameLabel = this.Q<Label>("person-name-label");
             _phraseTitleLabel = this.Q<Label>("title-label");
@@ -84,7 +82,7 @@ namespace Editor.Drawing.Nodes
 
         private void SetPerson(string personId)
         {
-            var person = _persons.Get(personId);
+            var person = _database.Get(personId);
             var avatar = AssetDatabase.LoadAssetAtPath<Sprite>(person.PathToIcon);
             _personNameLabel.text = person.Name;
             _header.style.backgroundColor = person.Color;

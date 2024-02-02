@@ -43,7 +43,7 @@ namespace Editor.Windows
             _multiTable = new MultiTable();
             var languageProvider = new LanguageProvider();
             var phraseRepository = new PhraseRepository(_multiTable);
-            var personRepository = new PersonRepository();
+            var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(_multiTable);
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
@@ -54,7 +54,7 @@ namespace Editor.Windows
             var redoShortcut = new RedoShortcut(undoHistory);
             var shortcuts = new ShortcutsProfile(saveShortcut, findShortcut, undoShortcut, redoShortcut);
 
-            var inspectorFactory = new InspectorViewFactory(personRepository, searchWindow, phraseRepository, choicesRepository);
+            var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository);
             var nodeViewListener = new NodeViewListener();
             var nodesProvider = new NodesProvider();
             var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
@@ -62,15 +62,15 @@ namespace Editor.Windows
             var variables = new VariablesProvider();
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
             
-            var nodeFactory = new NodeViewFactory(personRepository, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
+            var nodeFactory = new NodeViewFactory(dialogueDatabase, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
-            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, personRepository);
+            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, dialogueDatabase);
             
             var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
 
             createWindow.Display(false);
-            personRepository.Initialize();
+            dialogueDatabase.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, createWindow);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory);
             variablesBlackboard.Initialize();
