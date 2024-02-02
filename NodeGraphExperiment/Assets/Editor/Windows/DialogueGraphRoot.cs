@@ -31,6 +31,7 @@ namespace Editor.Windows
 
         public DialogueGraphView DialogueGraphView { get; }
         public EditorWindow Root { get; }
+        public CreateGraphWindow CreateWindow { get; }
 
         public DialogueGraphRoot(EditorWindow root) : base(Uxml)
         {
@@ -38,7 +39,7 @@ namespace Editor.Windows
             DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
-            var createWindow = this.Q<CreateGraphWindow>();
+            CreateWindow = this.Q<CreateGraphWindow>();
 
             _multiTable = new MultiTable();
             var languageProvider = new LanguageProvider();
@@ -68,19 +69,21 @@ namespace Editor.Windows
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, dialogueDatabase);
             
             var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
-
-            createWindow.Display(false);
+            
             dialogueDatabase.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, createWindow);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, CreateWindow, this);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory);
             variablesBlackboard.Initialize();
             languageProvider.ChangeLanguage("Russian");
+            
+            CreateWindow.Display(false);
 
             DialogueGraphView.focusable = true;
             DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
             DialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
             DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder));
-            
+            DialogueGraphView.Display(false);
+
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
             languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
@@ -97,6 +100,7 @@ namespace Editor.Windows
             var csvImporter = new CsvImporter(_multiTable);
             csvImporter.Import();
             DialogueGraphView.Populate(container);
+            DialogueGraphView.Display(true);
         }
     }
 }

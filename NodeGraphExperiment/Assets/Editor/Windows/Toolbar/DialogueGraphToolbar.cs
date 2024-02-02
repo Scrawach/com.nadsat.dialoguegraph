@@ -28,6 +28,7 @@ namespace Editor.Windows.Toolbar
         private EditorWindow _root;
         private DialogueGraphView _graphView;
         private CreateGraphWindow _createWindow;
+        private DialogueGraphRoot _graphRoot;
 
         public DialogueGraphToolbar() : base(Uxml)
         {
@@ -47,11 +48,13 @@ namespace Editor.Windows.Toolbar
             AppendMenuOptions(_toolbarMenu);
         }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider, EditorWindow root, DialogueGraphView graphView, CreateGraphWindow createWindow)
+        public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider, EditorWindow root, 
+            DialogueGraphView graphView, CreateGraphWindow createWindow, DialogueGraphRoot graphRoot)
         {
             _languageProvider = languageProvider;
             _variablesBlackboard = variablesBlackboard;
             _root = root;
+            _graphRoot = graphRoot;
             _graphView = graphView;
             _createWindow = createWindow;
             _languageDropdown.value = _languageProvider.CurrentLanguage;
@@ -60,7 +63,7 @@ namespace Editor.Windows.Toolbar
 
         private void AppendMenuOptions(IToolbarMenuElement toolbar)
         {
-            toolbar.menu.AppendAction("Create New...", (a) => { _createWindow.Open((graph) => _graphView.Populate(graph)); });
+            toolbar.menu.AppendAction("Create New...", (a) => { _createWindow.Open((graph) => _graphRoot.Populate(graph)); });
             toolbar.menu.AppendAction("Open/Open...", (a) => OpenAsset());
             AppendExistingDialogueGraphs(toolbar);
 
@@ -77,7 +80,7 @@ namespace Editor.Windows.Toolbar
             var dialogueGraphAssets = new DialogueGraphAssets();
             toolbar.menu.AppendSeparator("Open/");
             foreach (var graph in dialogueGraphAssets.LoadAll())
-                toolbar.menu.AppendAction($"Open/{graph.Graph.Name}", (a) => { _graphView.Populate(graph); });
+                toolbar.menu.AppendAction($"Open/{graph.Graph.Name}", (a) => { _graphRoot.Populate(graph); });
         }
 
         private void OpenAsset()
