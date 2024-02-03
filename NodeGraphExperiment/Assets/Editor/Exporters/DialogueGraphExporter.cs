@@ -38,8 +38,8 @@ namespace Editor.Exporters
             
             _graph.Graph.EntryNodeGuid = _nodes.RootNode?.Model.Guid;
 
-            var jsonExporter = new JsonExporter();
-            jsonExporter.Export("Tutor", _graphView);
+            //var jsonExporter = new JsonExporter();
+            //jsonExporter.Export("Tutor", _graphView);
             
             AssetDatabase.SaveAssetIfDirty(_graph);
             EditorGUIUtility.PingObject(_graph);

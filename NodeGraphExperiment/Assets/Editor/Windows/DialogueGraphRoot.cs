@@ -34,6 +34,7 @@ namespace Editor.Windows
         public DialogueGraphView DialogueGraphView { get; }
         public EditorWindow Root { get; }
         public CreateGraphWindow CreateWindow { get; }
+        private DialogueGraphContainer _container;
 
         public DialogueGraphRoot(EditorWindow root) : base(Uxml)
         {
@@ -92,13 +93,16 @@ namespace Editor.Windows
             DialogueGraphView.Saved += () =>
             {
                 var exporter = new CsvExporter(_multiTable);
+                exporter.Initialize(_container.Graph.Name);
                 exporter.Export();
             };
         }
 
         public void Populate(DialogueGraphContainer container)
         {
+            _container = container;
             var csvImporter = new CsvImporter(_languageProvider, _multiTable);
+            csvImporter.Initialize(container.Graph.Name);
             csvImporter.Import();
             _multiTable.Initialize(container.Graph.Name);
             DialogueGraphView.Populate(container);

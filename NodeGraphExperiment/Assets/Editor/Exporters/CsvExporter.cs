@@ -9,14 +9,18 @@ namespace Editor.Exporters
     public class CsvExporter
     {
         private readonly MultiTable _table;
-
+        private string _levelPath;
+        
         public CsvExporter(MultiTable table) =>
             _table = table;
+
+        public void Initialize(string levelPath) =>
+            _levelPath = levelPath;
 
         public void Export()
         {
             var csvInfos = _table.ExportToCsv();
-            var path = Path.Combine(Application.dataPath, "Resources/Dialogues/Tutor");
+            var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{_levelPath}");
             
             foreach (var csvInfo in csvInfos)
             {

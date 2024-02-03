@@ -12,16 +12,22 @@ namespace Editor.Importers
     {
         private readonly LanguageProvider _language;
         private readonly MultiTable _table;
-
+        private string _levelPath;
+        
         public CsvImporter(LanguageProvider language, MultiTable table)
         {
             _language = language;
             _table = table;
         }
 
+        public void Initialize(string levelPath)
+        {
+            _levelPath = levelPath;
+        }
+
         public void Import()
         {
-            var path = Path.Combine(Application.dataPath, "Resources/Dialogues/Tutor");
+            var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{_levelPath}");
             var csvFiles = GetCsvFilesFromDirectory(path).ToArray();
             var csvNames = csvFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
             var csvTexts = csvFiles.Select(s => new CsvText(File.ReadAllText(s))).ToArray();
