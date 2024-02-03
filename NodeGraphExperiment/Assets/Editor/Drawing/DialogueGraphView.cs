@@ -22,7 +22,6 @@ namespace Editor.Drawing
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
-        private CopyPasteNodes _copyPaste;
         private INodeViewFactory _factory;
         private RedirectNodeFactory _redirectFactory;
         private DialogueGraphContainer _graphContainer;
@@ -53,26 +52,27 @@ namespace Editor.Drawing
 
         private string OnCutCopyOperation(IEnumerable<GraphElement> elements)
         {
-            _copyPaste.Clear();
-            foreach (var element in elements) 
-                _copyPaste.Add(element);
-            
-            return "not empty string";
+            var copyPaste = new CopyPaste();
+            var json = copyPaste.ToJson(elements);
+            return json;
         }
 
         private void OnPasteOperation(string operationName, string data)
         {
             ClearSelection();
-            _copyPaste.Paste(this);
+            var copyPaste = new CopyPaste();
+            var copiedData = copyPaste.FromJson(data);
+            var copyPasteFactory = new CopyPasteFactory(this, _factory);
+            foreach (var graphElement in copyPasteFactory.Create(copiedData)) 
+                AddToSelection(graphElement);
         }
 
         public void Initialize(NodesProvider nodesProvider, UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, 
-            CopyPasteNodes copyPasteNodes, IUndoRegister undoRegister, VariablesProvider variablesProvider)
+            IUndoRegister undoRegister, VariablesProvider variablesProvider)
         {
             _nodesProvider = nodesProvider;
             _factory = factory;
             _undoRegister = undoRegister;
-            _copyPaste = copyPasteNodes;
             _redirectFactory = redirectNodeFactory;
             _variablesProvider = variablesProvider;
         }

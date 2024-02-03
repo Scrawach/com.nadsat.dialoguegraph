@@ -71,12 +71,10 @@ namespace Editor.Windows
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, dialogueDatabase);
             
-            var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
-            
             _languageProvider.AddLanguage("Russian");
             dialogueDatabase.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, Root, DialogueGraphView, CreateWindow, this);
-            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory, variables);
+            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, undoHistory, variables);
             variablesBlackboard.Initialize();
             
             CreateWindow.Display(false);
