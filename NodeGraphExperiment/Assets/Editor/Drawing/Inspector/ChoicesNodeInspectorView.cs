@@ -1,6 +1,7 @@
 using Editor.AssetManagement;
 using Editor.Drawing.Controls;
 using Runtime.Nodes;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Inspector
@@ -44,7 +45,15 @@ namespace Editor.Drawing.Inspector
         private CardControl CreateCardControl(string id, string description)
         {
             var card = new CardControl(id, description);
-            card.Closed += () => _node.RemoveChoice(id);
+            card.Closed += () =>
+            {
+                var isOk = EditorUtility.DisplayDialog("Warning", "This action delete phrase from table", "Ok", "Cancel");
+                
+                if (!isOk)
+                    return;
+                
+                _node.RemoveChoice(id);
+            };
             card.TextEdited += (value) =>
             {
                 _choices.Update(id, value);
