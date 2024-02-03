@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Editor.Drawing;
+using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Runtime;
 using Runtime.Nodes;
@@ -44,13 +45,19 @@ namespace Editor.Serialization
             where TModel : BaseDialogueNode =>
             model switch
             {
-                DialogueNode dialogue => _factory.CreateDialogue(dialogue),
+                DialogueNode dialogue => CreateDialogue(dialogue),
                 ChoicesNode dialogue => _factory.CreateChoices(dialogue),
                 SwitchNode dialogue => _factory.CreateSwitch(dialogue),
                 VariableNode dialogue => _factory.CreateVariable(dialogue),
                 RedirectNode dialogue => _factory.CreateRedirect(dialogue),
                 _ => throw new ArgumentException()
             };
+
+        private DialogueNodeView CreateDialogue(DialogueNode node)
+        {
+            node.PhraseId = string.Empty;
+            return _factory.CreateDialogue(node);
+        }
 
         private static IEnumerable<Edge> ConnectNodes(IReadOnlyDictionary<string, Node> mapping, NodeLinks[] links)
         {
