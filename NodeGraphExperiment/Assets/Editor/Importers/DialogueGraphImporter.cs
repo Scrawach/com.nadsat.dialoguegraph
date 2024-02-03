@@ -41,6 +41,17 @@ namespace Editor.Importers
                 mapping.Add(node.Guid, view);
             }
 
+            foreach (var note in graph.Notes)
+            {
+                var noteView = new StickyNote(note.Position)
+                {
+                    title = note.Title,
+                    contents = note.Description
+                };
+                noteView.FitText(true);
+                _graphView.AddElement(noteView);
+            }
+
             foreach (var edge in ConnectNodes(mapping, graph)) 
                 _graphView.AddElement(edge);
 

@@ -1,4 +1,5 @@
 using Editor.Drawing.Nodes;
+using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -9,11 +10,13 @@ namespace Editor.ContextualMenu
     {
         private readonly NodesProvider _provider;
         private readonly NodesCreationMenuBuilder _nodesCreationMenu;
+        private readonly ElementsFactory _elementsFactory;
 
-        public DialogueContextualMenu(NodesProvider provider, NodesCreationMenuBuilder nodesCreationMenu)
+        public DialogueContextualMenu(NodesProvider provider, NodesCreationMenuBuilder nodesCreationMenu, ElementsFactory elementsFactory)
         {
             _provider = provider;
             _nodesCreationMenu = nodesCreationMenu;
+            _elementsFactory = elementsFactory;
         }
         
         protected override void RegisterCallbacksOnTarget() =>
@@ -39,7 +42,7 @@ namespace Editor.ContextualMenu
             }
             
             _nodesCreationMenu.Build(evt);
-            
+            evt.menu.InsertAction(2, "Create Note", (action) => _elementsFactory.CreateStickyNote(at: action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
         }

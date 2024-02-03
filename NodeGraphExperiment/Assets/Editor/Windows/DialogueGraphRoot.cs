@@ -82,7 +82,7 @@ namespace Editor.Windows
             DialogueGraphView.focusable = true;
             DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
             DialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
-            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder));
+            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder, new ElementsFactory(DialogueGraphView)));
             DialogueGraphView.Display(false);
 
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));

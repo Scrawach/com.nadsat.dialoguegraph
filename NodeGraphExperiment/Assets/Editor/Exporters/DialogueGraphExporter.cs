@@ -34,7 +34,7 @@ namespace Editor.Exporters
             //_graph.Graph.RedirectNodes = GetRedirectNodesFrom(_graphView.nodes).ToList();
 
             if (_nodes.RootNode == null)
-                _nodes.RootNode = _nodes.Nodes.First();
+                _nodes.RootNode = _nodes.Nodes.FirstOrDefault();
             
             _graph.Graph.EntryNodeGuid = _nodes.RootNode?.Model.Guid;
 
@@ -52,8 +52,9 @@ namespace Editor.Exporters
             var switches = new List<SwitchNode>();
             var redirects = new List<RedirectNode>();
             var variables = new List<VariableNode>();
+            var stickyNotes = new List<NoteNode>();
             
-            foreach (var viewNode in view.nodes)
+            foreach (var viewNode in view.graphElements)
             {
                 if (viewNode is DialogueNodeView dialogue)
                     dialogues.Add(dialogue.Model);
@@ -65,6 +66,8 @@ namespace Editor.Exporters
                     redirects.Add(redirectNode.Model);
                 else if (viewNode is VariableNodeView variableView)
                     variables.Add(variableView.Model);
+                else if (viewNode is StickyNote stickyNote)
+                    stickyNotes.Add(new NoteNode() { Title = stickyNote.title, Description = stickyNote.contents, Position = stickyNote.GetPosition()});
             }
 
             graph.Nodes = dialogues;
@@ -72,6 +75,7 @@ namespace Editor.Exporters
             graph.SwitchNodes = switches;
             graph.RedirectNodes = redirects;
             graph.VariableNodes = variables;
+            graph.Notes = stickyNotes;
         }
 
         private static IEnumerable<RedirectNode> GetRedirectNodesFrom(UQueryState<Node> nodes) =>

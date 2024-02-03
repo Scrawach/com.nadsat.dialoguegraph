@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
 using Editor.Windows.Variables;
 using Runtime.Nodes;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Nodes

@@ -16,6 +16,8 @@ namespace Runtime
         public List<RedirectNode> RedirectNodes = new();
         public List<NodeLinks> Links = new();
 
+        public List<NoteNode> Notes = new();
+
         public List<BaseDialogueNode> GetNodes()
         {
             var nodes = new List<BaseDialogueNode>();
