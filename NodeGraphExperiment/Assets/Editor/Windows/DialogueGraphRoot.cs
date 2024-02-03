@@ -99,6 +99,7 @@ namespace Editor.Windows
         {
             var csvImporter = new CsvImporter(_multiTable);
             csvImporter.Import();
+            _multiTable.Initialize(container.Graph.Name);
             DialogueGraphView.Populate(container);
             DialogueGraphView.Display(true);
         }

@@ -86,6 +86,7 @@ namespace Editor.Drawing.Inspector
                 _activePhrase = null;
                 _node.SetPhraseId(string.Empty);
                 _phrasesContainer.Remove(control);
+                _phrases.Remove(phraseId);
                 _addPhraseButton.style.display = DisplayStyle.Flex;
             };
 

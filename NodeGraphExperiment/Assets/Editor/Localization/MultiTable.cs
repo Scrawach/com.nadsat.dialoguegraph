@@ -7,6 +7,10 @@ namespace Editor.Localization
     public class MultiTable
     {
         private readonly Dictionary<string, Table> _tables = new();
+        private string _key;
+
+        public void Initialize(string key) =>
+            _key = key;
 
         public string Create(string key)
         {
@@ -17,7 +21,7 @@ namespace Editor.Localization
             }
 
             var table = _tables[key];
-            var uniqueId = GenerateUniqueId(key, table);
+            var uniqueId = GenerateUniqueId(_key, key, table);
             table.AddRow(uniqueId);
             return uniqueId;
         }
@@ -34,6 +38,13 @@ namespace Editor.Localization
             var key = GetKeyFromUniqueId(uniqueId);
             var table = _tables[key];
             return table.Get("Russian", uniqueId);
+        }
+
+        public bool Remove(string uniqueId)
+        {
+            var key = GetKeyFromUniqueId(uniqueId);
+            var table = _tables[key];
+            return table.Remove(key);
         }
 
         public IEnumerable<CsvInfo> ExportToCsv() =>
@@ -57,15 +68,15 @@ namespace Editor.Localization
             return key;
         }
 
-        private static string GenerateUniqueId(string key, Table table)
+        private static string GenerateUniqueId(string firstKey, string secondKey, Table table)
         {
             var index = 0;
-            var value = $"LVL.{key}.{index:D3}";
+            var value = $"{firstKey}.{secondKey}.{index:D3}";
             
             while (table.ContainsKey(value))
             {
                 index++;
-                value = $"LVL.{key}.{index:D3}";
+                value = $"{firstKey}.{secondKey}.{index:D3}";
             }
             
             return value;

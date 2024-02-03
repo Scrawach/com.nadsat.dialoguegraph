@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95144255850d4ca4be926fe8ed2883bb, type: 3}
+  m_Name: Dialogue Database
+  m_EditorClassIdentifier: 
+  Persons:
+  - Name: Elena
+    Icon: {fileID: -3274922311421450567, guid: 72d096aa1d5c6644b94b713774b88002, type: 3}
+    Color: {r: 0.25490198, g: 0.6156863, b: 0.47058824, a: 1}
+  - Name: Mark
+    Icon: {fileID: 3457301754445402764, guid: fcd52cddb18060840bd10f95c8b5d709, type: 3}
+    Color: {r: 0.38039216, g: 0.627451, b: 0.6862745, a: 1}
+  GlobalVariableNames: []

@@ -22,6 +22,9 @@ namespace Editor.AssetManagement
 
         public void Update(string phraseId, string value) =>
             _table.Update(phraseId, value);
+
+        public bool Remove(string phraseId) =>
+            _table.Remove(phraseId);
     }
     
     public class PhraseRepositoryOld
