@@ -32,8 +32,13 @@ namespace Editor.Drawing.Nodes
         {
             foreach (var choice in model.Choices)
             {
-                if (ports.FirstOrDefault(port => port.viewDataKey == choice) != null)
+                var port = ports.FirstOrDefault(p => p.viewDataKey == choice);
+
+                if (port != null)
+                {
+                    port.portName = _choices.Get(choice);
                     continue;
+                }
                 
                 AddOutput(_choices.Get(choice), choice);
             }

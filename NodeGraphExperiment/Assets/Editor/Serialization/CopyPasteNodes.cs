@@ -90,8 +90,8 @@ namespace Editor.Serialization
                     var parentGuid = mapping[parentNode.Model.Guid];
                     var childGuid = mapping[childNode.Model.Guid];
 
-                    var parent = _provider.GetById(parentGuid);
-                    var child = _provider.GetById(childGuid);
+                    var parent = _provider.GetById(parentGuid) as DialogueNodeView;
+                    var child = _provider.GetById(childGuid) as DialogueNodeView;
                     var newEdge = Connect(parent.outputContainer[0] as Port, child.inputContainer[0] as Port);
                     yield return newEdge;
                 }

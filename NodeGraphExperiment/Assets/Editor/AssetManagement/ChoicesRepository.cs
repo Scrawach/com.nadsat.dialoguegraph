@@ -11,7 +11,7 @@ namespace Editor.AssetManagement
             _table = table;
         
         public string Create() =>
-            _table.Create("BUTTON");
+            _table.Create("Button");
 
         public string Get(string choiceId) =>
             _table.Get(choiceId);

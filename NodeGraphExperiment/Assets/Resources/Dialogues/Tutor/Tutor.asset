@@ -14,10 +14,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Graph:
     Name: Tutor
-    EntryNodeGuid: 
-    Nodes: []
-    ChoiceNodes: []
+    EntryNodeGuid: 373a9ce4-51cb-4329-b93f-def9f9eb29e3
+    Nodes:
+    - Guid: bac6c77f-2dbe-41b5-b039-679b9ceb8643
+      Position:
+        X: 713
+        Y: 222
+      PersonId: Mark
+      PhraseId: Tutor.Mark.000
+      PathToImage: 
+    - Guid: 373a9ce4-51cb-4329-b93f-def9f9eb29e3
+      Position:
+        X: 417
+        Y: 247
+      PersonId: Elena
+      PhraseId: 
+      PathToImage: 
+    - Guid: a7b5eb37-0752-4476-acee-055b325e2520
+      Position:
+        X: 224
+        Y: 197
+      PersonId: Elena
+      PhraseId: Tutor.Elena.000
+      PathToImage: 
+    ChoiceNodes:
+    - Guid: 3ed5a550-c9da-4424-b667-2c9d96c28266
+      Position:
+        X: 944
+        Y: 283
+      Choices:
+      - Tutor.Button.000
+      - Tutor.Button.001
     SwitchNodes: []
-    VariableNodes: []
+    VariableNodes:
+    - Guid: 3c73fd3d-80e8-47f5-beb2-5191cad9e737
+      Position:
+        X: 190
+        Y: 396
+      Name: Tutor.Angry
+    - Guid: 86908530-5f51-4f2f-b905-734ffa3bed39
+      Position:
+        X: 586
+        Y: 458
+      Name: Tutor.Counter
     RedirectNodes: []
-    Links: []
+    Links:
+    - FromGuid: 373a9ce4-51cb-4329-b93f-def9f9eb29e3
+      FromPortId: 16d675ba-5be2-40b2-b186-ad0ecb76954c
+      ToGuid: bac6c77f-2dbe-41b5-b039-679b9ceb8643
+      ToPortId: 09916d24-3ed1-4586-9eb9-5dea7c188fde
+    - FromGuid: bac6c77f-2dbe-41b5-b039-679b9ceb8643
+      FromPortId: 0547bbb5-7b8d-4809-9039-db68ed7c2fee
+      ToGuid: 3ed5a550-c9da-4424-b667-2c9d96c28266
+      ToPortId: f2cca18b-4c89-44de-9365-ed73d4611c8b

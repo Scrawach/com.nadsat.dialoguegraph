@@ -42,6 +42,10 @@ namespace Editor.Localization
         {
             var key = GetKeyFromUniqueId(uniqueId);
             var table = _tables[key];
+            
+            if (!table.HasHeader(_language.CurrentLanguage))
+                table.AddHeader(_language.CurrentLanguage);
+            
             return table.Get(_language.CurrentLanguage, uniqueId);
         }
 

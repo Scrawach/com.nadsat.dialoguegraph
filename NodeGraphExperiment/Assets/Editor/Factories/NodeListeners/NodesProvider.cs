@@ -8,8 +8,8 @@ namespace Editor.Factories.NodeListeners
 {
     public class NodesProvider : IDialogueNodeListener
     {
-        private readonly List<DialogueNodeView> _nodes = new();
-        public IReadOnlyList<DialogueNodeView> Nodes => _nodes;
+        private readonly List<IModelHandle> _nodes = new();
+        public IReadOnlyList<IModelHandle> Nodes => _nodes;
 
         public IModelHandle RootNode;
 
@@ -17,9 +17,6 @@ namespace Editor.Factories.NodeListeners
         {
             node.RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             node.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
-
-            if (RootNode == null && node is IModelHandle modelHandle)
-                MarkAsRootNode(modelHandle);
         }
 
         public void Unregister(Node node)
@@ -37,13 +34,13 @@ namespace Editor.Factories.NodeListeners
         
         private void OnAttachToPanel(AttachToPanelEvent evt)
         {
-            var view = evt.target as DialogueNodeView;
+            var view = evt.target as IModelHandle;
             _nodes.Add(view);
         }
 
         private void OnDetachFromPanel(DetachFromPanelEvent evt)
         {
-            var view = evt.target as DialogueNodeView;
+            var view = evt.target as IModelHandle;
             _nodes.Remove(view);
         }
 
@@ -53,7 +50,7 @@ namespace Editor.Factories.NodeListeners
                 node.Model.NotifyChanged();
         }
 
-        public DialogueNodeView GetById(string guid) =>
+        public IModelHandle GetById(string guid) =>
             Nodes.First(node => node.Model.Guid == guid);
     }
 }

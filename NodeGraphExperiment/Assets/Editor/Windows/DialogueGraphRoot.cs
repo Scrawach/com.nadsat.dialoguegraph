@@ -76,7 +76,7 @@ namespace Editor.Windows
             _languageProvider.AddLanguage("Russian");
             dialogueDatabase.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, Root, DialogueGraphView, CreateWindow, this);
-            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory);
+            DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory, variables);
             variablesBlackboard.Initialize();
             
             CreateWindow.Display(false);

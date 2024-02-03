@@ -9,6 +9,7 @@ using Editor.Importers;
 using Editor.Serialization;
 using Editor.Undo;
 using Editor.Undo.Commands;
+using Editor.Windows.Variables;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -27,6 +28,7 @@ namespace Editor.Drawing
         private DialogueGraphContainer _graphContainer;
         private IUndoRegister _undoRegister;
         private NodesProvider _nodesProvider;
+        private VariablesProvider _variablesProvider;
 
         public DialogueGraphView()
         {
@@ -65,13 +67,14 @@ namespace Editor.Drawing
         }
 
         public void Initialize(NodesProvider nodesProvider, UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, 
-            CopyPasteNodes copyPasteNodes, IUndoRegister undoRegister)
+            CopyPasteNodes copyPasteNodes, IUndoRegister undoRegister, VariablesProvider variablesProvider)
         {
             _nodesProvider = nodesProvider;
             _factory = factory;
             _undoRegister = undoRegister;
             _copyPaste = copyPasteNodes;
             _redirectFactory = redirectNodeFactory;
+            _variablesProvider = variablesProvider;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -125,7 +128,7 @@ namespace Editor.Drawing
         public void Populate(DialogueGraphContainer graph)
         {
             _graphContainer = graph;
-            var importer = new DialogueGraphImporter(this, _factory, _nodesProvider);
+            var importer = new DialogueGraphImporter(this, _factory, _nodesProvider, _variablesProvider);
             importer.Import(graph.Graph);
         }
 

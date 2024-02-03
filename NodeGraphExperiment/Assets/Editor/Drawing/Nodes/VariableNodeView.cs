@@ -14,21 +14,14 @@ namespace Editor.Drawing.Nodes
         private readonly DropdownField _variablesDropdown;
         private readonly IntegerField _numberField;
 
+        private readonly VariablesProvider _variables;
+
         public VariableNodeView(VariablesProvider variables) : base(UxmlPath)
         {
+            _variables = variables;
+            
             _variablesDropdown = this.Q<DropdownField>("variables-dropdown");
             _numberField = this.Q<IntegerField>("number-field");
-
-            _variablesDropdown.choices = variables.All().Select(v => v.Name).ToList();
-            _variablesDropdown.value = _variablesDropdown.choices.FirstOrDefault() ?? string.Empty;
-            variables.Changed += () =>
-            {
-                _variablesDropdown.choices = variables.All().Select(v => v.Name).ToList();
-                if (!variables.Contains(_variablesDropdown.value))
-                {
-                    _variablesDropdown.value = _variablesDropdown.choices.First();
-                }
-            };
         }
 
         public void SetVariable(string variableName) =>
@@ -36,7 +29,16 @@ namespace Editor.Drawing.Nodes
 
         protected override void OnModelChanged()
         {
-            
+            _variablesDropdown.choices = _variables.All().Select(v => v.Name).ToList();
+            _variablesDropdown.value = Model.Name;
+            _variables.Changed += () =>
+            {
+                _variablesDropdown.choices = _variables.All().Select(v => v.Name).ToList();
+                if (!_variables.Contains(_variablesDropdown.value))
+                {
+                    _variablesDropdown.value = string.Empty;
+                }
+            };
         }
     }
 }

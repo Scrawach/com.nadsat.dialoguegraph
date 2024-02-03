@@ -4,9 +4,11 @@ using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
+using Editor.Windows.Variables;
 using Runtime;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Importers
@@ -16,12 +18,14 @@ namespace Editor.Importers
         private readonly DialogueGraphView _graphView;
         private readonly INodeViewFactory _factory;
         private readonly NodesProvider _nodes;
+        private readonly VariablesProvider _variables;
 
-        public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes)
+        public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes, VariablesProvider variables)
         {
             _graphView = graphView;
             _factory = factory;
             _nodes = nodes;
+            _variables = variables;
         }
         
         public void Import(DialogueGraph graph)
@@ -55,10 +59,16 @@ namespace Editor.Importers
                 DialogueNode dialogue => _factory.CreateDialogue(dialogue),
                 ChoicesNode dialogue => _factory.CreateChoices(dialogue),
                 SwitchNode dialogue => _factory.CreateSwitch(dialogue),
-                VariableNode dialogue => _factory.CreateVariable(dialogue),
+                VariableNode variableNode => CreateVariable(variableNode),
                 RedirectNode dialogue => _factory.CreateRedirect(dialogue),
                 _ => throw new ArgumentException()
             };
+
+        private VariableNodeView CreateVariable(VariableNode node)
+        {
+            _variables.Add(node.Name);
+            return _factory.CreateVariable(node);
+        }
 
         private static IEnumerable<Edge> ConnectNodes(IReadOnlyDictionary<string, Node> mapping, DialogueGraph graph)
         {

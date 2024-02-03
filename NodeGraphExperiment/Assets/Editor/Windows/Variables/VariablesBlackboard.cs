@@ -18,6 +18,7 @@ namespace Editor.Windows.Variables
             _root = root;
             root.Add(this);
             root.deleteSelection += OnDeleteSelection;
+            variables.Changed += OnVariablesChanged;
         }
 
         private void OnDeleteSelection(string operationName, GraphView.AskUser askuser)
@@ -58,6 +59,18 @@ namespace Editor.Windows.Variables
             field.text = value;
         }
 
+        private void OnVariablesChanged()
+        {
+            _globalVariables.Clear();
+            
+            foreach (var variable in _variables.All())
+            {
+                var variableField = new BlackboardField() {text = variable.Name, typeText = "global"};
+                variableField.RegisterCallback<ContextualMenuPopulateEvent>(OnBuildMenu);
+                _globalVariables.Add(variableField);
+            }
+        }
+
         public void AddVariable(string variableName)
         {
             var variable = new BlackboardField() {text = variableName, typeText = "global"};
@@ -80,7 +93,6 @@ namespace Editor.Windows.Variables
         private void RemoveField(BlackboardField field)
         {
             _variables.Remove(field.text);
-            _globalVariables.Remove(field);
         }
 
         private void OnAddItemRequested(Blackboard obj) =>
