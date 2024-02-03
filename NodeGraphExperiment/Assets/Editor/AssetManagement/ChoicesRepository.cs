@@ -1,5 +1,6 @@
 using Editor.Importers;
 using Editor.Localization;
+using UnityEngine;
 
 namespace Editor.AssetManagement
 {
@@ -15,9 +16,11 @@ namespace Editor.AssetManagement
 
         public string Get(string choiceId) =>
             _table.Get(choiceId);
-
-
+        
         public void Update(string choiceId, string content) =>
             _table.Update(choiceId, content);
+
+        public void Remove(string id) =>
+            _table.Remove(id);
     }
 }

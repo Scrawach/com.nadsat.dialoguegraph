@@ -51,7 +51,8 @@ namespace Editor.Drawing.Inspector
                 
                 if (!isOk)
                     return;
-                
+
+                _choices.Remove(id);
                 _node.RemoveChoice(id);
             };
             card.TextEdited += (value) =>
