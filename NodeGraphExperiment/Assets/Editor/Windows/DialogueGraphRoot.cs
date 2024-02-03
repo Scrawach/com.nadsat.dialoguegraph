@@ -20,6 +20,7 @@ using Editor.Windows.Toolbar;
 using Editor.Windows.Variables;
 using Runtime;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows
@@ -100,6 +101,7 @@ namespace Editor.Windows
 
         public void Populate(DialogueGraphContainer container)
         {
+            container = Object.Instantiate(container);
             _container = container;
             var csvImporter = new CsvImporter(_languageProvider, _multiTable);
             csvImporter.Initialize(container.Graph.Name);

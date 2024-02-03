@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Editor.Drawing;
 using Editor.Drawing.Nodes;
@@ -40,9 +41,11 @@ namespace Editor.Exporters
 
             //var jsonExporter = new JsonExporter();
             //jsonExporter.Export("Tutor", _graphView);
-            
-            AssetDatabase.SaveAssetIfDirty(_graph);
-            EditorGUIUtility.PingObject(_graph);
+
+            var clone = Object.Instantiate(_graph);
+            AssetDatabase.CreateAsset(clone, $"Assets/Resources/Dialogues/{_graph.Graph.Name}/{_graph.Graph.Name}.asset");
+            AssetDatabase.SaveAssetIfDirty(clone);
+            EditorGUIUtility.PingObject(clone);
         }
 
         private static void FillGraph(DialogueGraph graph, GraphView view)
