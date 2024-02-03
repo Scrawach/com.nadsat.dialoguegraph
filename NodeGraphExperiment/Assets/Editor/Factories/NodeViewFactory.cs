@@ -74,8 +74,8 @@ namespace Editor.Factories
             view.AddInputAndOutputPorts();
             view.Bind(model);
             view.SetPosition(model.Position);
-            _canvas.AddElement(view);
             _listener.Register(view);
+            _canvas.AddElement(view);
             return view;
         }
     }

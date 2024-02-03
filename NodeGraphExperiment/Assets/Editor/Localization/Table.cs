@@ -44,6 +44,9 @@ namespace Editor.Localization
                 contentValue.Add(string.Empty);
         }
 
+        public bool HasHeader(string header) =>
+            _headers.Contains(header);
+
         public bool ContainsKey(string row) =>
             _content.ContainsKey(row);
 
@@ -58,13 +61,12 @@ namespace Editor.Localization
         {
             var builder = new StringBuilder();
             builder.Append(CreateCsvLine(_headers));
-            builder.Append(Environment.NewLine);
 
             foreach (var (key, items) in _content)
             {
+                builder.Append(Environment.NewLine);
                 builder.Append($"\"{key}\",");
                 builder.Append(CreateCsvLine(items));
-                builder.Append(Environment.NewLine);
             }
 
             return new CsvInfo(Name, builder.ToString());

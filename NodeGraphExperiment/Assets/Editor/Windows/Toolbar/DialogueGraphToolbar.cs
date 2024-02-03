@@ -57,8 +57,11 @@ namespace Editor.Windows.Toolbar
             _graphRoot = graphRoot;
             _graphView = graphView;
             _createWindow = createWindow;
-            _languageDropdown.value = _languageProvider.CurrentLanguage;
-            _languageDropdown.choices = _languageProvider.AllLanguages().ToList();
+            _languageProvider.Changed += () =>
+            {
+                _languageDropdown.value = _languageProvider.CurrentLanguage;
+                _languageDropdown.choices = _languageProvider.AllLanguages().ToList();
+            };
         }
 
         private void AppendMenuOptions(IToolbarMenuElement toolbar)

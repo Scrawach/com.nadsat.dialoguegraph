@@ -26,8 +26,10 @@ namespace Editor.Windows
 {
     public class DialogueGraphRoot : BaseControl
     {
-        private readonly MultiTable _multiTable;
         private const string Uxml = "UXML/DialogueGraphWindow";
+        
+        private readonly MultiTable _multiTable;
+        private readonly LanguageProvider _languageProvider;
 
         public DialogueGraphView DialogueGraphView { get; }
         public EditorWindow Root { get; }
@@ -41,8 +43,9 @@ namespace Editor.Windows
             var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             CreateWindow = this.Q<CreateGraphWindow>();
 
-            _multiTable = new MultiTable();
-            var languageProvider = new LanguageProvider();
+            _languageProvider = new LanguageProvider();
+            _multiTable = new MultiTable(_languageProvider);
+
             var phraseRepository = new PhraseRepository(_multiTable);
             var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(_multiTable);
@@ -70,11 +73,11 @@ namespace Editor.Windows
             
             var copyPasteNodes = new CopyPasteNodes(nodeFactory, nodesProvider, undoHistory);
             
+            _languageProvider.AddLanguage("Russian");
             dialogueDatabase.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, Root, DialogueGraphView, CreateWindow, this);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, Root, DialogueGraphView, CreateWindow, this);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, copyPasteNodes, undoHistory);
             variablesBlackboard.Initialize();
-            languageProvider.ChangeLanguage("Russian");
             
             CreateWindow.Display(false);
 
@@ -86,7 +89,7 @@ namespace Editor.Windows
 
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
-            languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
+            _languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
 
             DialogueGraphView.Saved += () =>
             {
@@ -97,7 +100,7 @@ namespace Editor.Windows
 
         public void Populate(DialogueGraphContainer container)
         {
-            var csvImporter = new CsvImporter(_multiTable);
+            var csvImporter = new CsvImporter(_languageProvider, _multiTable);
             csvImporter.Import();
             _multiTable.Initialize(container.Graph.Name);
             DialogueGraphView.Populate(container);

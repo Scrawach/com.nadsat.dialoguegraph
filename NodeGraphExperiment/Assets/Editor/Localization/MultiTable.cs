@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Editor.AssetManagement;
 using Runtime.Localization;
 
 namespace Editor.Localization
@@ -7,7 +8,11 @@ namespace Editor.Localization
     public class MultiTable
     {
         private readonly Dictionary<string, Table> _tables = new();
+        private readonly LanguageProvider _language;
         private string _key;
+
+        public MultiTable(LanguageProvider language) =>
+            _language = language;
 
         public void Initialize(string key) =>
             _key = key;
@@ -17,7 +22,7 @@ namespace Editor.Localization
             if (!_tables.ContainsKey(key))
             {
                 _tables[key] = new Table(key);
-                _tables[key].AddHeader("Russian");
+                _tables[key].AddHeader(_language.CurrentLanguage);
             }
 
             var table = _tables[key];
@@ -30,23 +35,35 @@ namespace Editor.Localization
         {
             var key = GetKeyFromUniqueId(uniqueId);
             var table = _tables[key];
-            table.Set("Russian", uniqueId, value);
+            table.Set(_language.CurrentLanguage, uniqueId, value);
         }
 
         public string Get(string uniqueId)
         {
             var key = GetKeyFromUniqueId(uniqueId);
             var table = _tables[key];
-            return table.Get("Russian", uniqueId);
+            return table.Get(_language.CurrentLanguage, uniqueId);
         }
 
         public bool Remove(string uniqueId)
         {
             var key = GetKeyFromUniqueId(uniqueId);
             var table = _tables[key];
-            return table.Remove(key);
+            return table.Remove(uniqueId);
         }
 
+        public void AddHeaders(string[] headers)
+        {
+            foreach (var table in _tables.Values)
+            foreach (var header in headers)
+            {
+                if (table.HasHeader(header))
+                    continue;
+
+                table.AddHeader(header);
+            }
+        }
+        
         public IEnumerable<CsvInfo> ExportToCsv() =>
             _tables.Values
                 .Select(table => table.ExportToCsv())
