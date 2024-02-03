@@ -9,11 +9,11 @@ namespace Editor.Windows.Search
     public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     {
         private string _title;
-        private DialogueNodeView[] _nodeViews;
+        private Node[] _nodeViews;
         private string[] _tooltips;
-        private Action<DialogueNodeView> _onSelected;
+        private Action<Node> _onSelected;
 
-        public void Configure(string title, DialogueNodeView[] nodes, string[] tooltips, Action<DialogueNodeView> onSelected = null)
+        public void Configure(string title, Node[] nodes, string[] tooltips, Action<Node> onSelected = null)
         {
             _title = title;
             _nodeViews = nodes;
@@ -39,7 +39,7 @@ namespace Editor.Windows.Search
 
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
-            if (entry.userData is not DialogueNodeView node) 
+            if (entry.userData is not Node node) 
                 return false;
             
             _onSelected?.Invoke(node);

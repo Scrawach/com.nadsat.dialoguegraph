@@ -14,18 +14,20 @@ namespace Editor.Windows.Search
         private readonly UnityEditor.EditorWindow _owner;
         private readonly DialogueGraphView _view;
         private readonly PhraseRepository _phraseRepository;
+        private readonly ChoicesRepository _choices;
 
         private StringSearchWindow _searchWindow;
         private NodeSearchWindow _nodeSearchWindow;
 
-        public SearchWindowProvider(UnityEditor.EditorWindow owner, DialogueGraphView view, PhraseRepository phraseRepository)
+        public SearchWindowProvider(UnityEditor.EditorWindow owner, DialogueGraphView view, PhraseRepository phraseRepository, ChoicesRepository choices)
         {
             _owner = owner;
             _view = view;
             _phraseRepository = phraseRepository;
+            _choices = choices;
         }
 
-        public void FindNodes(Vector2 position, Action<DialogueNodeView> onSelected = null)
+        public void FindNodes(Vector2 position, Action<Node> onSelected = null)
         {
             const int searchWindowWidth = 600;
             var point = _owner.position.position + position + new Vector2(searchWindowWidth / 3f, 0);
@@ -38,9 +40,9 @@ namespace Editor.Windows.Search
             SearchWindow.Open(new SearchWindowContext(point, searchWindowWidth), _nodeSearchWindow);
         }
         
-        private (DialogueNodeView[] nodes, string[] tooltips) BuildNodes()
+        private (Node[] nodes, string[] tooltips) BuildNodes()
         {
-            var nodes = new List<DialogueNodeView>();
+            var nodes = new List<Node>();
             var tooltips = new List<string>();
 
             foreach (var node in _view.nodes)
@@ -48,11 +50,20 @@ namespace Editor.Windows.Search
                 if (node is DialogueNodeView nodeView)
                 {
                     var model = nodeView.Model;
-                    if (string.IsNullOrWhiteSpace(model.PhraseId))
-                        tooltips.Add($"[{model.PersonId}] none [{model.Guid}]");
-                    else
-                        tooltips.Add($"[{model.PersonId}] {_phraseRepository.Get(model.PhraseId)} [{model.Guid}]");
+                    tooltips.Add(string.IsNullOrEmpty(model.PhraseId)
+                        ? $"[{model.PersonId}] none [{model.Guid}]"
+                        : $"[{model.PersonId}] {_phraseRepository.Get(model.PhraseId)} [{model.Guid}]");
+
                     nodes.Add(nodeView);
+                }
+                else if (node is ChoicesNodeView choiceView)
+                {
+                    var model = choiceView.Model;
+                    foreach (var choice in model.Choices)
+                    {
+                        tooltips.Add($"[{choice}] {_choices.Get(choice)}");
+                        nodes.Add(choiceView);
+                    }
                 }
             }
 

@@ -50,7 +50,7 @@ namespace Editor.Windows
             var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(_multiTable);
             var undoHistory = new UndoHistory();
-            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository);
+            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository);
 
             var saveShortcut = new SaveShortcut(DialogueGraphView);
             var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
@@ -71,12 +71,12 @@ namespace Editor.Windows
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, dialogueDatabase);
             
-            _languageProvider.AddLanguage("Russian");
             dialogueDatabase.Initialize();
             dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, Root, DialogueGraphView, CreateWindow, this);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, undoHistory, variables);
             variablesBlackboard.Initialize();
-            
+            _languageProvider.AddLanguage("Russian");
+
             CreateWindow.Display(false);
 
             DialogueGraphView.focusable = true;

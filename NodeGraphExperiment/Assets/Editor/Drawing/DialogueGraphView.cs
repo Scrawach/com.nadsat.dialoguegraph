@@ -110,7 +110,7 @@ namespace Editor.Drawing
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
             ports.ToList();
 
-        public void Find(DialogueNodeView view)
+        public void Find(Node view)
         {
             var viewPosition = view.GetPosition();
             MoveTo(viewPosition);
