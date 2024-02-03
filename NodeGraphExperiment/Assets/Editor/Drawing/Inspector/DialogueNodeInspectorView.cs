@@ -83,6 +83,11 @@ namespace Editor.Drawing.Inspector
 
             control.Closed += () =>
             {
+                var isOk = EditorUtility.DisplayDialog("Warning", "This action delete phrase from table", "Ok", "Cancel");
+                
+                if (!isOk)
+                    return;
+                
                 _activePhrase = null;
                 _node.SetPhraseId(string.Empty);
                 _phrasesContainer.Remove(control);
