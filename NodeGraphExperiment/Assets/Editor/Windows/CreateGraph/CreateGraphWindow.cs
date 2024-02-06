@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Editor.Data;
 using Editor.Drawing.Controls;
 using Editor.Extensions;
 using Runtime;
@@ -15,6 +16,8 @@ namespace Editor.Windows.CreateGraph
         
         public new class UxmlFactory : UxmlFactory<CreateGraphWindow, UxmlTraits> { }
 
+        private readonly DialoguesProvider _dialogues;
+        
         private readonly TextField _nameField;
         private readonly TextField _locationField;
         private readonly Label _warningLabel;
@@ -22,7 +25,7 @@ namespace Editor.Windows.CreateGraph
         private readonly Button _closeButton;
 
         private Action<DialogueGraphContainer> _onCreated;
-        
+
         public CreateGraphWindow() : base(Uxml)
         {
             _nameField = this.Q<TextField>("name-field");
@@ -34,6 +37,8 @@ namespace Editor.Windows.CreateGraph
             _nameField.RegisterValueChangedCallback(OnNameChanged);
             _createButton.clicked += OnCreateClicked;
             _closeButton.clicked += OnCloseClicked;
+
+            _dialogues = new DialoguesProvider();
         }
 
         public event Action<DialogueGraph> Created;
@@ -58,57 +63,30 @@ namespace Editor.Windows.CreateGraph
 
         private void OnCreateClicked()
         {
-            if (string.IsNullOrWhiteSpace(_nameField.value))
+            var dialogueName = _nameField.value;
+            
+            if (string.IsNullOrWhiteSpace(dialogueName))
             {
                 EditorUtility.DisplayDialog("Warning", "Enter name!", "OK");
                 return;
             }
-            
-            var canWrite = true;
-            
-            if (ThisAssetAlreadyExisting(_locationField.value)) 
-                canWrite = WarningDialog();
 
-            if (!canWrite) 
+            if (_dialogues.Contains(dialogueName) && !OverrideWarningDialog())
                 return;
 
-            CreateDirectoriesForFile(_locationField.value);
-            var container = ScriptableObject.CreateInstance<DialogueGraphContainer>();
-            var graph = new DialogueGraph
-            {
-                Name = _nameField.value
-            };
-            container.Graph = graph;
-            AssetDatabase.CreateAsset(container, _locationField.value);
-            AssetDatabase.SaveAssets();
-            EditorGUIUtility.PingObject(container);
+            var container = _dialogues.CreateNewDialogue(dialogueName);
             _onCreated?.Invoke(container);
-            Created?.Invoke(graph);
+            Created?.Invoke(container.Graph);
             OnCloseClicked();
         }
 
-        private static bool WarningDialog() =>
+        private static bool OverrideWarningDialog() =>
             EditorUtility.DisplayDialog("Warning", "Creating an asset with this name will result in overwriting an existing one. Are you sure?", "Yes, overwrite it", "No");
 
-        private void UpdateLocation(string filename)
+        private void UpdateLocation(string dialogueName)
         {
-            var pathToAsset = $"Assets/Resources/Dialogues/{filename}/{filename}.asset";
-
-            _warningLabel.Display(ThisAssetAlreadyExisting(pathToAsset));
-            _locationField.value = pathToAsset;
+            _warningLabel.Display(_dialogues.Contains(dialogueName));
+            _locationField.value = dialogueName;
         }
-
-        private static void CreateDirectoriesForFile(string path)
-        {
-            var relativePath = Path.GetRelativePath("Assets", path);
-            var targetDirectoryPath = Path.GetDirectoryName(relativePath);
-            var fullPathToDirectory = Path.Combine(Application.dataPath, targetDirectoryPath);
-            
-            if (!Directory.Exists(fullPathToDirectory))
-                Directory.CreateDirectory(fullPathToDirectory);
-        }
-        
-        private static bool ThisAssetAlreadyExisting(string path) =>
-            AssetDatabase.AssetPathExists(path);
     }
 }
