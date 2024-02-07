@@ -15,7 +15,6 @@ namespace Editor.Drawing
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
         
-        private RedirectNodeFactory _redirectFactory;
         private IUndoRegister _undoRegister;
 
         public DialogueGraphView()
@@ -30,16 +29,11 @@ namespace Editor.Drawing
             
             var stylesheet = Resources.Load<StyleSheet>("Styles/DialogueGraph");
             styleSheets.Add(stylesheet);
-            RegisterCallback<MouseDownEvent>(OnMouseDown, TrickleDown.TrickleDown);
-
             graphViewChanged = OnGraphViewChanged;
         }
 
-        public void Initialize(RedirectNodeFactory redirectNodeFactory, IUndoRegister undoRegister)
-        {
+        public void Initialize(IUndoRegister undoRegister) =>
             _undoRegister = undoRegister;
-            _redirectFactory = redirectNodeFactory;
-        }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
@@ -63,12 +57,6 @@ namespace Editor.Drawing
             }
 
             return graphViewChange;
-        }
-
-        private void OnMouseDown(MouseDownEvent evt)
-        {
-            if (evt.clickCount >= 2 && evt is { target: Edge edge }) 
-                _redirectFactory.CreateRedirect(edge, evt.mousePosition, OnMouseDown);
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
