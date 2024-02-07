@@ -12,7 +12,6 @@ namespace Editor.Importers
     {
         private readonly LanguageProvider _language;
         private readonly MultiTable _table;
-        private string _levelPath;
         
         public CsvImporter(LanguageProvider language, MultiTable table)
         {
@@ -20,14 +19,9 @@ namespace Editor.Importers
             _table = table;
         }
 
-        public void Initialize(string levelPath)
+        public void Import(string dialogueName)
         {
-            _levelPath = levelPath;
-        }
-
-        public void Import()
-        {
-            var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{_levelPath}");
+            var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{dialogueName}");
             var csvFiles = GetCsvFilesFromDirectory(path).ToArray();
             var csvNames = csvFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
             var csvTexts = csvFiles.Select(s => new CsvText(File.ReadAllText(s))).ToArray();

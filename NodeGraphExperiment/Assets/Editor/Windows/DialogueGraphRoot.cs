@@ -94,8 +94,7 @@ namespace Editor.Windows
             DialogueGraphView.Saved += () =>
             {
                 var exporter = new CsvExporter(_multiTable);
-                exporter.Initialize(_container.Graph.Name);
-                exporter.Export();
+                exporter.Export(_container.Graph.Name);
             };
         }
 
@@ -104,8 +103,7 @@ namespace Editor.Windows
             container = Object.Instantiate(container);
             _container = container;
             var csvImporter = new CsvImporter(_languageProvider, _multiTable);
-            csvImporter.Initialize(container.Graph.Name);
-            csvImporter.Import();
+            csvImporter.Import(container.Graph.Name);
             _multiTable.Initialize(container.Graph.Name);
             DialogueGraphView.Populate(container);
             DialogueGraphView.Display(true);
