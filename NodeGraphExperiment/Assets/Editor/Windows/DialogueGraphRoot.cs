@@ -1,5 +1,6 @@
 using Editor.AssetManagement;
 using Editor.ContextualMenu;
+using Editor.Data;
 using Editor.Drawing;
 using Editor.Drawing.Controls;
 using Editor.Drawing.Inspector;
@@ -35,14 +36,18 @@ namespace Editor.Windows
         public DialogueGraphView DialogueGraphView { get; }
         public EditorWindow Root { get; }
         public CreateGraphWindow CreateWindow { get; }
+        
         private DialogueGraphContainer _container;
+
+        private readonly DialogueGraphToolbar _dialogueGraphToolbar;
 
         public DialogueGraphRoot(EditorWindow root) : base(Uxml)
         {
             Root = root;
             DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
-            var dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
+            _dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
+            var dialogueWindowToolbar = this.Q<DialogueWindowToolbar>();
             CreateWindow = this.Q<CreateGraphWindow>();
 
             _languageProvider = new LanguageProvider();
@@ -76,7 +81,9 @@ namespace Editor.Windows
             var pngExporter = new PngExporter(Root, DialogueGraphView);
             
             dialogueDatabase.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, pngExporter, CreateWindow, this);
+            _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
+            _dialogueGraphToolbar.Display(false);
+            dialogueWindowToolbar.Initialize(this, CreateWindow, new DialoguesProvider(), pngExporter);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, undoHistory, variables);
             variablesBlackboard.Initialize();
             _languageProvider.AddLanguage("Russian");
@@ -109,6 +116,7 @@ namespace Editor.Windows
             _multiTable.Initialize(container.Graph.Name);
             DialogueGraphView.Populate(container);
             DialogueGraphView.Display(true);
+            _dialogueGraphToolbar.Display(true);
         }
     }
 }

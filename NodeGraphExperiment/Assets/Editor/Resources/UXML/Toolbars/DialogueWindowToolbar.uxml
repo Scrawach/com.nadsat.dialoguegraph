@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <uie:Toolbar name="DialogueGraphToolbar" style="flex-wrap: nowrap;">
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Assets" name="assets-menu" />
+        <uie:ToolbarSpacer style="width: 158px; flex-grow: 1;" />
+    </uie:Toolbar>
+</ui:UXML>

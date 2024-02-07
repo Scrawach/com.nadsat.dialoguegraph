@@ -1,7 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <uie:Toolbar name="DialogueGraphToolbar" style="flex-wrap: nowrap;">
-        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Assets" name="assets-menu" />
-        <uie:ToolbarSpacer style="width: 158px; flex-grow: 1;" />
         <uie:ToolbarToggle label="Variables" name="variables-toggle" style="font-size: 12px; -unity-text-align: middle-center; border-left-color: rgb(35, 35, 35); border-right-color: rgb(35, 35, 35); border-top-color: rgb(35, 35, 35); border-bottom-color: rgb(35, 35, 35); padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; white-space: nowrap; text-overflow: clip; -unity-font-style: normal;" />
         <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="language-dropdown" />
     </uie:Toolbar>

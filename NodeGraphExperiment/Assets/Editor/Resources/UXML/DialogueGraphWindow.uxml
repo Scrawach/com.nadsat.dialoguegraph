@@ -1,5 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Editor.Windows.Toolbar.DialogueGraphToolbar />
+    <ui:VisualElement name="toolbar" style="flex-direction: row; background-color: rgb(60, 60, 60);">
+        <Editor.Windows.Toolbar.DialogueWindowToolbar name="DialogueWindowToolbar" style="flex-direction: row; flex-grow: 1;" />
+        <Editor.Windows.Toolbar.DialogueGraphToolbar />
+    </ui:VisualElement>
     <ui:VisualElement style="flex-grow: 1;">
         <Editor.Drawing.Controls.SplitView fixed-pane-initial-dimension="200">
             <ui:VisualElement name="left-panel" style="flex-grow: 1; background-color: rgb(56, 56, 56);">
