@@ -2,7 +2,6 @@ using Editor.Windows;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEngine;
 
 namespace Editor
 {
@@ -12,18 +11,11 @@ namespace Editor
         public static void OpenWindow() =>
             OpenDialogueGraphWindow();
 
-        public static void OpenWindow(DialogueGraphContainer graph)
-        {
-            var window = OpenDialogueGraphWindow();
-            window.Populate(graph);
-        }
+        public static void OpenWindow(DialogueGraphContainer graph) =>
+            OpenDialogueGraphWindow().Populate(graph);
 
-        private static DialogueGraphWindow OpenDialogueGraphWindow()
-        {
-            var window = EditorWindow.GetWindow<DialogueGraphWindow>();
-            window.titleContent = new GUIContent(nameof(DialogueGraphWindow));
-            return window;
-        }
+        private static DialogueGraphWindow OpenDialogueGraphWindow() =>
+            EditorWindow.GetWindow<DialogueGraphWindow>(nameof(DialogueGraphWindow));
 
         [OnOpenAsset]
         public static bool OnOpenDialogueGraph(int instanceId, int line)
