@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Editor.Drawing.Nodes;
-using Editor.Exporters;
-using Editor.Extensions;
 using Editor.Factories;
-using Editor.Factories.NodeListeners;
-using Editor.Importers;
 using Editor.Serialization;
 using Editor.Undo;
 using Editor.Undo.Commands;
-using Editor.Windows.Variables;
-using Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -25,10 +18,7 @@ namespace Editor.Drawing
 
         private INodeViewFactory _factory;
         private RedirectNodeFactory _redirectFactory;
-        private DialogueGraphContainer _graphContainer;
         private IUndoRegister _undoRegister;
-        private NodesProvider _nodesProvider;
-        private VariablesProvider _variablesProvider;
 
         public DialogueGraphView()
         {
@@ -49,8 +39,6 @@ namespace Editor.Drawing
             unserializeAndPaste += OnPasteOperation;
         }
 
-        public event Action Saved;
-
         private string OnCutCopyOperation(IEnumerable<GraphElement> elements)
         {
             var copyPaste = new CopyPaste();
@@ -68,14 +56,11 @@ namespace Editor.Drawing
                 AddToSelection(graphElement);
         }
 
-        public void Initialize(NodesProvider nodesProvider, UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, 
-            IUndoRegister undoRegister, VariablesProvider variablesProvider)
+        public void Initialize(UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, IUndoRegister undoRegister)
         {
-            _nodesProvider = nodesProvider;
             _factory = factory;
             _undoRegister = undoRegister;
             _redirectFactory = redirectNodeFactory;
-            _variablesProvider = variablesProvider;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -124,20 +109,6 @@ namespace Editor.Drawing
         {
             CalculateFrameTransform(target, layout, 0, out var translation, out var scaling);
             UpdateViewTransform(translation, scaling);
-        }
-
-        public void Populate(DialogueGraphContainer graph)
-        {
-            _graphContainer = graph;
-            var importer = new DialogueGraphImporter(this, _factory, _nodesProvider, _variablesProvider);
-            importer.Import(graph.Graph);
-        }
-
-        public void Save()
-        {
-            var exporter = new DialogueGraphExporter(this, _nodesProvider, _graphContainer);
-            exporter.Export();
-            Saved?.Invoke();
         }
     }
 }

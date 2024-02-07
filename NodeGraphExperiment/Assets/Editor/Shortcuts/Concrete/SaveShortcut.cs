@@ -1,4 +1,4 @@
-using Editor.Drawing;
+using Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,16 +6,16 @@ namespace Editor.Shortcuts.Concrete
 {
     public class SaveShortcut : ICustomShortcut
     {
-        private readonly DialogueGraphView _view;
+        private readonly DialogueGraphRoot _root;
 
-        public SaveShortcut(DialogueGraphView view) =>
-            _view = view;
+        public SaveShortcut(DialogueGraphRoot root) =>
+            _root = root;
         
         public bool IsHandle(KeyDownEvent keyDown) =>
             keyDown.keyCode == KeyCode.S
             && keyDown.modifiers == EventModifiers.Control;
 
         public void Handle(KeyDownEvent keyDown) =>
-            _view.Save();
+            _root.Save();
     }
 }

@@ -44,7 +44,7 @@ namespace Editor.Windows.Toolbar
         
         private void AppendMenuOptions(IToolbarMenuElement toolbar)
         {
-            toolbar.menu.AppendAction("Create New...", (a) => { _createGraphWindow.Open((graph) => _graphRoot.Populate(graph)); });
+            toolbar.menu.AppendAction("Create New...", (a) => { _createGraphWindow.Open((graph) => _graphRoot.Load(graph)); });
             toolbar.menu.AppendAction("Open/Open...", (a) => OpenAsset());
             AppendExistingDialogueGraphs(toolbar);
 
@@ -56,7 +56,7 @@ namespace Editor.Windows.Toolbar
         {
             toolbar.menu.AppendSeparator("Open/");
             foreach (var graph in _dialogues.LoadAll())
-                toolbar.menu.AppendAction($"Open/{graph.Graph.Name}", (a) => { _graphRoot.Populate(graph); });
+                toolbar.menu.AppendAction($"Open/{graph.Graph.Name}", (a) => { _graphRoot.Load(graph); });
         }
         
         private void OpenAsset()
@@ -69,7 +69,7 @@ namespace Editor.Windows.Toolbar
             var asset = _dialogues.Load(dialogueName);
 
             if (asset != null)
-                _graphRoot.Populate(asset);
+                _graphRoot.Load(asset);
             else
                 OpenInvalidAssetWarningWindow();
         }

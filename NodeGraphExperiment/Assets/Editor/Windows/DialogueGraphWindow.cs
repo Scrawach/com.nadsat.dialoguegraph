@@ -2,7 +2,6 @@ using Editor.Drawing;
 using Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows
@@ -11,9 +10,15 @@ namespace Editor.Windows
     {
         private DialogueGraphRoot _graphRoot;
         private DialogueGraphView _graphView;
+        
+        public bool IsDirty 
+        { 
+            get => hasUnsavedChanges; 
+            set => hasUnsavedChanges = value; 
+        }
 
         public void Populate(DialogueGraphContainer graph) =>
-            _graphRoot.Populate(graph);
+            _graphRoot.Load(graph);
 
         public void CreateGUI()
         {
@@ -24,12 +29,8 @@ namespace Editor.Windows
             root.Add(_graphRoot);
 
             _graphView.graphViewChanged += OnChange;
-            _graphView.Saved += OnSaved;
         }
-
-        private void OnSaved() =>
-            hasUnsavedChanges = false;
-
+        
         private GraphViewChange OnChange(GraphViewChange graphViewChange)
         {
             hasUnsavedChanges = true;
@@ -39,7 +40,7 @@ namespace Editor.Windows
         public override void SaveChanges()
         {
             base.SaveChanges();
-            _graphView.Save();
+            _graphRoot.Save();
         }
     }
 }
