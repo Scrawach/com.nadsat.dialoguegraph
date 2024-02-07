@@ -2,7 +2,6 @@
 using System.Linq;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
-using Editor.Serialization;
 using Editor.Undo;
 using Editor.Undo.Commands;
 using UnityEditor;
@@ -15,8 +14,7 @@ namespace Editor.Drawing
     public class DialogueGraphView : GraphView
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
-
-        private INodeViewFactory _factory;
+        
         private RedirectNodeFactory _redirectFactory;
         private IUndoRegister _undoRegister;
 
@@ -35,30 +33,10 @@ namespace Editor.Drawing
             RegisterCallback<MouseDownEvent>(OnMouseDown, TrickleDown.TrickleDown);
 
             graphViewChanged = OnGraphViewChanged;
-            serializeGraphElements += OnCutCopyOperation;
-            unserializeAndPaste += OnPasteOperation;
         }
 
-        private string OnCutCopyOperation(IEnumerable<GraphElement> elements)
+        public void Initialize(RedirectNodeFactory redirectNodeFactory, IUndoRegister undoRegister)
         {
-            var copyPaste = new CopyPaste();
-            var json = copyPaste.ToJson(elements);
-            return json;
-        }
-
-        private void OnPasteOperation(string operationName, string data)
-        {
-            ClearSelection();
-            var copyPaste = new CopyPaste();
-            var copiedData = copyPaste.FromJson(data);
-            var copyPasteFactory = new CopyPasteFactory(this, _factory);
-            foreach (var graphElement in copyPasteFactory.Create(copiedData)) 
-                AddToSelection(graphElement);
-        }
-
-        public void Initialize(UndoNodeViewFactory factory, RedirectNodeFactory redirectNodeFactory, IUndoRegister undoRegister)
-        {
-            _factory = factory;
             _undoRegister = undoRegister;
             _redirectFactory = redirectNodeFactory;
         }

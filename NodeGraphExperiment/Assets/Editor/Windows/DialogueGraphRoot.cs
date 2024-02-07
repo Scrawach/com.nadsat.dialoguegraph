@@ -11,6 +11,7 @@ using Editor.Factories.NodeListeners;
 using Editor.Importers;
 using Editor.Localization;
 using Editor.Manipulators;
+using Editor.Serialization;
 using Editor.Shortcuts;
 using Editor.Shortcuts.Concrete;
 using Editor.Undo;
@@ -89,7 +90,7 @@ namespace Editor.Windows
             _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
             _dialogueGraphToolbar.Display(false);
             dialogueWindowToolbar.Initialize(this, CreateWindow, new DialoguesProvider(), pngExporter);
-            DialogueGraphView.Initialize(undoNodeFactory, redirectNodeFactory, undoHistory);
+            DialogueGraphView.Initialize(redirectNodeFactory, undoHistory);
             variablesBlackboard.Initialize();
             _languageProvider.AddLanguage("Russian");
 
@@ -99,6 +100,7 @@ namespace Editor.Windows
             DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
             DialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
             DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder, new ElementsFactory(DialogueGraphView)));
+            DialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(DialogueGraphView, _factory)));
             DialogueGraphView.Display(false);
 
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
