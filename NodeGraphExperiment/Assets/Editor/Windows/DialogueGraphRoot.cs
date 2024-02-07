@@ -90,7 +90,6 @@ namespace Editor.Windows
             _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
             _dialogueGraphToolbar.Display(false);
             dialogueWindowToolbar.Initialize(this, CreateWindow, new DialoguesProvider(), pngExporter);
-            DialogueGraphView.Initialize(undoHistory);
             variablesBlackboard.Initialize();
             _languageProvider.AddLanguage("Russian");
 
@@ -102,6 +101,7 @@ namespace Editor.Windows
             DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder, new ElementsFactory(DialogueGraphView)));
             DialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(DialogueGraphView, _factory)));
             DialogueGraphView.AddManipulator(new EdgeDoubleClickManipulator(redirectNodeFactory));
+            DialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
             DialogueGraphView.Display(false);
 
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));

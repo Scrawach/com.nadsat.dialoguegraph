@@ -1,9 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Editor.Drawing.Nodes;
-using Editor.Factories;
-using Editor.Undo;
-using Editor.Undo.Commands;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -14,8 +9,6 @@ namespace Editor.Drawing
     public class DialogueGraphView : GraphView
     {
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
-        
-        private IUndoRegister _undoRegister;
 
         public DialogueGraphView()
         {
@@ -29,34 +22,6 @@ namespace Editor.Drawing
             
             var stylesheet = Resources.Load<StyleSheet>("Styles/DialogueGraph");
             styleSheets.Add(stylesheet);
-            graphViewChanged = OnGraphViewChanged;
-        }
-
-        public void Initialize(IUndoRegister undoRegister) =>
-            _undoRegister = undoRegister;
-
-        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
-        {
-            if (graphViewChange.movedElements != null)
-            {
-                var movableNodes = graphViewChange.movedElements.OfType<IMovableNode>().ToArray();
-                var moveCommand = new MoveNodes(movableNodes);
-                _undoRegister.Register(moveCommand);
-                foreach (var element in movableNodes) 
-                    element.SavePosition(element.GetPosition());
-            }
-
-            if (graphViewChange.edgesToCreate != null)
-            {
-                _undoRegister.Register(new CreateEdges(this, graphViewChange.edgesToCreate));
-            }
-
-            if (graphViewChange.elementsToRemove != null)
-            {
-                _undoRegister.Register(new RemoveElements(this, graphViewChange.elementsToRemove));
-            }
-
-            return graphViewChange;
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
