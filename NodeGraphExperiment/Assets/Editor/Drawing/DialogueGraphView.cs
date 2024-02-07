@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Editor.Drawing.Nodes;
 using Editor.Exporters;
+using Editor.Extensions;
 using Editor.Factories;
 using Editor.Factories.NodeListeners;
 using Editor.Importers;

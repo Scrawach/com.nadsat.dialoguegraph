@@ -72,9 +72,11 @@ namespace Editor.Windows
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, dialogueDatabase);
+
+            var pngExporter = new PngExporter(Root, DialogueGraphView);
             
             dialogueDatabase.Initialize();
-            dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, Root, DialogueGraphView, CreateWindow, this);
+            dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider, pngExporter, CreateWindow, this);
             DialogueGraphView.Initialize(nodesProvider, undoNodeFactory, redirectNodeFactory, undoHistory, variables);
             variablesBlackboard.Initialize();
             _languageProvider.AddLanguage("Russian");

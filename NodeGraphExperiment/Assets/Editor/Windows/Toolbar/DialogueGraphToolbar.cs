@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using Editor.AssetManagement;
+using Editor.Data;
 using Editor.Drawing;
 using Editor.Drawing.Controls;
 using Editor.Exporters;
@@ -9,6 +10,7 @@ using Editor.Windows.Variables;
 using Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.Toolbar
@@ -25,10 +27,11 @@ namespace Editor.Windows.Toolbar
 
         private LanguageProvider _languageProvider;
         private VariablesBlackboard _variablesBlackboard;
-        private EditorWindow _root;
-        private DialogueGraphView _graphView;
         private CreateGraphWindow _createWindow;
         private DialogueGraphRoot _graphRoot;
+
+        private DialoguesProvider _dialogues;
+        private PngExporter _pngExporter;
 
         public DialogueGraphToolbar() : base(Uxml)
         {
@@ -40,6 +43,8 @@ namespace Editor.Windows.Toolbar
 
             _variablesToggle = this.Q<Toggle>("variables-toggle");
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
+
+            _dialogues = new DialoguesProvider();
         }
 
         private void OnPointerEnter(PointerEnterEvent evt)
@@ -48,15 +53,14 @@ namespace Editor.Windows.Toolbar
             AppendMenuOptions(_toolbarMenu);
         }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider, EditorWindow root, 
-            DialogueGraphView graphView, CreateGraphWindow createWindow, DialogueGraphRoot graphRoot)
+        public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider, 
+            PngExporter pngExporter, CreateGraphWindow createWindow, DialogueGraphRoot graphRoot)
         {
             _languageProvider = languageProvider;
             _variablesBlackboard = variablesBlackboard;
-            _root = root;
             _graphRoot = graphRoot;
-            _graphView = graphView;
             _createWindow = createWindow;
+            _pngExporter = pngExporter;
             _languageProvider.Changed += () =>
             {
                 _languageDropdown.value = _languageProvider.CurrentLanguage;
@@ -71,34 +75,27 @@ namespace Editor.Windows.Toolbar
             AppendExistingDialogueGraphs(toolbar);
 
             toolbar.menu.AppendSeparator();
-            toolbar.menu.AppendAction("Export/To Png", (a) =>
-            {
-                var exporter = new PngExporter(_root, _graphView);
-                exporter.Export();
-            });
+            toolbar.menu.AppendAction("Export/To Png", (a) => _pngExporter.Export());
         }
 
         private void AppendExistingDialogueGraphs(IToolbarMenuElement toolbar)
         {
-            var dialogueGraphAssets = new DialogueGraphAssets();
             toolbar.menu.AppendSeparator("Open/");
-            foreach (var graph in dialogueGraphAssets.LoadAll())
+            foreach (var graph in _dialogues.LoadAll())
                 toolbar.menu.AppendAction($"Open/{graph.Graph.Name}", (a) => { _graphRoot.Populate(graph); });
         }
 
         private void OpenAsset()
         {
-            var filePath = EditorUtility.OpenFilePanel("Dialogue Graph", "Assets/Resources/Dialogues", "asset");
-
+            var filePath = EditorUtility.OpenFilePanel("Dialogue Graph", _dialogues.GetRootPath(), "asset");
             if (string.IsNullOrWhiteSpace(filePath))
                 return;
-            
-            var fromAssetPath = filePath.Split("Assets/");
-            var pathToAsset = Path.Combine("Assets", fromAssetPath[1]);
-            var asset = AssetDatabase.LoadAssetAtPath<DialogueGraphContainer>(pathToAsset);
+
+            var dialogueName = Path.GetFileNameWithoutExtension(filePath);
+            var asset = _dialogues.Load(dialogueName);
 
             if (asset != null)
-                _graphView.Populate(asset);
+                _graphRoot.Populate(asset);
             else
                 OpenInvalidAssetWarningWindow();
         }

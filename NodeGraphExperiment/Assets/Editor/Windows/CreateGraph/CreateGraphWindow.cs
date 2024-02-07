@@ -86,7 +86,7 @@ namespace Editor.Windows.CreateGraph
         private void UpdateLocation(string dialogueName)
         {
             _warningLabel.Display(_dialogues.Contains(dialogueName));
-            _locationField.value = dialogueName;
+            _locationField.value = _dialogues.GetDialoguePath(dialogueName);
         }
     }
 }
