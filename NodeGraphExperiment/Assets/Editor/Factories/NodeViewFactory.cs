@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
@@ -37,8 +34,15 @@ namespace Editor.Factories
         {
             var view = new DialogueNodeView(_phrases, _persons);
             view = BindAndPlace(view, node);
+
+            if (IsPersonWithoutPhrase(node))
+                node.SetPhraseId(_phrases.Create(node.PersonId));
+
             return view;
         }
+
+        private static bool IsPersonWithoutPhrase(DialogueNode node) =>
+            !string.IsNullOrWhiteSpace(node.PersonId) && string.IsNullOrWhiteSpace(node.PhraseId);
 
         public RedirectNodeView CreateRedirect(RedirectNode node)
         {
