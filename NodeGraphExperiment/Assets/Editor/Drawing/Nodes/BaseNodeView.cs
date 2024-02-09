@@ -40,13 +40,13 @@ namespace Editor.Drawing.Nodes
         public void Bind(TModel model)
         {
             Model = model;
-            Model.Changed += OnModelChanged;
-            OnModelChanged();
+            Model.Changed += OnBaseModelChanged;
+            OnBaseModelChanged();
         }
 
         public void Unbind()
         {
-            Model.Changed -= OnModelChanged;
+            Model.Changed -= OnBaseModelChanged;
             Model = null;
         }
         
@@ -99,6 +99,12 @@ namespace Editor.Drawing.Nodes
             return port;
         }
 
+        private void OnBaseModelChanged()
+        {
+            SetPosition(Model.Position);
+            OnModelChanged();
+        }
+        
         protected abstract void OnModelChanged();
 
         public Rect GetPreviousPosition() =>
