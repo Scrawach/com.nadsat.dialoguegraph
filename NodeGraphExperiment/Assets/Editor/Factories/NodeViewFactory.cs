@@ -76,6 +76,7 @@ namespace Editor.Factories
             view.SetPosition(model.Position);
             _listener.Register(view);
             _canvas.AddElement(view);
+            _canvas.AddToSelection(view);
             return view;
         }
     }
