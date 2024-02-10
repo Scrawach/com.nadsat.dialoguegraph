@@ -8,11 +8,14 @@ namespace Editor.Drawing
 {
     public class DialogueGraphView : GraphView
     {
+        private const string GraphSnapping = "GraphSnapping";
+        private const string StyleSheetPath = "Styles/DialogueGraph";
+        
         public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
         public DialogueGraphView()
         {
-            EditorPrefs.SetBool("GraphSnapping", false);
+            EditorPrefs.SetBool(GraphSnapping, false);
             Insert(0, new GridBackground());
 
             this.AddManipulator(new ContentZoomer() { maxScale = 2f, minScale = 0.1f});
@@ -20,7 +23,7 @@ namespace Editor.Drawing
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             
-            var stylesheet = Resources.Load<StyleSheet>("Styles/DialogueGraph");
+            var stylesheet = Resources.Load<StyleSheet>(StyleSheetPath);
             styleSheets.Add(stylesheet);
         }
 
