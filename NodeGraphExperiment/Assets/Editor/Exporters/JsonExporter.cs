@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Editor.Data;
 using Editor.Drawing.Nodes;
 using Runtime;
 using Runtime.Nodes;
@@ -13,6 +14,11 @@ namespace Editor.Exporters
 {
     public class JsonExporter
     {
+        private readonly DialoguesProvider _dialogues;
+
+        public JsonExporter(DialoguesProvider dialogues) =>
+            _dialogues = dialogues;
+
         public void Export(string graphName, GraphView view)
         {
             var graph = new NodeGraph();
@@ -22,7 +28,7 @@ namespace Editor.Exporters
 
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Objects};
             var json = JsonConvert.SerializeObject(graph, settings);
-            var pathToAsset = $"Resources/Dialogues/{graphName}/{graphName}.json";
+            var pathToAsset = _dialogues.GetDialoguePath(graphName);
             var absolutePathToAsset = Path.Combine(Application.dataPath, pathToAsset);
             File.WriteAllText(absolutePathToAsset, json);
             AssetDatabase.SaveAssets();
