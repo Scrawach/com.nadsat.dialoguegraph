@@ -46,6 +46,7 @@ namespace Editor.Windows.Toolbar
         {
             toolbar.menu.AppendAction("Create New...", (a) => { _createGraphWindow.Open((graph) => _graphRoot.Load(graph)); });
             toolbar.menu.AppendAction("Open/Open...", (a) => OpenAsset());
+            toolbar.menu.AppendAction("Save", (a) => _graphRoot.Save());
             AppendExistingDialogueGraphs(toolbar);
 
             toolbar.menu.AppendSeparator();
