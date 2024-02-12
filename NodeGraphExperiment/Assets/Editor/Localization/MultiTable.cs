@@ -102,5 +102,8 @@ namespace Editor.Localization
             
             return value;
         }
+
+        public void Clear() =>
+            _tables.Clear();
     }
 }

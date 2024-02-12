@@ -113,7 +113,8 @@ namespace Editor.Windows
         {
             container = Object.Instantiate(container);
             _container = container;
-            
+
+            _multiTable.Clear();
             var csvImporter = new CsvImporter(_languageProvider, _multiTable);
             csvImporter.Import(container.Graph.Name);
             _multiTable.Initialize(container.Graph.Name);
