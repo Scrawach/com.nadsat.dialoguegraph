@@ -5,8 +5,8 @@
             <ui:Label tabindex="-1" text="&lt;none&gt;" display-tooltip-when-elided="true" name="guid-label" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; font-size: 8px; color: rgb(190, 190, 190); background-color: rgba(40, 40, 40, 0); flex-grow: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="buttons">
-            <ui:VisualElement name="button-container" style="flex-grow: 0;" />
             <ui:Button text="Add Choice" display-tooltip-when-elided="true" name="add-button" />
+            <ui:VisualElement name="button-container" style="flex-grow: 0;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
