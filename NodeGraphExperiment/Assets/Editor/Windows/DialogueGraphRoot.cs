@@ -62,11 +62,7 @@ namespace Editor.Windows
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository);
 
-            var saveShortcut = new SaveShortcut(this);
-            var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
-            var undoShortcut = new UndoShortcut(undoHistory);
-            var redoShortcut = new RedoShortcut(undoHistory);
-            var shortcuts = new ShortcutsProfile(saveShortcut, findShortcut, undoShortcut, redoShortcut);
+            
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository);
             var nodeViewListener = new NodeViewListener();
@@ -80,11 +76,13 @@ namespace Editor.Windows
             
             var nodeFactory = new NodeViewFactory(dialogueDatabase, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables, inspectorFactory);
             _factory = nodeFactory;
+            var templateFactory = new TemplateDialogueFactory(dialogueDatabase, nodeFactory, DialogueGraphView);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
-            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, dialogueDatabase);
+            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, templateFactory);
 
             var pngExporter = new PngExporter(Root, DialogueGraphView);
+            var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
             
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
@@ -107,6 +105,17 @@ namespace Editor.Windows
             nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
             nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
             _languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
+        }
+
+        private ShortcutsProfile CreateShortcuts(SearchWindowProvider searchWindow, IUndoHistory undoHistory, TemplateDialogueFactory templateFactory)
+        {
+            var saveShortcut = new SaveShortcut(this);
+            var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
+            var undoShortcut = new UndoShortcut(undoHistory);
+            var redoShortcut = new RedoShortcut(undoHistory);
+            var templateHotkeys = new TemplateHotkeyShortcuts(templateFactory);
+            var shortcuts = new ShortcutsProfile(saveShortcut, findShortcut, undoShortcut, redoShortcut, templateHotkeys);
+            return shortcuts;
         }
         
         public void Load(DialogueGraphContainer container)

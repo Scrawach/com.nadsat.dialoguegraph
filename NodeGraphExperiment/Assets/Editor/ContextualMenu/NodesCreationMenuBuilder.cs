@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.AssetManagement;
 using Editor.Factories;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
@@ -15,13 +14,13 @@ namespace Editor.ContextualMenu
         private readonly GraphView _graphView;
         private readonly INodeViewFactory _nodeViewFactory;
         private readonly Dictionary<string, Action<Vector2>> _builders;
-        private readonly DialogueDatabase _database;
+        private readonly TemplateDialogueFactory _templateFactory;
 
-        public NodesCreationMenuBuilder(GraphView graphView, INodeViewFactory nodeViewFactory, DialogueDatabase database)
+        public NodesCreationMenuBuilder(GraphView graphView, INodeViewFactory nodeViewFactory, TemplateDialogueFactory templateFactory)
         {
             _graphView = graphView;
             _nodeViewFactory = nodeViewFactory;
-            _database = database;
+            _templateFactory = templateFactory;
             _builders = new Dictionary<string, Action<Vector2>>()
             {
                 ["Dialogue Node"] = (position) => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
@@ -45,18 +44,13 @@ namespace Editor.ContextualMenu
 
         private void BuildTemplateNodes(ContextualMenuPopulateEvent evt)
         {
-            foreach (var personId in _database.All().Reverse())
-                evt.menu.InsertAction(1, $"Templates/{personId}", (action) =>
+            foreach (var template in _templateFactory.AvailableTemplates())
+            {
+                evt.menu.InsertAction(1, $"Templates/{template}", (action) =>
                 {
-                    _nodeViewFactory.CreateDialogue(DialogueForPerson(personId, action.eventInfo.mousePosition));
+                    _templateFactory.Create(template, action.eventInfo.mousePosition);
                 });
-        }
-
-        private DialogueNode DialogueForPerson(string personId, Vector2 position)
-        {
-            var model = NewModel<DialogueNode>(position);
-            model.PersonId = personId;
-            return model;
+            }
         }
 
         private TModel NewModel<TModel>(Vector2 position) where TModel : BaseDialogueNode, new()
