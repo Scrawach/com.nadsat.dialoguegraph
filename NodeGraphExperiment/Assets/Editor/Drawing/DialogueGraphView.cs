@@ -19,7 +19,7 @@ namespace Editor.Drawing
             Insert(0, new GridBackground());
 
             this.AddManipulator(new ContentZoomer() { maxScale = 2f, minScale = 0.1f});
-            this.AddManipulator(new ContentDragger());
+            this.AddManipulator(ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             
@@ -27,6 +27,16 @@ namespace Editor.Drawing
             styleSheets.Add(stylesheet);
         }
 
+        private static Manipulator ContentDragger()
+        {
+            var dragger = new ContentDragger();
+            dragger.activators.Add(new ManipulatorActivationFilter()
+            {
+                button = MouseButton.RightMouse
+            });
+            return dragger;
+        }
+        
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
             ports.ToList();
 
