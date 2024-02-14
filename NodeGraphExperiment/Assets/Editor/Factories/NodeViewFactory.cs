@@ -17,10 +17,11 @@ namespace Editor.Factories
         private readonly IDialogueNodeListener _listener;
         private readonly ChoicesRepository _choices;
         private readonly VariablesProvider _variables;
+        private readonly InspectorViewFactory _inspectorFactory;
         private readonly GraphView _canvas;
 
         public NodeViewFactory(DialogueDatabase persons, PhraseRepository phrases, GraphView canvas, IDialogueNodeListener listener,
-            ChoicesRepository choices, VariablesProvider variables)
+            ChoicesRepository choices, VariablesProvider variables, InspectorViewFactory inspectorFactory)
         {
             _persons = persons;
             _phrases = phrases;
@@ -28,6 +29,7 @@ namespace Editor.Factories
             _listener = listener;
             _choices = choices;
             _variables = variables;
+            _inspectorFactory = inspectorFactory;
         }
         
         public DialogueNodeView CreateDialogue(DialogueNode node)
@@ -36,7 +38,10 @@ namespace Editor.Factories
             view = BindAndPlace(view, node);
 
             if (IsPersonWithoutPhrase(node))
+            {
                 node.SetPhraseId(_phrases.Create(node.PersonId));
+                _inspectorFactory.StartEditPhrase(node.PhraseId);
+            }
 
             return view;
         }

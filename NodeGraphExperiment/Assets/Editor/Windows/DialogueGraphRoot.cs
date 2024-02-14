@@ -78,7 +78,7 @@ namespace Editor.Windows
             _variablesProvider = variables;
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
             
-            var nodeFactory = new NodeViewFactory(dialogueDatabase, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables);
+            var nodeFactory = new NodeViewFactory(dialogueDatabase, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables, inspectorFactory);
             _factory = nodeFactory;
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);

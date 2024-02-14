@@ -13,6 +13,8 @@ namespace Editor.Factories
         private readonly PhraseRepository _phrases;
         private readonly ChoicesRepository _choices;
 
+        private DialogueNodeInspectorView _openedDialogueNodeInspector;
+
         public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, ChoicesRepository choices)
         {
             _database = database;
@@ -30,9 +32,13 @@ namespace Editor.Factories
                 _ => new VisualElement()
             };
 
+        public void StartEditPhrase(string phraseId) =>
+            _openedDialogueNodeInspector.StartEditPhrase();
+
         private VisualElement CreateDialogueNodeInspector(DialogueNodeView nodeView)
         {
             var inspector = new DialogueNodeInspectorView(nodeView.Model, _searchWindow, _phrases);
+            _openedDialogueNodeInspector = inspector;
             inspector.UpdateDropdownChoices(_database.All());
             return inspector;
         }

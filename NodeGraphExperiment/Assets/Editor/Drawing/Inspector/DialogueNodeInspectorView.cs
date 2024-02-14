@@ -133,12 +133,15 @@ namespace Editor.Drawing.Inspector
 
         }
 
+        public void StartEditPhrase() =>
+            _activePhrase?.StartEdit();
+
         private void OnAddImageButtonClicked()
         {
             _addImageButton.style.display = DisplayStyle.None;
             SetImage(string.Empty);
         }
-        
+
         private void OnAddPhraseButtonClicked()
         {
             var phraseId = _phrases.Create(_node.PersonId);

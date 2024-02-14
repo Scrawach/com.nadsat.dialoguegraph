@@ -47,6 +47,9 @@ namespace Editor.Drawing.Controls
             remove => _close.clicked -= value;
         }
 
+        public void StartEdit() =>
+            OpenTextEditor();
+
         private void OnKeyDownEvent(KeyDownEvent evt)
         {
             if (evt.keyCode == KeyCode.Return)
@@ -60,13 +63,23 @@ namespace Editor.Drawing.Controls
         {
             Description.Display(true);
             TextField.Display(false);
-
+            
             var text = TextField.text;
+            text = RemoveNewlineSymbol(text);
+            Description.text = text;
+            TextEdited?.Invoke(text);
+        }
+
+        private string RemoveNewlineSymbol(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) 
+                return text;
+            
             var lastIndex = TextField.text.Length - 1;
             if (text[lastIndex] == '\n')
                 text = text.Remove(lastIndex, 1);
-            Description.text = text;
-            TextEdited?.Invoke(text);
+
+            return text;
         }
 
         private void OnMouseDownEvent(MouseDownEvent e)
