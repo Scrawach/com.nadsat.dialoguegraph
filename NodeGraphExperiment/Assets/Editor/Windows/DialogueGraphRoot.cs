@@ -66,9 +66,9 @@ namespace Editor.Windows
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository);
             var nodeViewListener = new NodeViewListener();
-            var nodesProvider = new NodesProvider();
+            var nodesProvider = new NodesProvider(DialogueGraphView);
             NodesProvider = nodesProvider;
-            var nodeListeners = new DialogueNodeListeners(nodeViewListener, nodesProvider);
+            var nodeListeners = new DialogueNodeListeners(nodeViewListener);
 
             var variables = new VariablesProvider();
             _variablesProvider = variables;
