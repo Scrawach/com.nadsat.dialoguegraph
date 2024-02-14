@@ -41,7 +41,7 @@ namespace Editor.ContextualMenu
                 return;
             }
             
-            //_nodesCreationMenu.Build(evt);
+            _nodesCreationMenu.Build(evt);
             evt.menu.InsertAction(2, "Create Note", (action) => _elementsFactory.CreateStickyNote(at: action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
