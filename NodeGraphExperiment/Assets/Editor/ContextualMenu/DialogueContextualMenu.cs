@@ -27,8 +27,6 @@ namespace Editor.ContextualMenu
 
         private void OnContextualMenuBuild(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.InsertAction(2, "Create Note", (action) => _elementsFactory.CreateStickyNote(at: action.eventInfo.mousePosition));
-return;
             if (evt.target is not GraphView)
             {
                 if (evt.target is IModelHandle nodeView)
