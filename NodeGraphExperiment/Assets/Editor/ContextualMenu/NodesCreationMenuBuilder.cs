@@ -45,7 +45,7 @@ namespace Editor.ContextualMenu
 
         private void BuildTemplateNodes(ContextualMenuPopulateEvent evt)
         {
-            foreach (var personId in _database.All())
+            foreach (var personId in _database.All().Reverse())
                 evt.menu.InsertAction(1, $"Templates/{personId}", (action) =>
                 {
                     _nodeViewFactory.CreateDialogue(DialogueForPerson(personId, action.eventInfo.mousePosition));
