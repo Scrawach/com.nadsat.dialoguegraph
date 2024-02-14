@@ -1,3 +1,4 @@
+using Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,9 +21,9 @@ namespace Editor.Factories
             return group;
         }
 
-        public StickyNote CreateStickyNote(Vector2 at)
+        public StickyNoteView CreateStickyNote(Vector2 at)
         {
-            var stickyNote = new StickyNote();
+            var stickyNote = new StickyNoteView();
             var worldPosition = _canvas.contentViewContainer.WorldToLocal(at);
             stickyNote.SetPosition(new Rect(worldPosition, Vector2.zero));
             _canvas.AddElement(stickyNote);
