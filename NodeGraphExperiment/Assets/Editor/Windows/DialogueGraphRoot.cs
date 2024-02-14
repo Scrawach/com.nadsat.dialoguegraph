@@ -65,16 +65,16 @@ namespace Editor.Windows
             
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository);
-            var nodeViewListener = new NodeViewListener();
             var nodesProvider = new NodesProvider(DialogueGraphView);
             NodesProvider = nodesProvider;
-            var nodeListeners = new DialogueNodeListeners(nodeViewListener);
 
             var variables = new VariablesProvider();
             _variablesProvider = variables;
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
-            
-            var nodeFactory = new NodeViewFactory(dialogueDatabase, phraseRepository, DialogueGraphView, nodeListeners, choicesRepository, variables, inspectorFactory);
+
+            var genericFactory = new GenericNodeViewFactory(DialogueGraphView, inspectorView, inspectorFactory);
+            var dialogueFactory = new DialogueNodeViewFactory(genericFactory, dialogueDatabase, phraseRepository, inspectorFactory);
+            var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, DialogueGraphView, choicesRepository, variables);
             _factory = nodeFactory;
             var templateFactory = new TemplateDialogueFactory(dialogueDatabase, nodeFactory, DialogueGraphView);
             var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
@@ -102,8 +102,6 @@ namespace Editor.Windows
             DialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
             DialogueGraphView.Display(false);
 
-            nodeViewListener.Selected += (node) => inspectorView.Populate(inspectorFactory.Build(node));
-            nodeViewListener.Unselected += (node) => inspectorView.Cleanup();
             _languageProvider.LanguageChanged += (language) => nodesProvider.UpdateLanguage();
         }
 
