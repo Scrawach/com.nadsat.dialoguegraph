@@ -11,9 +11,9 @@ namespace Editor.ContextualMenu
 {
     public class TemplateDialogueFactory
     {
+        private readonly GraphView _canvas;
         private readonly DialogueDatabase _database;
         private readonly INodeViewFactory _factory;
-        private readonly GraphView _canvas;
 
         public TemplateDialogueFactory(DialogueDatabase database, INodeViewFactory factory, GraphView canvas)
         {
@@ -27,7 +27,7 @@ namespace Editor.ContextualMenu
 
         public DialogueNodeView Create(string personId) =>
             Create(personId, Vector2.zero);
-        
+
         public DialogueNodeView Create(string personId, Vector2 worldPosition)
         {
             var localPosition = _canvas.contentViewContainer.WorldToLocal(worldPosition);

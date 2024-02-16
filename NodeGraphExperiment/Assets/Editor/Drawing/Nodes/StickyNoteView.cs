@@ -11,14 +11,6 @@ namespace Editor.Drawing.Nodes
             content.RegisterValueChangedCallback(OnContentChanged);
         }
 
-        private void OnContentChanged(ChangeEvent<string> evt)
-        {
-            if (string.IsNullOrWhiteSpace(title))
-                title = "title";
-            
-            FitText(true);
-        }
-
         public override string title
         {
             get => base.title;
@@ -27,6 +19,14 @@ namespace Editor.Drawing.Nodes
                 base.title = value;
                 FitText(true);
             }
+        }
+
+        private void OnContentChanged(ChangeEvent<string> evt)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                title = "title";
+
+            FitText(true);
         }
     }
 }

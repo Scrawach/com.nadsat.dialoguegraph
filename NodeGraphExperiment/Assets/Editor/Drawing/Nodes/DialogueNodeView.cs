@@ -10,23 +10,23 @@ namespace Editor.Drawing.Nodes
     public class DialogueNodeView : BaseNodeView<DialogueNode>
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/DialogueNodeView.uxml";
-        private readonly PhraseRepository _phrases;
-        private readonly DialogueDatabase _database;
         private readonly EditorAssets _assets;
-        
-        private readonly Label _personNameLabel;
-        private readonly Label _phraseTitleLabel;
-        private readonly Label _phraseTextLabel;
+        private readonly VisualElement _avatar;
+        private readonly DialogueDatabase _database;
 
         private readonly VisualElement _header;
-        private readonly VisualElement _avatar;
+
+        private readonly VisualElement _iconContainer;
 
         private readonly VisualElement _image;
         private readonly VisualElement _imageContainer;
-        
-        private readonly VisualElement _iconContainer;
 
-        public DialogueNodeView(PhraseRepository phrases, DialogueDatabase database) 
+        private readonly Label _personNameLabel;
+        private readonly PhraseRepository _phrases;
+        private readonly Label _phraseTextLabel;
+        private readonly Label _phraseTitleLabel;
+
+        public DialogueNodeView(PhraseRepository phrases, DialogueDatabase database)
             : base(UxmlPath)
         {
             _phrases = phrases;

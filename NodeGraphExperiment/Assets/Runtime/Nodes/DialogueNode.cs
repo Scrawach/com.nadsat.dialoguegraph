@@ -8,7 +8,7 @@ namespace Runtime.Nodes
         public string PersonId;
         public string PhraseId;
         public string PathToImage;
-        
+
         public void SetPersonId(string personId)
         {
             PersonId = personId;

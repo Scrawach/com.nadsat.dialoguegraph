@@ -10,8 +10,8 @@ namespace Editor.Factories
     public class GenericNodeViewFactory
     {
         private readonly GraphView _canvas;
-        private readonly InspectorView _inspectorView;
         private readonly InspectorViewFactory _inspectorFactory;
+        private readonly InspectorView _inspectorView;
 
         public GenericNodeViewFactory(GraphView canvas, InspectorView inspectorView, InspectorViewFactory inspectorFactory)
         {

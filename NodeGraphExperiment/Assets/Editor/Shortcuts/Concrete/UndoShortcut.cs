@@ -10,9 +10,9 @@ namespace Editor.Shortcuts.Concrete
 
         public UndoShortcut(IUndoHistory undoHistory) =>
             _undoHistory = undoHistory;
-        
+
         public bool IsHandle(KeyDownEvent keyDown) =>
-            keyDown.keyCode == KeyCode.Z 
+            keyDown.keyCode == KeyCode.Z
             && keyDown.modifiers == EventModifiers.Control;
 
         public void Handle(KeyDownEvent keyDown) =>

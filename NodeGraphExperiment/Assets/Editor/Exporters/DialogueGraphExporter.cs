@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
 using Runtime;
 using Runtime.Nodes;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -16,9 +14,9 @@ namespace Editor.Exporters
 {
     public class DialogueGraphExporter
     {
+        private readonly DialogueGraphContainer _graph;
         private readonly DialogueGraphView _graphView;
         private readonly NodesProvider _nodes;
-        private readonly DialogueGraphContainer _graph;
 
         public DialogueGraphExporter(DialogueGraphView graphView, NodesProvider nodes, DialogueGraphContainer graph)
         {
@@ -36,7 +34,7 @@ namespace Editor.Exporters
 
             if (_nodes.RootNode == null)
                 _nodes.RootNode = _nodes.Nodes.FirstOrDefault();
-            
+
             _graph.Graph.EntryNodeGuid = _nodes.RootNode?.Model.Guid;
 
             //var jsonExporter = new JsonExporter();
@@ -56,9 +54,8 @@ namespace Editor.Exporters
             var redirects = new List<RedirectNode>();
             var variables = new List<VariableNode>();
             var stickyNotes = new List<NoteNode>();
-            
+
             foreach (var viewNode in view.graphElements)
-            {
                 if (viewNode is DialogueNodeView dialogue)
                     dialogues.Add(dialogue.Model);
                 else if (viewNode is ChoicesNodeView choice)
@@ -70,8 +67,8 @@ namespace Editor.Exporters
                 else if (viewNode is VariableNodeView variableView)
                     variables.Add(variableView.Model);
                 else if (viewNode is StickyNote stickyNote)
-                    stickyNotes.Add(new NoteNode() { Title = stickyNote.title, Description = stickyNote.contents, Position = stickyNote.GetPosition()});
-            }
+                    stickyNotes.Add(new NoteNode
+                        {Title = stickyNote.title, Description = stickyNote.contents, Position = stickyNote.GetPosition()});
 
             graph.Nodes = dialogues;
             graph.ChoiceNodes = choices;
@@ -93,7 +90,7 @@ namespace Editor.Exporters
                 var parentNode = (dynamic) edge.output.node;
                 var childNode = (dynamic) edge.input.node;
 
-                yield return new NodeLinks()
+                yield return new NodeLinks
                 {
                     FromGuid = parentNode.Model.Guid,
                     FromPortId = edge.output.viewDataKey,

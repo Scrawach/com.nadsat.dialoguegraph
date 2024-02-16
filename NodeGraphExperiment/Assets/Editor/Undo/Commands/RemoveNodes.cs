@@ -16,13 +16,13 @@ namespace Editor.Undo.Commands
 
         public void Undo()
         {
-            foreach (var node in _nodesToRemove) 
+            foreach (var node in _nodesToRemove)
                 _canvas.AddElement(node);
         }
 
         public void Redo()
         {
-            foreach (var node in _nodesToRemove) 
+            foreach (var node in _nodesToRemove)
                 _canvas.RemoveElement(node);
         }
     }

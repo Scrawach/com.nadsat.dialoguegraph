@@ -8,13 +8,11 @@ namespace Editor.Drawing.Controls
 {
     public class ImageFieldControl : BaseControl
     {
-        public new class UxmlFactory : UxmlFactory<ImageFieldControl, UxmlTraits> { }
-
         private const string Uxml = "UXML/Controls/ImageFieldControl";
+        private readonly Button _close;
+        private readonly VisualElement _image;
 
         private readonly ObjectField _imageField;
-        private readonly VisualElement _image;
-        private readonly Button _close;
 
         public ImageFieldControl() : base(Uxml)
         {
@@ -46,5 +44,7 @@ namespace Editor.Drawing.Controls
             SetImage(sprite);
             Selected?.Invoke(sprite);
         }
+
+        public new class UxmlFactory : UxmlFactory<ImageFieldControl, UxmlTraits> { }
     }
 }

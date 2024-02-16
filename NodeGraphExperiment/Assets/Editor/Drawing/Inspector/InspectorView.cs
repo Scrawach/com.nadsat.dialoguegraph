@@ -4,8 +4,6 @@ namespace Editor.Drawing.Inspector
 {
     public class InspectorView : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<InspectorView, UxmlTraits> { }
-
         private VisualElement _selected;
 
         public void Populate(VisualElement visual)
@@ -21,5 +19,7 @@ namespace Editor.Drawing.Inspector
                 Remove(_selected);
             _selected = null;
         }
+
+        public new class UxmlFactory : UxmlFactory<InspectorView, UxmlTraits> { }
     }
 }

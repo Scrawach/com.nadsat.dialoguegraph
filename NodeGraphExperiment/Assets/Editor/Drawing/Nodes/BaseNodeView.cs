@@ -12,18 +12,32 @@ namespace Editor.Drawing.Nodes
         private const string UssEntryNode = "entry-node";
 
         private readonly VisualElement _nodeBorder;
-        
+
         protected BaseNodeView(string uxml) : base(uxml) =>
             _nodeBorder = this.Q<VisualElement>("node-border");
 
         protected BaseNodeView() { }
-        
+
         public TModel Model { get; private set; }
 
         BaseDialogueNode IModelHandle.Model => Model;
-        
+
+        public void MarkAsRoot(bool isRoot)
+        {
+            if (isRoot)
+                _nodeBorder.AddToClassList(UssEntryNode);
+            else
+                _nodeBorder.RemoveFromClassList(UssEntryNode);
+        }
+
+        public Rect GetPreviousPosition() =>
+            Model.Position;
+
+        public void SavePosition(Rect position) =>
+            Model.SetPosition(position);
+
         public event Action<Node> Selected;
-        public event Action<Node> UnSelected; 
+        public event Action<Node> UnSelected;
 
         public override void OnSelected()
         {
@@ -48,14 +62,6 @@ namespace Editor.Drawing.Nodes
         {
             Model.Changed -= OnBaseModelChanged;
             Model = null;
-        }
-        
-        public void MarkAsRoot(bool isRoot)
-        {
-            if (isRoot)
-                _nodeBorder.AddToClassList(UssEntryNode);
-            else
-                _nodeBorder.RemoveFromClassList(UssEntryNode);
         }
 
         public void AddInputAndOutputPorts(string inputPortName = "", string outputPortName = "")
@@ -104,13 +110,7 @@ namespace Editor.Drawing.Nodes
             SetPosition(Model.Position);
             OnModelChanged();
         }
-        
+
         protected abstract void OnModelChanged();
-
-        public Rect GetPreviousPosition() =>
-            Model.Position;
-
-        public void SavePosition(Rect position) =>
-            Model.SetPosition(position);
     }
 }

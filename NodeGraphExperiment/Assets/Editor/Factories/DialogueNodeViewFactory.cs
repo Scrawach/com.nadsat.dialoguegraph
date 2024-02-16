@@ -7,18 +7,19 @@ namespace Editor.Factories
     public class DialogueNodeViewFactory
     {
         private readonly GenericNodeViewFactory _baseFactory;
+        private readonly InspectorViewFactory _inspectorFactory;
         private readonly DialogueDatabase _persons;
         private readonly PhraseRepository _phrases;
-        private readonly InspectorViewFactory _inspectorFactory;
 
-        public DialogueNodeViewFactory(GenericNodeViewFactory baseFactory, DialogueDatabase persons, PhraseRepository phrases, InspectorViewFactory inspectorFactory)
+        public DialogueNodeViewFactory(GenericNodeViewFactory baseFactory, DialogueDatabase persons, PhraseRepository phrases,
+            InspectorViewFactory inspectorFactory)
         {
             _baseFactory = baseFactory;
             _persons = persons;
             _phrases = phrases;
             _inspectorFactory = inspectorFactory;
         }
-        
+
         public DialogueNodeView Create(DialogueNode node)
         {
             var view = new DialogueNodeView(_phrases, _persons);

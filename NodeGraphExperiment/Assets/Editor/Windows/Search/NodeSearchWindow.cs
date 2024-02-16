@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -8,19 +7,11 @@ namespace Editor.Windows.Search
 {
     public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     {
-        private string _title;
         private Node[] _nodeViews;
-        private string[] _tooltips;
         private Action<Node> _onSelected;
+        private string _title;
+        private string[] _tooltips;
 
-        public void Configure(string title, Node[] nodes, string[] tooltips, Action<Node> onSelected = null)
-        {
-            _title = title;
-            _nodeViews = nodes;
-            _onSelected = onSelected;
-            _tooltips = tooltips;
-        }
-        
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
             var tree = new List<SearchTreeEntry>
@@ -39,11 +30,19 @@ namespace Editor.Windows.Search
 
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
-            if (entry.userData is not Node node) 
+            if (entry.userData is not Node node)
                 return false;
-            
+
             _onSelected?.Invoke(node);
             return true;
+        }
+
+        public void Configure(string title, Node[] nodes, string[] tooltips, Action<Node> onSelected = null)
+        {
+            _title = title;
+            _nodeViews = nodes;
+            _onSelected = onSelected;
+            _tooltips = tooltips;
         }
     }
 }

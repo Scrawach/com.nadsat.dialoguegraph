@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
 
 namespace Editor.Factories.NodeListeners
 {

@@ -11,9 +11,9 @@ namespace Editor.ContextualMenu
 {
     public class NodesCreationMenuBuilder
     {
+        private readonly Dictionary<string, Action<Vector2>> _builders;
         private readonly GraphView _graphView;
         private readonly INodeViewFactory _nodeViewFactory;
-        private readonly Dictionary<string, Action<Vector2>> _builders;
         private readonly TemplateDialogueFactory _templateFactory;
 
         public NodesCreationMenuBuilder(GraphView graphView, INodeViewFactory nodeViewFactory, TemplateDialogueFactory templateFactory)
@@ -21,12 +21,12 @@ namespace Editor.ContextualMenu
             _graphView = graphView;
             _nodeViewFactory = nodeViewFactory;
             _templateFactory = templateFactory;
-            _builders = new Dictionary<string, Action<Vector2>>()
+            _builders = new Dictionary<string, Action<Vector2>>
             {
-                ["Dialogue Node"] = (position) => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
-                ["Choices Node"] = (position) => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
-                ["Switch Node"] = (position) => nodeViewFactory.CreateSwitch(NewModel<SwitchNode>(position)),
-                ["Variable Node"] = (position) => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position)),
+                ["Dialogue Node"] = position => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
+                ["Choices Node"] = position => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
+                ["Switch Node"] = position => nodeViewFactory.CreateSwitch(NewModel<SwitchNode>(position)),
+                ["Variable Node"] = position => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position))
             };
         }
 
@@ -45,12 +45,7 @@ namespace Editor.ContextualMenu
         private void BuildTemplateNodes(ContextualMenuPopulateEvent evt)
         {
             foreach (var template in _templateFactory.AvailableTemplates())
-            {
-                evt.menu.InsertAction(1, $"Templates/{template}", (action) =>
-                {
-                    _templateFactory.Create(template, action.eventInfo.mousePosition);
-                });
-            }
+                evt.menu.InsertAction(1, $"Templates/{template}", action => { _templateFactory.Create(template, action.eventInfo.mousePosition); });
         }
 
         private TModel NewModel<TModel>(Vector2 position) where TModel : BaseDialogueNode, new()

@@ -9,7 +9,7 @@ namespace Runtime.Nodes
         public Vector2Data Position;
 
         public event Action Changed;
-        
+
         public void SetPosition(Rect position)
         {
             Position = position;

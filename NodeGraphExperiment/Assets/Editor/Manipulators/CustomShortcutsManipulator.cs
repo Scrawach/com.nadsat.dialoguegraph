@@ -1,6 +1,4 @@
 using Editor.Shortcuts;
-using Editor.Undo;
-using Editor.Undo.Commands;
 using UnityEngine.UIElements;
 
 namespace Editor.Manipulators
@@ -11,7 +9,7 @@ namespace Editor.Manipulators
 
         public CustomShortcutsManipulator(ShortcutsProfile shortcuts) =>
             _shortcuts = shortcuts;
-        
+
         protected override void RegisterCallbacksOnTarget() =>
             target.RegisterCallback<KeyDownEvent>(_shortcuts.Handle);
 

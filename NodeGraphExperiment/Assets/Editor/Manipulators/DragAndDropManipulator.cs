@@ -16,7 +16,7 @@ namespace Editor.Manipulators
 
         public DragAndDropManipulator(INodeViewFactory factory) =>
             _factory = factory;
-        
+
         protected override void RegisterCallbacksOnTarget()
         {
             target.RegisterCallback<DragUpdatedEvent>(OnDragUpdated);
@@ -32,11 +32,11 @@ namespace Editor.Manipulators
         private void OnDragPerformEvent(DragPerformEvent evt)
         {
             var graphView = (GraphView) target;
-            
+
             var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
-            IEnumerable<BlackboardField> fields = selection.OfType<BlackboardField>();
-            foreach (var field in fields) 
-                _factory.CreateVariable(new VariableNode()
+            var fields = selection.OfType<BlackboardField>();
+            foreach (var field in fields)
+                _factory.CreateVariable(new VariableNode
                 {
                     Guid = Guid.NewGuid().ToString(),
                     Name = field.text,
@@ -46,7 +46,7 @@ namespace Editor.Manipulators
 
         private void OnDragUpdated(DragUpdatedEvent e)
         {
-            if (DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection && (selection.OfType<BlackboardField>().Count() >= 0))
+            if (DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection && selection.OfType<BlackboardField>().Count() >= 0)
                 DragAndDrop.visualMode = e.actionKey ? DragAndDropVisualMode.Copy : DragAndDropVisualMode.Move;
         }
     }

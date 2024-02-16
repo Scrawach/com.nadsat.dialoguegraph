@@ -5,14 +5,14 @@ namespace Runtime.Cases
 {
     public class Case
     {
-        public CaseType Type;
         public List<string> Conditions;
+        public CaseType Type;
     }
 
     public class VariableCase
     {
-        public string VariableName;
         public Vector2Int Range;
+        public string VariableName;
     }
 
     public enum CaseType

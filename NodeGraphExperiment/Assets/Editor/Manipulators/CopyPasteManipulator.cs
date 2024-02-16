@@ -12,7 +12,7 @@ namespace Editor.Manipulators
     {
         private const string PasteOperationName = "Paste";
         private const string DuplicateOperationName = "Duplicate";
-        
+
         private readonly CopyPaste _copyPaste;
         private readonly CopyPasteFactory _copyPasteFactory;
 
@@ -50,11 +50,11 @@ namespace Editor.Manipulators
         {
             _graphView.ClearSelection();
             var elements = CopiedElementsFromJson(data);
-            
-            if (operationName == PasteOperationName) 
+
+            if (operationName == PasteOperationName)
                 UpdatePositionForCopiedElements(elements);
 
-            foreach (var graphElement in elements) 
+            foreach (var graphElement in elements)
                 _graphView.AddToSelection(graphElement);
         }
 
@@ -64,7 +64,7 @@ namespace Editor.Manipulators
             var firstModel = modelHandlers.First();
             var localMousePosition = _graphView.contentViewContainer.WorldToLocal(_mousePosition);
             var difference = firstModel.Model.Position - localMousePosition;
-            
+
             foreach (var handle in modelHandlers)
             {
                 var previousPosition = handle.Model.Position;

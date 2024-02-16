@@ -1,11 +1,9 @@
 using System;
-using System.IO;
 using Editor.Data;
 using Editor.Drawing.Controls;
 using Editor.Extensions;
 using Runtime;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows.CreateGraph
@@ -13,16 +11,14 @@ namespace Editor.Windows.CreateGraph
     public class CreateGraphWindow : BaseControl
     {
         private const string Uxml = "UXML/CreateGraphWindow";
-        
-        public new class UxmlFactory : UxmlFactory<CreateGraphWindow, UxmlTraits> { }
+        private readonly Button _closeButton;
+        private readonly Button _createButton;
 
         private readonly DialoguesProvider _dialogues;
-        
-        private readonly TextField _nameField;
         private readonly TextField _locationField;
+
+        private readonly TextField _nameField;
         private readonly Label _warningLabel;
-        private readonly Button _createButton;
-        private readonly Button _closeButton;
 
         private Action<DialogueGraphContainer> _onCreated;
 
@@ -33,7 +29,7 @@ namespace Editor.Windows.CreateGraph
             _createButton = this.Q<Button>("create-button");
             _warningLabel = this.Q<Label>("warning-label");
             _closeButton = this.Q<Button>("close-button");
-            
+
             _nameField.RegisterValueChangedCallback(OnNameChanged);
             _createButton.clicked += OnCreateClicked;
             _closeButton.clicked += OnCloseClicked;
@@ -42,7 +38,7 @@ namespace Editor.Windows.CreateGraph
         }
 
         public event Action<DialogueGraph> Created;
-        
+
         public event Action Closed
         {
             add => _closeButton.clicked += value;
@@ -64,7 +60,7 @@ namespace Editor.Windows.CreateGraph
         private void OnCreateClicked()
         {
             var dialogueName = _nameField.value;
-            
+
             if (string.IsNullOrWhiteSpace(dialogueName))
             {
                 EditorUtility.DisplayDialog("Warning", "Enter name!", "OK");
@@ -81,12 +77,15 @@ namespace Editor.Windows.CreateGraph
         }
 
         private static bool OverrideWarningDialog() =>
-            EditorUtility.DisplayDialog("Warning", "Creating an asset with this name will result in overwriting an existing one. Are you sure?", "Yes, overwrite it", "No");
+            EditorUtility.DisplayDialog("Warning", "Creating an asset with this name will result in overwriting an existing one. Are you sure?",
+                "Yes, overwrite it", "No");
 
         private void UpdateLocation(string dialogueName)
         {
             _warningLabel.Display(_dialogues.Contains(dialogueName));
             _locationField.value = _dialogues.GetDialoguePath(dialogueName);
         }
+
+        public new class UxmlFactory : UxmlFactory<CreateGraphWindow, UxmlTraits> { }
     }
 }

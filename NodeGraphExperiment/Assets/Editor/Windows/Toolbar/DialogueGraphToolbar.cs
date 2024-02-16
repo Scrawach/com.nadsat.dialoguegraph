@@ -9,9 +9,7 @@ namespace Editor.Windows.Toolbar
     public class DialogueGraphToolbar : BaseControl
     {
         private const string Uxml = "UXML/Toolbars/DialogueGraphToolbar";
-        
-        public new class UxmlFactory : UxmlFactory<DialogueGraphToolbar, UxmlTraits> { }
-        
+
         private readonly DropdownField _languageDropdown;
         private readonly Toggle _variablesToggle;
 
@@ -26,7 +24,7 @@ namespace Editor.Windows.Toolbar
             _variablesToggle = this.Q<Toggle>("variables-toggle");
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
         }
-        
+
         public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider)
         {
             _languageProvider = languageProvider;
@@ -49,5 +47,7 @@ namespace Editor.Windows.Toolbar
             else
                 _variablesBlackboard.Hide();
         }
+
+        public new class UxmlFactory : UxmlFactory<DialogueGraphToolbar, UxmlTraits> { }
     }
 }

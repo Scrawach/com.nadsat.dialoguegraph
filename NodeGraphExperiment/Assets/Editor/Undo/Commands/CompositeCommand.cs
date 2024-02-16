@@ -6,16 +6,16 @@ namespace Editor.Undo.Commands
 
         public CompositeCommand(params IUndoCommand[] commands) =>
             _commands = commands;
-        
+
         public void Undo()
         {
-            foreach (var command in _commands) 
+            foreach (var command in _commands)
                 command.Undo();
         }
 
         public void Redo()
         {
-            foreach (var command in _commands) 
+            foreach (var command in _commands)
                 command.Redo();
         }
     }

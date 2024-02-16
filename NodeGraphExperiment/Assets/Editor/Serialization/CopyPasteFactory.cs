@@ -6,15 +6,14 @@ using Editor.Factories;
 using Runtime;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Serialization
 {
     public class CopyPasteFactory
     {
-        private readonly DialogueGraphView _graphView;
         private readonly INodeViewFactory _factory;
+        private readonly DialogueGraphView _graphView;
 
         public CopyPasteFactory(DialogueGraphView graphView, INodeViewFactory factory)
         {
@@ -36,12 +35,12 @@ namespace Editor.Serialization
                 mapping[oldGuid] = nodeView;
                 yield return nodeView;
             }
-            
-            foreach (var edge in ConnectNodes(mapping, graphData.Links)) 
+
+            foreach (var edge in ConnectNodes(mapping, graphData.Links))
                 _graphView.AddElement(edge);
         }
-        
-        private Node CreateFrom<TModel>(TModel model) 
+
+        private Node CreateFrom<TModel>(TModel model)
             where TModel : BaseDialogueNode =>
             model switch
             {
@@ -69,41 +68,32 @@ namespace Editor.Serialization
                 Port outputPort;
 
                 if (child.inputContainer.childCount > 1)
-                {
                     inputPort = FindPort(child.inputContainer, link.ToPortId);
-                }
                 else
-                {
                     inputPort = child.inputContainer[0] as Port;
-                }
 
                 if (parent.outputContainer.childCount > 1)
-                {
                     outputPort = FindPort(parent.outputContainer, link.FromPortId);
-                }
                 else
-                {
                     outputPort = parent.outputContainer[0] as Port;
-                }
-                
+
                 yield return Connect(outputPort, inputPort);
             }
         }
-        
+
         private static Port FindPort(VisualElement container, string portId)
         {
             foreach (var element in container.Children())
-            {
                 if (element is Port port && port.viewDataKey == portId)
                     return port;
-            }
 
             throw new ArgumentException($"Not find {portId}");
         }
-        
+
         private static Edge Connect(Port output, Port input)
         {
-            var edge = new Edge() {output = output, input = input};
+            var edge = new Edge
+                {output = output, input = input};
             input.Connect(edge);
             output.Connect(edge);
             return edge;

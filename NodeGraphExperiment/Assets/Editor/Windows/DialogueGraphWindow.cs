@@ -10,15 +10,12 @@ namespace Editor.Windows
     {
         private DialogueGraphRoot _graphRoot;
         private DialogueGraphView _graphView;
-        
-        public bool IsDirty 
-        { 
-            get => hasUnsavedChanges; 
-            set => hasUnsavedChanges = value; 
-        }
 
-        public void Populate(DialogueGraphContainer graph) =>
-            _graphRoot.Load(graph);
+        public bool IsDirty
+        {
+            get => hasUnsavedChanges;
+            set => hasUnsavedChanges = value;
+        }
 
         public void CreateGUI()
         {
@@ -30,7 +27,10 @@ namespace Editor.Windows
 
             _graphView.graphViewChanged += OnChange;
         }
-        
+
+        public void Populate(DialogueGraphContainer graph) =>
+            _graphRoot.Load(graph);
+
         private GraphViewChange OnChange(GraphViewChange graphViewChange)
         {
             hasUnsavedChanges = true;

@@ -8,10 +8,10 @@ namespace Editor.Factories
 {
     public class InspectorViewFactory
     {
-        private readonly DialogueDatabase _database;
-        private readonly SearchWindowProvider _searchWindow;
-        private readonly PhraseRepository _phrases;
         private readonly ChoicesRepository _choices;
+        private readonly DialogueDatabase _database;
+        private readonly PhraseRepository _phrases;
+        private readonly SearchWindowProvider _searchWindow;
 
         private DialogueNodeInspectorView _openedDialogueNodeInspector;
 
@@ -22,7 +22,7 @@ namespace Editor.Factories
             _phrases = phrases;
             _choices = choices;
         }
-        
+
         public VisualElement Build(VisualElement target) =>
             target switch
             {

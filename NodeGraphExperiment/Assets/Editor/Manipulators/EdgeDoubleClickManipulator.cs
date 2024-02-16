@@ -19,7 +19,7 @@ namespace Editor.Manipulators
 
         private void OnMouseDown(MouseDownEvent evt)
         {
-            if (evt.clickCount >= 2 && evt is { target: Edge edge }) 
+            if (evt.clickCount >= 2 && evt is {target: Edge edge})
                 _redirectFactory.CreateRedirect(edge, evt.mousePosition, OnMouseDown);
         }
     }

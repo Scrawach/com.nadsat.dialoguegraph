@@ -7,8 +7,8 @@ namespace Editor.Localization
 {
     public class MultiTable
     {
-        private readonly Dictionary<string, Table> _tables = new();
         private readonly LanguageProvider _language;
+        private readonly Dictionary<string, Table> _tables = new();
         private string _key;
 
         public MultiTable(LanguageProvider language) =>
@@ -42,10 +42,10 @@ namespace Editor.Localization
         {
             var key = GetKeyFromUniqueId(uniqueId);
             var table = _tables[key];
-            
+
             if (!table.HasHeader(_language.CurrentLanguage))
                 table.AddHeader(_language.CurrentLanguage);
-            
+
             return table.Get(_language.CurrentLanguage, uniqueId);
         }
 
@@ -67,7 +67,7 @@ namespace Editor.Localization
                 table.AddHeader(header);
             }
         }
-        
+
         public IEnumerable<CsvInfo> ExportToCsv() =>
             _tables.Values
                 .Select(table => table.ExportToCsv())
@@ -93,13 +93,13 @@ namespace Editor.Localization
         {
             var index = 0;
             var value = $"{firstKey}.{secondKey}.{index:D3}";
-            
+
             while (table.ContainsKey(value))
             {
                 index++;
                 value = $"{firstKey}.{secondKey}.{index:D3}";
             }
-            
+
             return value;
         }
 

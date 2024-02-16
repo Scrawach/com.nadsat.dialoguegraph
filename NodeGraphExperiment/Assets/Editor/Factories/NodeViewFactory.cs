@@ -12,10 +12,10 @@ namespace Editor.Factories
     public class NodeViewFactory : INodeViewFactory
     {
         private readonly GenericNodeViewFactory _baseFactory;
-        private readonly DialogueNodeViewFactory _dialogueFactory;
-        
+
         private readonly GraphView _canvas;
         private readonly ChoicesRepository _choices;
+        private readonly DialogueNodeViewFactory _dialogueFactory;
         private readonly VariablesProvider _variables;
 
         public NodeViewFactory(GenericNodeViewFactory baseFactory, DialogueNodeViewFactory dialogueFactory, GraphView canvas,
@@ -27,13 +27,13 @@ namespace Editor.Factories
             _choices = choices;
             _variables = variables;
         }
-        
+
         public DialogueNodeView CreateDialogue(DialogueNode node) =>
             _dialogueFactory.Create(node);
 
         public RedirectNodeView CreateRedirect(RedirectNode node)
         {
-            var redirectNode = new RedirectNodeView {title = "",};
+            var redirectNode = new RedirectNodeView {title = ""};
             redirectNode.styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNode"));
             return _baseFactory.Create(redirectNode, node);
         }

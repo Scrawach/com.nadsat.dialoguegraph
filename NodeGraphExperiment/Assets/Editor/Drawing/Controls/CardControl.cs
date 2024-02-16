@@ -7,22 +7,20 @@ namespace Editor.Drawing.Controls
 {
     public class CardControl : BaseControl
     {
-        public new class UxmlFactory : UxmlFactory<CardControl, UxmlTraits> { }
-
         private const string Uxml = "UXML/Controls/CardControl";
-        
-        public readonly Label Title;
+
+        private readonly Button _close;
         public readonly Label Description;
         public readonly TextField TextField;
-        
-        private readonly Button _close;
-        
+
+        public readonly Label Title;
+
         public CardControl(string title, string description) : this()
         {
             Title.text = title;
             Description.text = description;
         }
-        
+
         public CardControl() : base(Uxml)
         {
             Title = this.Q<Label>("title");
@@ -63,7 +61,7 @@ namespace Editor.Drawing.Controls
         {
             Description.Display(true);
             TextField.Display(false);
-            
+
             var text = TextField.text;
             text = RemoveNewlineSymbol(text);
             Description.text = text;
@@ -72,9 +70,9 @@ namespace Editor.Drawing.Controls
 
         private string RemoveNewlineSymbol(string text)
         {
-            if (string.IsNullOrWhiteSpace(text)) 
+            if (string.IsNullOrWhiteSpace(text))
                 return text;
-            
+
             var lastIndex = TextField.text.Length - 1;
             if (text[lastIndex] == '\n')
                 text = text.Remove(lastIndex, 1);
@@ -95,8 +93,10 @@ namespace Editor.Drawing.Controls
             TextField.SetValueWithoutNotify(Description.text);
             TextField.Display(true);
             Description.Display(false);
-            TextField.Q(TextInputBaseField<string>.textInputUssName, (string) null).Focus();
+            TextField.Q(TextInputBaseField<string>.textInputUssName).Focus();
             TextField.textSelection.SelectAll();
         }
+
+        public new class UxmlFactory : UxmlFactory<CardControl, UxmlTraits> { }
     }
 }

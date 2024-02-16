@@ -11,7 +11,7 @@ namespace Editor.Factories
 
         public ElementsFactory(GraphView canvas) =>
             _canvas = canvas;
-        
+
         public Group CreateGroup(Vector2 at)
         {
             var group = new Group();

@@ -8,9 +8,9 @@ namespace Editor.ContextualMenu
 {
     public class DialogueContextualMenu : Manipulator
     {
-        private readonly NodesProvider _provider;
-        private readonly NodesCreationMenuBuilder _nodesCreationMenu;
         private readonly ElementsFactory _elementsFactory;
+        private readonly NodesCreationMenuBuilder _nodesCreationMenu;
+        private readonly NodesProvider _provider;
 
         public DialogueContextualMenu(NodesProvider provider, NodesCreationMenuBuilder nodesCreationMenu, ElementsFactory elementsFactory)
         {
@@ -18,7 +18,7 @@ namespace Editor.ContextualMenu
             _nodesCreationMenu = nodesCreationMenu;
             _elementsFactory = elementsFactory;
         }
-        
+
         protected override void RegisterCallbacksOnTarget() =>
             target.RegisterCallback<ContextualMenuPopulateEvent>(OnContextualMenuBuild);
 
@@ -31,18 +31,16 @@ namespace Editor.ContextualMenu
             {
                 if (evt.target is IModelHandle nodeView)
                 {
-                    evt.menu.InsertAction(0, "Set as Root", _ =>
-                    {
-                        _provider.MarkAsRootNode(nodeView);
-                    });
-                    
+                    evt.menu.InsertAction(0, "Set as Root", _ => { _provider.MarkAsRootNode(nodeView); });
+
                     evt.menu.AppendSeparator();
                 }
+
                 return;
             }
-            
+
             _nodesCreationMenu.Build(evt);
-            evt.menu.InsertAction(2, "Create Note", (action) => _elementsFactory.CreateStickyNote(at: action.eventInfo.mousePosition));
+            evt.menu.InsertAction(2, "Create Note", action => _elementsFactory.CreateStickyNote(action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Group", (action) => _factory.CreateGroup(at: action.eventInfo.mousePosition));
             //evt.menu.AppendAction("Create Sticky Note", (action) => _factory.CreateStickyNote(at: action.eventInfo.mousePosition));
         }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,9 +5,9 @@ namespace Editor.AssetManagement
 {
     public class CsvTableInfo
     {
-        public string Name;
         public string Headers;
         public string[] Lines;
+        public string Name;
     }
 
     public class TableRepository
@@ -34,18 +33,15 @@ namespace Editor.AssetManagement
         }
 
         public CsvTableInfo ExportToCsv() =>
-            new CsvTableInfo()
+            new()
             {
                 Name = _name,
                 Headers = "Keys,Russian",
                 Lines = _content.Select(keyValuePair => $"\"{keyValuePair.Key}\",\"{keyValuePair.Value}\"").ToArray()
             };
 
-        public void Import(CsvTableInfo info)
-        {
+        public void Import(CsvTableInfo info) =>
             _name = info.Name;
-            
-        }
 
         public void Remove(string phraseId) =>
             _content.Remove(phraseId);

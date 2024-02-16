@@ -11,9 +11,9 @@ namespace Runtime
         public Sprite Icon;
         public Color Color;
 
-        public string PathToIcon => 
-            Icon == null 
-            ? string.Empty 
-            : AssetDatabase.GetAssetPath(Icon);
+        public string PathToIcon =>
+            Icon == null
+                ? string.Empty
+                : AssetDatabase.GetAssetPath(Icon);
     }
 }

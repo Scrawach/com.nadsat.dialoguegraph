@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Editor.AssetManagement
 {
     public class LanguageProvider
     {
-        private readonly List<string> _availableLanguages = new ();
+        private readonly List<string> _availableLanguages = new();
 
         public string CurrentLanguage { get; private set; }
 
@@ -30,5 +29,4 @@ namespace Editor.AssetManagement
         public string[] AllLanguages() =>
             _availableLanguages.ToArray();
     }
-    
 }

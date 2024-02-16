@@ -9,8 +9,8 @@ namespace Editor.Factories
     public class UndoNodeViewFactory : INodeViewFactory
     {
         private readonly INodeViewFactory _factory;
-        private readonly IUndoRegister _undoRegister;
         private readonly GraphView _graphView;
+        private readonly IUndoRegister _undoRegister;
 
         public UndoNodeViewFactory(INodeViewFactory factory, IUndoRegister undoRegister, GraphView graphView)
         {
@@ -33,7 +33,7 @@ namespace Editor.Factories
 
         public VariableNodeView CreateVariable(VariableNode node) =>
             RegisterCreated(_factory.CreateVariable(node));
-        
+
         private TViewNode RegisterCreated<TViewNode>(TViewNode node) where TViewNode : GraphElement
         {
             _undoRegister.Register(new AddElement(node, _graphView));

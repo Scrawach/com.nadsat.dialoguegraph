@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Runtime.Localization;
-using UnityEngine;
 
 namespace Editor.Localization
 {
     public class Table
     {
-        private List<string> _headers = new() { "Keys" };
         private readonly Dictionary<string, List<string>> _content = new();
+        private List<string> _headers = new() {"Keys"};
 
         public Table(string name) =>
             Name = name;
@@ -20,8 +19,7 @@ namespace Editor.Localization
 
         public string Name { get; private set; }
 
-        public IEnumerable<string> Keys => 
-            _content.Keys;
+        public IEnumerable<string> Keys => _content.Keys;
 
         public string Get(string column, string row)
         {
@@ -40,7 +38,7 @@ namespace Editor.Localization
         public void AddHeader(string header)
         {
             _headers.Add(header);
-            foreach (var contentValue in _content.Values) 
+            foreach (var contentValue in _content.Values)
                 contentValue.Add(string.Empty);
         }
 

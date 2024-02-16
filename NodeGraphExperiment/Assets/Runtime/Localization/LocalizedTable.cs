@@ -19,20 +19,20 @@ namespace Runtime.Localization
             foreach (var row in _asset.Rows().Skip(1))
             {
                 var localizedString = new LocalizedString();
-                for (var i = 0; i < headers.Length; i++) 
+                for (var i = 0; i < headers.Length; i++)
                     localizedString.Add(headers[i], row[i]);
                 yield return (row[0], localizedString);
             }
         }
-        
+
         public string[] GetAvailableLanguages() =>
             _languages;
 
         private static string[] ParseLanguages(string[] headers)
         {
             var result = new List<string>();
-            
-            for (var i = 1; i < headers.Length; i++) 
+
+            for (var i = 1; i < headers.Length; i++)
                 result.Add(headers[i]);
 
             return result.ToArray();

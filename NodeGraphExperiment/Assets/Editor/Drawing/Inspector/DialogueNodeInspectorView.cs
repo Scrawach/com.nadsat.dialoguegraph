@@ -3,7 +3,6 @@ using System.Linq;
 using Editor.AssetManagement;
 using Editor.Drawing.Controls;
 using Editor.Windows.Search;
-using Runtime;
 using Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -14,23 +13,23 @@ namespace Editor.Drawing.Inspector
     public class DialogueNodeInspectorView : BaseControl
     {
         private const string Uxml = "UXML/DialogueNodeInspectorView";
-        
-        private readonly DialogueNode _node;
-        private readonly EditorWindow _owner;
+        private readonly Button _addImageButton;
+        private readonly Button _addPhraseButton;
         private readonly DropdownField _dropdownField;
         private readonly Label _guidLabel;
-        private readonly VisualElement _phrasesContainer;
-        private readonly Button _addPhraseButton;
 
         private readonly VisualElement _imagesContainer;
-        private readonly Button _addImageButton;
+
+        private readonly DialogueNode _node;
+        private readonly EditorWindow _owner;
+        private readonly PhraseRepository _phrases;
+        private readonly VisualElement _phrasesContainer;
 
         private readonly SearchWindowProvider _searchWindow;
-        private readonly PhraseRepository _phrases;
+        private ImageFieldControl _activeImage;
 
         private CardControl _activePhrase;
-        private ImageFieldControl _activeImage;
-        
+
         public DialogueNodeInspectorView(DialogueNode node, SearchWindowProvider searchWindow, PhraseRepository phrases)
             : base(Uxml)
         {
@@ -42,7 +41,7 @@ namespace Editor.Drawing.Inspector
             _dropdownField.RegisterValueChangedCallback(OnDropdownChanged);
             _guidLabel = this.Q<Label>("guid-label");
             _phrasesContainer = this.Q<VisualElement>("phrases-container");
-            
+
             _addPhraseButton = this.Q<Button>("add-phrase-button");
             _addPhraseButton.clicked += OnAddPhraseButtonClicked;
 
@@ -61,10 +60,10 @@ namespace Editor.Drawing.Inspector
         {
             _guidLabel.text = node.Guid;
             _dropdownField.SetValueWithoutNotify(node.PersonId);
-            
+
             if (!string.IsNullOrWhiteSpace(node.PhraseId))
                 SetPhrase(node.PhraseId);
-            
+
             if (!string.IsNullOrWhiteSpace(node.PathToImage))
                 SetImage(node.PathToImage);
         }
@@ -73,10 +72,10 @@ namespace Editor.Drawing.Inspector
         {
             if (_activePhrase != null)
                 _phrasesContainer.Remove(_activePhrase);
-            
+
             var phrase = _phrases.Get(phraseId);
             var control = new CardControl(phraseId, phrase);
-            
+
             _activePhrase = control;
             _addPhraseButton.style.display = DisplayStyle.None;
             _phrasesContainer.Add(control);
@@ -84,10 +83,10 @@ namespace Editor.Drawing.Inspector
             control.Closed += () =>
             {
                 var isOk = EditorUtility.DisplayDialog("Warning", "This action delete phrase from table", "Ok", "Cancel");
-                
+
                 if (!isOk)
                     return;
-                
+
                 _activePhrase = null;
                 _node.SetPhraseId(string.Empty);
                 _phrasesContainer.Remove(control);
@@ -95,13 +94,13 @@ namespace Editor.Drawing.Inspector
                 _addPhraseButton.style.display = DisplayStyle.Flex;
             };
 
-            control.TextEdited += (value) =>
+            control.TextEdited += value =>
             {
                 _phrases.Update(phraseId, value);
                 _node.NotifyChanged();
             };
         }
-        
+
         private void SetImage(string pathToImage)
         {
             if (_activeImage != null)
@@ -115,7 +114,7 @@ namespace Editor.Drawing.Inspector
                 _addImageButton.style.display = DisplayStyle.None;
                 item.SetImage(AssetDatabase.LoadAssetAtPath<Sprite>(pathToImage));
             }
-            
+
             _imagesContainer.Add(item);
 
             item.Closed += () =>
@@ -126,11 +125,7 @@ namespace Editor.Drawing.Inspector
                 _node.SetPathToImage(string.Empty);
             };
 
-            item.Selected += (sprite) =>
-            {
-                _node.SetPathToImage(AssetDatabase.GetAssetPath(sprite));
-            };
-
+            item.Selected += sprite => { _node.SetPathToImage(AssetDatabase.GetAssetPath(sprite)); };
         }
 
         public void StartEditPhrase() =>

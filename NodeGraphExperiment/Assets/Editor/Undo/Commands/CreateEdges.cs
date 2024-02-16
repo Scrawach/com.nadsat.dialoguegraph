@@ -6,7 +6,7 @@ namespace Editor.Undo.Commands
     public class CreateEdges : IUndoCommand
     {
         private readonly RemoveEdges _removeEdges;
-        
+
         public CreateEdges(GraphView canvas, List<Edge> edgesToCreate) =>
             _removeEdges = new RemoveEdges(canvas, edgesToCreate);
 

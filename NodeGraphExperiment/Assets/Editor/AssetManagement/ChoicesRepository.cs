@@ -1,6 +1,4 @@
-using Editor.Importers;
 using Editor.Localization;
-using UnityEngine;
 
 namespace Editor.AssetManagement
 {
@@ -10,13 +8,13 @@ namespace Editor.AssetManagement
 
         public ChoicesRepository(MultiTable table) =>
             _table = table;
-        
+
         public string Create() =>
             _table.Create("Button");
 
         public string Get(string choiceId) =>
             _table.Get(choiceId);
-        
+
         public void Update(string choiceId, string content) =>
             _table.Update(choiceId, content);
 

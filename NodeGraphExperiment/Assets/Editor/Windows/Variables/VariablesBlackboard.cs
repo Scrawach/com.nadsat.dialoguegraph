@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,10 +7,10 @@ namespace Editor.Windows.Variables
 {
     public class VariablesBlackboard : Blackboard
     {
-        private readonly VariablesProvider _variables;
         private readonly GraphView _root;
+        private readonly VariablesProvider _variables;
         private BlackboardSection _globalVariables;
-        
+
         public VariablesBlackboard(VariablesProvider variables, GraphView root) : base(root)
         {
             _variables = variables;
@@ -24,10 +23,8 @@ namespace Editor.Windows.Variables
         private void OnDeleteSelection(string operationName, GraphView.AskUser askuser)
         {
             foreach (var selectable in _root.selection)
-            {
                 if (selectable is BlackboardField field)
                     RemoveField(field);
-            }
             _root.DeleteSelection();
         }
 
@@ -38,8 +35,9 @@ namespace Editor.Windows.Variables
             SetPosition(new Rect(10, 10, 200, 300));
             addItemRequested += OnAddItemRequested;
             editTextRequested += OnEditTextRequested;
-            
-            _globalVariables = new BlackboardSection() {title = "Global Variables"};
+
+            _globalVariables = new BlackboardSection
+                {title = "Global Variables"};
             Add(_globalVariables);
             Hide();
         }
@@ -62,10 +60,11 @@ namespace Editor.Windows.Variables
         private void OnVariablesChanged()
         {
             _globalVariables.Clear();
-            
+
             foreach (var variable in _variables.All())
             {
-                var variableField = new BlackboardField() {text = variable.Name, typeText = "global"};
+                var variableField = new BlackboardField
+                    {text = variable.Name, typeText = "global"};
                 variableField.RegisterCallback<ContextualMenuPopulateEvent>(OnBuildMenu);
                 _globalVariables.Add(variableField);
             }
@@ -73,7 +72,8 @@ namespace Editor.Windows.Variables
 
         public void AddVariable(string variableName)
         {
-            var variable = new BlackboardField() {text = variableName, typeText = "global"};
+            var variable = new BlackboardField
+                {text = variableName, typeText = "global"};
             variable.RegisterCallback<ContextualMenuPopulateEvent>(OnBuildMenu);
             _globalVariables.Add(variable);
             _variables.Add(variableName);
@@ -82,18 +82,11 @@ namespace Editor.Windows.Variables
         private void OnBuildMenu(ContextualMenuPopulateEvent evt)
         {
             if (evt.target is BlackboardField field)
-            {
-                evt.menu.AppendAction("Delete", (action) =>
-                {
-                    RemoveField(field);
-                });
-            }
+                evt.menu.AppendAction("Delete", action => { RemoveField(field); });
         }
 
-        private void RemoveField(BlackboardField field)
-        {
+        private void RemoveField(BlackboardField field) =>
             _variables.Remove(field.text);
-        }
 
         private void OnAddItemRequested(Blackboard obj) =>
             AddVariable(GenerateVariableName());

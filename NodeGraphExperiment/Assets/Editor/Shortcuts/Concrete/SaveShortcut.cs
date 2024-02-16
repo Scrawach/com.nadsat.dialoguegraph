@@ -10,7 +10,7 @@ namespace Editor.Shortcuts.Concrete
 
         public SaveShortcut(DialogueGraphRoot root) =>
             _root = root;
-        
+
         public bool IsHandle(KeyDownEvent keyDown) =>
             keyDown.keyCode == KeyCode.S
             && keyDown.modifiers == EventModifiers.Control;

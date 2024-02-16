@@ -8,16 +8,15 @@ namespace Editor.AssetManagement
 {
     public class DialogueDatabase
     {
-        private DialogueGraphDatabase _database;
-
         private readonly PersonData _none = new() {Color = Color.gray, Icon = null, Name = "none"};
+        private DialogueGraphDatabase _database;
 
         public void Initialize()
         {
             var path = Path.Combine("Assets", "Resources", "Dialogues", "Dialogue Database.asset");
             _database = GetOrCreateDatabase(path);
         }
-        
+
         public string[] All() =>
             _database.Persons.Select(x => x.Name).ToArray();
 
@@ -36,7 +35,7 @@ namespace Editor.AssetManagement
 
         private DialogueGraphDatabase CreateDatabase(string path)
         {
-            Debug.Log($"TRYING CREATE!");
+            Debug.Log("TRYING CREATE!");
             return null;
         }
     }

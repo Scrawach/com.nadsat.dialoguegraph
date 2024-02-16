@@ -8,16 +8,16 @@ namespace Editor.Drawing.Nodes
     public class VariableNodeView : BaseNodeView<VariableNode>
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/VariableNodeView.uxml";
-
-        private readonly DropdownField _variablesDropdown;
         private readonly IntegerField _numberField;
 
         private readonly VariablesProvider _variables;
 
+        private readonly DropdownField _variablesDropdown;
+
         public VariableNodeView(VariablesProvider variables) : base(UxmlPath)
         {
             _variables = variables;
-            
+
             _variablesDropdown = this.Q<DropdownField>("variables-dropdown");
             _numberField = this.Q<IntegerField>("number-field");
         }
@@ -32,10 +32,7 @@ namespace Editor.Drawing.Nodes
             _variables.Changed += () =>
             {
                 _variablesDropdown.choices = _variables.All().Select(v => v.Name).ToList();
-                if (!_variables.Contains(_variablesDropdown.value))
-                {
-                    _variablesDropdown.value = string.Empty;
-                }
+                if (!_variables.Contains(_variablesDropdown.value)) _variablesDropdown.value = string.Empty;
             };
         }
     }

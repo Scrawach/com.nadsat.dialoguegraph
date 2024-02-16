@@ -5,8 +5,8 @@ namespace Editor.Drawing.Controls
 {
     public class IconView : VisualElement
     {
-        public string Tooltip;
         public Texture2D Icon;
+        public string Tooltip;
 
         public IconView(string tooltip, Texture2D icon)
         {

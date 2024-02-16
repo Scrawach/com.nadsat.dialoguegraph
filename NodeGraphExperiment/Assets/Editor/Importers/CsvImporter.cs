@@ -12,7 +12,7 @@ namespace Editor.Importers
     {
         private readonly LanguageProvider _language;
         private readonly MultiTable _table;
-        
+
         public CsvImporter(LanguageProvider language, MultiTable table)
         {
             _language = language;
@@ -25,7 +25,7 @@ namespace Editor.Importers
             var csvFiles = GetCsvFilesFromDirectory(path).ToArray();
             var csvNames = csvFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
             var csvTexts = csvFiles.Select(s => new CsvText(File.ReadAllText(s))).ToArray();
-            
+
             if (csvTexts.Length < 1)
                 return;
 
@@ -33,7 +33,7 @@ namespace Editor.Importers
 
             var languages = GetLanguagesFromTables(csvTexts).ToArray();
             _table.AddHeaders(languages);
-            foreach (var language in languages) 
+            foreach (var language in languages)
                 _language.AddLanguage(language);
         }
 

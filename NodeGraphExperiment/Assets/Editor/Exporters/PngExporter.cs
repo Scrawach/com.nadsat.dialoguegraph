@@ -3,21 +3,21 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditorInternal;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Editor.Exporters
 {
     public class PngExporter
     {
         private const string SavePath = "/Screenshots";
-        
-        private readonly EditorWindow _window;
         private readonly GraphView _graph;
 
+        private readonly EditorWindow _window;
+
         private bool _isProcessing;
-        private IEnumerator _processing;
         private float _lastTime;
+        private IEnumerator _processing;
 
         public PngExporter(EditorWindow window, GraphView graph)
         {
@@ -40,7 +40,7 @@ namespace Editor.Exporters
                 _processing = Processing();
 
             var t = 0.1f;
-            if (_processing.Current is float value) 
+            if (_processing.Current is float value)
                 t = Mathf.Max(t, value);
 
             if (_lastTime + t < Time.realtimeSinceStartup)
@@ -48,7 +48,7 @@ namespace Editor.Exporters
                 _lastTime = Time.realtimeSinceStartup;
                 _isProcessing = _processing.MoveNext();
             }
-            
+
             if (!_isProcessing)
                 StopExport();
         }
@@ -82,19 +82,17 @@ namespace Editor.Exporters
                 window.Repaint();
                 yield return 0.05f;
                 var screenPixels = ReadScreenPixels(screenPosition);
-                
+
                 for (var px = 0; px < tileSize.x; px++)
+                for (var py = 0; py < tileSize.y; py++)
                 {
-                    for (var py = 0; py < tileSize.y; py++)
-                    {
-                        var pixelIndex = px + tileSize.x * py;
-                        var targetCoords = new Vector2Int(px + x * tileSize.x, (py + (numberOfTiles.y - 1 - y) * tileSize.y));
-                        var targetIndex = targetCoords.x + (tileSize.x * numberOfTiles.x) * targetCoords.y;
-                        pixels[targetIndex] = screenPixels[pixelIndex];
-                    }
+                    var pixelIndex = px + tileSize.x * py;
+                    var targetCoords = new Vector2Int(px + x * tileSize.x, py + (numberOfTiles.y - 1 - y) * tileSize.y);
+                    var targetIndex = targetCoords.x + tileSize.x * numberOfTiles.x * targetCoords.y;
+                    pixels[targetIndex] = screenPixels[pixelIndex];
                 }
             }
-            
+
             var savedPath = SaveAsPng(tileSize * numberOfTiles, pixels, "result");
         }
 
@@ -104,14 +102,14 @@ namespace Editor.Exporters
             texture.SetPixels(pixels);
             return texture;
         }
-        
+
         private static Rect GetGraphArea(GraphView view, float offset)
         {
             if (!view.nodes.Any())
                 return view.worldBound;
-            
+
             var area = view.nodes.First().GetPosition();
-            
+
             foreach (var rect in view.nodes.Select(node => node.GetPosition()))
             {
                 area.xMax = Mathf.Max(area.xMax, rect.xMax + offset);
@@ -122,9 +120,9 @@ namespace Editor.Exporters
 
             return area;
         }
-        
+
         private Color[] ReadScreenPixels(Rect readRect) =>
-            UnityEditorInternal.InternalEditorUtility.ReadScreenPixel(readRect.position, (int) readRect.width, (int) readRect.height);
+            InternalEditorUtility.ReadScreenPixel(readRect.position, (int) readRect.width, (int) readRect.height);
 
         private string SaveAsPng(Vector2Int size, Color[] pixels, string filename)
         {
@@ -141,12 +139,12 @@ namespace Editor.Exporters
             AssetDatabase.Refresh();
             return path;
         }
-        
+
         private string GetUniqueName(string name)
         {
             var path = $"{Application.dataPath}{SavePath}/{name}.png";
             var counter = 0;
-            
+
             while (File.Exists(path))
             {
                 path = $"{Application.dataPath}{SavePath}/{name}{counter:000}.png";

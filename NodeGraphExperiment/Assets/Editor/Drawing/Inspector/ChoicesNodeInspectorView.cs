@@ -9,14 +9,14 @@ namespace Editor.Drawing.Inspector
     public class ChoicesNodeInspectorView : BaseControl
     {
         private const string Uxml = "UXML/ChoicesNodeInspectorView";
+        private readonly Button _addChoiceButton;
 
         private readonly ChoicesRepository _choices;
-        private readonly ChoicesNode _node;
+        private readonly VisualElement _choicesContainer;
 
         private readonly Label _guidLabel;
-        private readonly VisualElement _choicesContainer;
-        private readonly Button _addChoiceButton;
-        
+        private readonly ChoicesNode _node;
+
         public ChoicesNodeInspectorView(ChoicesNode node, ChoicesRepository choices) : base(Uxml)
         {
             _node = node;
@@ -36,9 +36,9 @@ namespace Editor.Drawing.Inspector
         private void OnModelChanged()
         {
             _guidLabel.text = _node.Guid;
-            
+
             _choicesContainer.Clear();
-            foreach (var button in _node.Choices) 
+            foreach (var button in _node.Choices)
                 CreateCardControl(button, _choices.Get(button));
         }
 
@@ -48,14 +48,14 @@ namespace Editor.Drawing.Inspector
             card.Closed += () =>
             {
                 var isOk = EditorUtility.DisplayDialog("Warning", "This action delete phrase from table", "Ok", "Cancel");
-                
+
                 if (!isOk)
                     return;
 
                 _choices.Remove(id);
                 _node.RemoveChoice(id);
             };
-            card.TextEdited += (value) =>
+            card.TextEdited += value =>
             {
                 _choices.Update(id, value);
                 _node.NotifyChanged();

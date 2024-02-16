@@ -20,9 +20,9 @@ namespace Editor
         [OnOpenAsset]
         public static bool OnOpenDialogueGraph(int instanceId, int line)
         {
-            if (Selection.activeObject is not DialogueGraphContainer graph) 
+            if (Selection.activeObject is not DialogueGraphContainer graph)
                 return false;
-            
+
             OpenWindow(graph);
             return true;
         }

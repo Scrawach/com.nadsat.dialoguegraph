@@ -44,7 +44,7 @@ namespace Editor.Exporters
                 var parentNode = (dynamic) edge.output.node;
                 var childNode = (dynamic) edge.input.node;
 
-                yield return new NodeLinks()
+                yield return new NodeLinks
                 {
                     FromGuid = parentNode.Model.Guid,
                     FromPortId = edge.output.viewDataKey,
@@ -54,11 +54,11 @@ namespace Editor.Exporters
             }
         }
     }
-    
+
     public class NodeGraph
     {
+        public List<NodeLinks> Links;
         public string Name;
         public List<BaseDialogueNode> Nodes;
-        public List<NodeLinks> Links;
     }
 }

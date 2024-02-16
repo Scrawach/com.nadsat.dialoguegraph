@@ -10,14 +10,14 @@ namespace Editor.Drawing.Nodes
     public class ChoicesNodeView : BaseNodeView<ChoicesNode>, IRemovablePorts
     {
         private const string UxmlPath = "Assets/Editor/Resources/UXML/ChoicesNodeView.uxml";
-        
+
         private readonly ChoicesRepository _choices;
 
         public ChoicesNodeView(ChoicesRepository choices) : base(UxmlPath) =>
             _choices = choices;
 
         public event Action<IEnumerable<Port>> PortRemoved;
-        
+
         protected override void OnModelChanged()
         {
             var ports = outputContainer.Children().Cast<Port>().ToArray();
@@ -39,7 +39,7 @@ namespace Editor.Drawing.Nodes
                     port.portName = _choices.Get(choice);
                     continue;
                 }
-                
+
                 AddOutput(_choices.Get(choice), choice);
             }
         }

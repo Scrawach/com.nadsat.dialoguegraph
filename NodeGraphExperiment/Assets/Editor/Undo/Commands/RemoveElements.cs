@@ -9,7 +9,7 @@ namespace Editor.Undo.Commands
         private readonly List<IUndoCommand> _removeCommands;
 
         public RemoveElements(GraphView canvas, List<GraphElement> elementsToRemove) =>
-            _removeCommands = new List<IUndoCommand>()
+            _removeCommands = new List<IUndoCommand>
             {
                 new RemoveEdges(canvas, elementsToRemove.OfType<Edge>()),
                 new RemoveNodes(canvas, elementsToRemove.OfType<Node>())
@@ -17,13 +17,13 @@ namespace Editor.Undo.Commands
 
         public void Undo()
         {
-            foreach (var command in _removeCommands) 
+            foreach (var command in _removeCommands)
                 command.Undo();
         }
 
         public void Redo()
         {
-            foreach (var command in _removeCommands) 
+            foreach (var command in _removeCommands)
                 command.Redo();
         }
     }

@@ -8,7 +8,7 @@ namespace Editor.Undo.Commands
     public class MoveNodes : IUndoCommand
     {
         private readonly List<IMovableNode> _movedElements;
-        private readonly List<Rect>_newPositions;
+        private readonly List<Rect> _newPositions;
         private readonly List<Rect> _oldPositions;
 
         public MoveNodes(IEnumerable<IMovableNode> movedElements)
@@ -20,13 +20,13 @@ namespace Editor.Undo.Commands
 
         public void Undo()
         {
-            for (var i = 0; i < _movedElements.Count; i++) 
+            for (var i = 0; i < _movedElements.Count; i++)
                 _movedElements[i].SavePosition(_oldPositions[i]);
         }
 
         public void Redo()
         {
-            for (var i = 0; i < _movedElements.Count; i++) 
+            for (var i = 0; i < _movedElements.Count; i++)
                 _movedElements[i].SavePosition(_newPositions[i]);
         }
 

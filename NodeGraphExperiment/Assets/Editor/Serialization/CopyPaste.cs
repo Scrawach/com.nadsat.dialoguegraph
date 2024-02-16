@@ -14,11 +14,11 @@ namespace Editor.Serialization
         {
             TypeNameHandling = TypeNameHandling.Objects
         };
-        
+
         public string ToJson(IEnumerable<GraphElement> elements)
         {
             var arrayElements = elements.ToArray();
-            var graphData = new CopiedGraphData()
+            var graphData = new CopiedGraphData
             {
                 Nodes = AllModelHandlersFrom(arrayElements).Select(m => m.Model).ToArray(),
                 Links = GetLinksFrom(EdgesFrom(arrayElements)).ToArray()
@@ -42,7 +42,7 @@ namespace Editor.Serialization
                 var parentNode = (dynamic) edge.output.node;
                 var childNode = (dynamic) edge.input.node;
 
-                yield return new NodeLinks()
+                yield return new NodeLinks
                 {
                     FromGuid = parentNode.Model.Guid,
                     FromPortId = edge.output.viewDataKey,
@@ -51,11 +51,11 @@ namespace Editor.Serialization
                 };
             }
         }
-        
+
         public class CopiedGraphData
         {
-            public BaseDialogueNode[] Nodes;
             public NodeLinks[] Links;
+            public BaseDialogueNode[] Nodes;
         }
     }
 }

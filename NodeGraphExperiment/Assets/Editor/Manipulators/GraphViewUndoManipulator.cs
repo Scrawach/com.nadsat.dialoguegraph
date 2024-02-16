@@ -31,19 +31,13 @@ namespace Editor.Manipulators
                 var movableNodes = graphViewChange.movedElements.OfType<IMovableNode>().ToArray();
                 var moveCommand = new MoveNodes(movableNodes);
                 _undoRegister.Register(moveCommand);
-                foreach (var element in movableNodes) 
+                foreach (var element in movableNodes)
                     element.SavePosition(element.GetPosition());
             }
 
-            if (graphViewChange.edgesToCreate != null)
-            {
-                _undoRegister.Register(new CreateEdges(_graphView, graphViewChange.edgesToCreate));
-            }
+            if (graphViewChange.edgesToCreate != null) _undoRegister.Register(new CreateEdges(_graphView, graphViewChange.edgesToCreate));
 
-            if (graphViewChange.elementsToRemove != null)
-            {
-                _undoRegister.Register(new RemoveElements(_graphView, graphViewChange.elementsToRemove));
-            }
+            if (graphViewChange.elementsToRemove != null) _undoRegister.Register(new RemoveElements(_graphView, graphViewChange.elementsToRemove));
 
             return graphViewChange;
         }

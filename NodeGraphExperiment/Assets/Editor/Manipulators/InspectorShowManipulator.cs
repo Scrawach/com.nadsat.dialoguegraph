@@ -9,15 +9,15 @@ namespace Editor.Manipulators
 {
     public class InspectorShowManipulator : Manipulator
     {
-        private readonly InspectorView _inspectorView;
         private readonly InspectorViewFactory _inspectorFactory;
+        private readonly InspectorView _inspectorView;
 
         public InspectorShowManipulator(InspectorView inspectorView, InspectorViewFactory inspectorFactory)
         {
             _inspectorView = inspectorView;
             _inspectorFactory = inspectorFactory;
         }
-        
+
         protected override void RegisterCallbacksOnTarget()
         {
             if (target is not ISelectableNode selectableNode)

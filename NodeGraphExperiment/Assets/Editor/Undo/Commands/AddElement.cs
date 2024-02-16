@@ -4,15 +4,15 @@ namespace Editor.Undo.Commands
 {
     public class AddElement : IUndoCommand
     {
-        private readonly GraphElement _graphElement;
         private readonly GraphView _canvas;
+        private readonly GraphElement _graphElement;
 
         public AddElement(GraphElement graphElement, GraphView canvas)
         {
             _graphElement = graphElement;
             _canvas = canvas;
         }
-        
+
         public void Undo() =>
             _canvas.RemoveElement(_graphElement);
 

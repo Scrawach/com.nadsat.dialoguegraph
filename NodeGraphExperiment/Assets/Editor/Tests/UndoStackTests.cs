@@ -1,7 +1,5 @@
 using Editor.Undo;
-using Editor.Undo.Commands;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Editor.Tests
 {
@@ -66,7 +64,7 @@ namespace Editor.Tests
 
             public NopeCommand(int id) =>
                 Id = id;
-            
+
             public void Undo() { }
 
             public void Redo() { }

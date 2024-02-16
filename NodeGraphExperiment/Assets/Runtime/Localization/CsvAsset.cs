@@ -16,7 +16,7 @@ namespace Runtime.Localization
         {
             var table = Resources.Load<TextAsset>(_path);
             var rows = table.text.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-            
+
             foreach (var row in rows)
                 yield return CsvLineFieldsFrom(row);
         }
@@ -25,12 +25,11 @@ namespace Runtime.Localization
         {
             const char fieldDelimiter = ',';
             const char shieldDelimiter = '\"';
-            
+
             var fields = new List<string>();
             var field = new StringBuilder();
             var beenShielded = false;
             foreach (var symbol in row)
-            {
                 switch (symbol)
                 {
                     case fieldDelimiter when !beenShielded:
@@ -44,7 +43,6 @@ namespace Runtime.Localization
                         field.Append(symbol);
                         break;
                 }
-            }
 
             fields.Add(field.ToString());
             return fields.ToArray();
