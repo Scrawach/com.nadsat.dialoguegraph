@@ -7,7 +7,7 @@ namespace Editor.Paths
     public static class EditorPath
     {
         private const string DefaultResourcesPath = "Assets/Editor/Resources";
-        private const string PackagesResourcesPath = "Packages/com.scrawach.test/Editor/Resources";
+        private const string PackagesResourcesPath = "Packages/com.nadsat.dialoguegraph/Editor/Resources";
         
         public static string ToAbsolutePathUxml(string relativePath)
         {
