@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 
 namespace Editor.Paths
@@ -6,18 +7,23 @@ namespace Editor.Paths
     public static class EditorPath
     {
         private const string DefaultResourcesPath = "Assets/Editor/Resources";
-        private const string PackagesResourcesPath = "Packages/com.scrawach.DialogueGraph/Editor/Resources";
+        private const string PackagesResourcesPath = "Packages/com.scrawach.test/Editor/Resources";
         
         public static string ToAbsolutePathUxml(string relativePath)
         {
-            var result = Path.Combine(DefaultResourcesPath, relativePath);
-            var resource = EditorGUIUtility.Load(result);
+            relativePath += ".uxml";
 
-            if (resource == null) 
-                result = Path.Combine(PackagesResourcesPath, relativePath);
+            if (IsResourceExistIn(DefaultResourcesPath, relativePath, out var path) || 
+                IsResourceExistIn(PackagesResourcesPath, relativePath, out path))
+                return path;
 
-            var withExtension = result + ".uxml";
-            return withExtension;
+            throw new Exception($"Cannot find resource on path: {relativePath}");
+        }
+
+        private static bool IsResourceExistIn(string resourcesPath, string relativePath, out string path)
+        {
+            path = Path.Combine(resourcesPath, relativePath);
+            return EditorGUIUtility.Load(path);
         }
     }
 }
