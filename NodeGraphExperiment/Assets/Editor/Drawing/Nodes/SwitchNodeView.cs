@@ -8,7 +8,7 @@ namespace Editor.Drawing.Nodes
 {
     public class SwitchNodeView : BaseNodeView<SwitchNode>, IRemovablePorts
     {
-        private const string UxmlPath = "Assets/Editor/Resources/UXML/SwitchNodeView.uxml";
+        private const string UxmlPath = "UXML/SwitchNodeView";
 
         public SwitchNodeView() : base(UxmlPath) { }
 

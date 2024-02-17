@@ -1,4 +1,5 @@
 using System;
+using Editor.Paths;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Editor.Drawing.Nodes
 
         private readonly VisualElement _nodeBorder;
 
-        protected BaseNodeView(string uxml) : base(uxml) =>
+        protected BaseNodeView(string uxml) : base(EditorPath.ToAbsolutePathUxml(uxml)) =>
             _nodeBorder = this.Q<VisualElement>("node-border");
 
         protected BaseNodeView() { }

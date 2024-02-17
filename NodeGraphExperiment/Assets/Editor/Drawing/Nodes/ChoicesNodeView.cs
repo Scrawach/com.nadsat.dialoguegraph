@@ -9,7 +9,7 @@ namespace Editor.Drawing.Nodes
 {
     public class ChoicesNodeView : BaseNodeView<ChoicesNode>, IRemovablePorts
     {
-        private const string UxmlPath = "Assets/Editor/Resources/UXML/ChoicesNodeView.uxml";
+        private const string UxmlPath = "UXML/ChoicesNodeView";
 
         private readonly ChoicesRepository _choices;
 

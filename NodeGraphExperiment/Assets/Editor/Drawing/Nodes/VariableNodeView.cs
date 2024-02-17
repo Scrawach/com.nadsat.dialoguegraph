@@ -7,7 +7,7 @@ namespace Editor.Drawing.Nodes
 {
     public class VariableNodeView : BaseNodeView<VariableNode>
     {
-        private const string UxmlPath = "Assets/Editor/Resources/UXML/VariableNodeView.uxml";
+        private const string UxmlPath = "UXML/VariableNodeView";
         private readonly IntegerField _numberField;
 
         private readonly VariablesProvider _variables;

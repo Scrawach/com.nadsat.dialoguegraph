@@ -9,7 +9,7 @@ namespace Editor.Drawing.Nodes
 {
     public class DialogueNodeView : BaseNodeView<DialogueNode>
     {
-        private const string UxmlPath = "Assets/Editor/Resources/UXML/DialogueNodeView.uxml";
+        private const string UxmlPath = "UXML/DialogueNodeView";
         private readonly EditorAssets _assets;
         private readonly VisualElement _avatar;
         private readonly DialogueDatabase _database;
