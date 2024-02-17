@@ -54,11 +54,10 @@ namespace Editor.Importers
             foreach (var edge in ConnectNodes(mapping, graph))
                 _graphView.AddElement(edge);
 
-            if (!string.IsNullOrWhiteSpace(graph.EntryNodeGuid))
+            if (!string.IsNullOrWhiteSpace(graph.EntryNodeGuid) && mapping[graph.EntryNodeGuid] is IModelHandle nodeView)
             {
-                var rootNode = mapping[graph.EntryNodeGuid] as IModelHandle;
-                _nodes.RootNode = rootNode;
-                rootNode.MarkAsRoot(true);
+                _nodes.RootNode = nodeView;
+                nodeView.MarkAsRoot(true);
             }
         }
 
