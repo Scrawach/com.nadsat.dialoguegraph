@@ -33,7 +33,7 @@ namespace Editor.Factories
                 DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
                 SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model),
-                AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService),
+                AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService, _searchWindow),
                 _ => new VisualElement()
             };
 

@@ -6,6 +6,7 @@ using Editor.Drawing.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Action = Unity.Android.Gradle.Manifest.Action;
 
 namespace Editor.Windows.Search
 {
@@ -66,6 +67,32 @@ namespace Editor.Windows.Search
                 }
 
             return (nodes.ToArray(), tooltips.ToArray());
+        }
+
+        public void FindEvents(Vector2 position, Action<string> onSelected = null)
+        {
+            const int searchWindowWidth = 600;
+            var point = _owner.position.position + position + new Vector2(searchWindowWidth / 3f, 0);
+            
+            if (_searchWindow == null)
+                _searchWindow = ScriptableObject.CreateInstance<StringSearchWindow>();
+
+            var (choices, tooltips) = BuildEvents();
+            _searchWindow.Configure("Audio Event", choices, tooltips, onSelected);
+            SearchWindow.Open(new SearchWindowContext(point, searchWindowWidth), _searchWindow);
+        }
+
+        private (string[] choices, string[] tooltips) BuildEvents()
+        {
+            var choices = new List<string>();
+            var tooltips = new List<string>();
+            for (var i = 0; i < 3; i++)
+            {
+                choices.Add($"Audio Event #{i}");
+                tooltips.Add("Audio Tooltip");
+            }
+
+            return (choices.ToArray(), tooltips.ToArray());
         }
 
         public void FindPhrase(Vector2 position, Action<string> onSelected = null)

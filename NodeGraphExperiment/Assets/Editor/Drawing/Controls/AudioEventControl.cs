@@ -1,5 +1,6 @@
 ﻿using System;
 using Editor.Audios;
+using Editor.Windows.Search;
 using Runtime.Nodes;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,12 +19,14 @@ namespace Editor.Drawing.Controls
         private readonly FloatField _delayField;
         private readonly Button _closeButton;
 
-        private readonly AudioEditorService _audioEditorService;
+        private readonly AudioEditorService _audioService;
+        private readonly SearchWindowProvider _searchWindow;
         private AudioEventData _data;
 
-        public AudioEventControl(AudioEditorService audioEditorService) : base(Uxml)
+        public AudioEventControl(AudioEditorService audioService, SearchWindowProvider searchWindow) : base(Uxml)
         {
-            _audioEditorService = audioEditorService;
+            _audioService = audioService;
+            _searchWindow = searchWindow;
             _selectEventButton = this.Q<Button>("select-button");
             _playButton = this.Q<Button>("play-button");
             _stopButton = this.Q<Button>("stop-button");
@@ -41,6 +44,10 @@ namespace Editor.Drawing.Controls
         public void Bind(AudioEventData data)
         {
             _data = data;
+
+            if (!string.IsNullOrWhiteSpace(data.EventName))
+                _selectEventButton.text = _data.EventName;
+            
             _delayField.value = _data.Delay;
         }
 
@@ -54,19 +61,24 @@ namespace Editor.Drawing.Controls
         
         private void OnSelectClicked()
         {
-            
+            var position = _selectEventButton.worldBound.center;
+            _searchWindow.FindEvents(position, (value) =>
+            {
+                _selectEventButton.text = value;
+                _data.EventName = value;
+            });
         }
 
         private void OnPlayClicked() =>
-            _audioEditorService.Play(EventName);
+            _audioService.Play(EventName);
 
         private void OnStopClicked() =>
-            _audioEditorService.Stop(EventName);
+            _audioService.Stop(EventName);
 
         private void OnProgressValueChanged(ChangeEvent<float> evt)
         {
             var targetTime = evt.newValue;
-            _audioEditorService.Seek(EventName, targetTime);
+            _audioService.Seek(EventName, targetTime);
         }
 
         private void OnDelayValueChanged(ChangeEvent<float> evt)
