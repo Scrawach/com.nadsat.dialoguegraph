@@ -36,6 +36,10 @@ namespace Editor.AssetManagement
         private DialogueGraphDatabase CreateDatabase(string path)
         {
             var emptyDatabase = ScriptableObject.CreateInstance<DialogueGraphDatabase>();
+            
+            var directoryPath = Path.GetDirectoryName(path)!;
+            Directory.CreateDirectory(directoryPath);
+            
             AssetDatabase.CreateAsset(emptyDatabase, path);
             return emptyDatabase;
         }
