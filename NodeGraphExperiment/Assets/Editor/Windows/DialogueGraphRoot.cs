@@ -55,7 +55,8 @@ namespace Editor.Windows
             var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(_multiTable);
             var undoHistory = new UndoHistory();
-            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository);
+            var audioEventsProvider = new AudioEventsProvider();
+            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEventsProvider);
 
             var audioService = new AudioEditorService();
 

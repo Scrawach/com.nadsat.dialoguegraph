@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Editor.AssetManagement;
+using Editor.Audios;
 using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using UnityEditor;
@@ -13,6 +15,7 @@ namespace Editor.Windows.Search
     public class SearchWindowProvider
     {
         private readonly ChoicesRepository _choices;
+        private readonly AudioEventsProvider _audioEventsProvider;
         private readonly EditorWindow _owner;
         private readonly PhraseRepository _phraseRepository;
         private readonly DialogueGraphView _view;
@@ -20,12 +23,14 @@ namespace Editor.Windows.Search
 
         private StringSearchWindow _searchWindow;
 
-        public SearchWindowProvider(EditorWindow owner, DialogueGraphView view, PhraseRepository phraseRepository, ChoicesRepository choices)
+        public SearchWindowProvider(EditorWindow owner, DialogueGraphView view, PhraseRepository phraseRepository, 
+            ChoicesRepository choices, AudioEventsProvider audioEventsProvider)
         {
             _owner = owner;
             _view = view;
             _phraseRepository = phraseRepository;
             _choices = choices;
+            _audioEventsProvider = audioEventsProvider;
         }
 
         public void FindNodes(Vector2 position, Action<Node> onSelected = null)
@@ -84,15 +89,13 @@ namespace Editor.Windows.Search
 
         private (string[] choices, string[] tooltips) BuildEvents()
         {
-            var choices = new List<string>();
+            var choices = _audioEventsProvider.GetEvents().ToArray();
             var tooltips = new List<string>();
-            for (var i = 0; i < 3; i++)
-            {
-                choices.Add($"Audio Event #{i}");
-                tooltips.Add("Audio Tooltip");
-            }
+            
+            for (var i = 0; i < choices.Length; i++) 
+                tooltips.Add(string.Empty);
 
-            return (choices.ToArray(), tooltips.ToArray());
+            return (choices, tooltips.ToArray());
         }
 
         public void FindPhrase(Vector2 position, Action<string> onSelected = null)
