@@ -14,11 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Graph:
     Name: Test
-    EntryNodeGuid: 
-    Nodes: []
+    EntryNodeGuid: 8a4dba29-fbd7-4a23-b925-e819a7156526
+    Nodes:
+    - Guid: ff4b0b58-eccc-40f3-a7f9-bde5ce60a92a
+      Position:
+        X: 781
+        Y: 402
+      PersonId: Elena
+      PhraseId: Test.Elena.000
+      PathToImage: Assets/Resources/Busted-no-victims.jpg
     ChoiceNodes: []
     SwitchNodes: []
     VariableNodes: []
     RedirectNodes: []
-    Links: []
+    Links:
+    - FromGuid: 8a4dba29-fbd7-4a23-b925-e819a7156526
+      FromPortId: 613b2b78-50f2-4888-baee-a2a3ff3ca290
+      ToGuid: ff4b0b58-eccc-40f3-a7f9-bde5ce60a92a
+      ToPortId: af317cbf-0abd-4de8-a471-1d8927675e98
     Notes: []
+    AudioEventNodes:
+    - Guid: 8a4dba29-fbd7-4a23-b925-e819a7156526
+      Position:
+        X: 461
+        Y: 286
+      Events:
+      - EventName: Audio Event #0
+        Delay: 321

@@ -18,6 +18,8 @@ namespace Runtime
 
         public List<NoteNode> Notes = new();
 
+        public List<AudioEventNode> AudioEventNodes = new();
+
         public List<BaseDialogueNode> GetNodes()
         {
             var nodes = new List<BaseDialogueNode>();
@@ -26,6 +28,7 @@ namespace Runtime
             nodes.AddRange(SwitchNodes);
             nodes.AddRange(VariableNodes);
             nodes.AddRange(RedirectNodes);
+            nodes.AddRange(AudioEventNodes);
             return nodes;
         }
     }

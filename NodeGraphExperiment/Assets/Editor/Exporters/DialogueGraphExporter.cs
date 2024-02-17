@@ -54,6 +54,7 @@ namespace Editor.Exporters
             var redirects = new List<RedirectNode>();
             var variables = new List<VariableNode>();
             var stickyNotes = new List<NoteNode>();
+            var audioEventNodes = new List<AudioEventNode>();
 
             foreach (var viewNode in view.graphElements)
                 if (viewNode is DialogueNodeView dialogue)
@@ -66,6 +67,8 @@ namespace Editor.Exporters
                     redirects.Add(redirectNode.Model);
                 else if (viewNode is VariableNodeView variableView)
                     variables.Add(variableView.Model);
+                else if (viewNode is AudioEventNodeView audioEventView)
+                    audioEventNodes.Add(audioEventView.Model);
                 else if (viewNode is StickyNote stickyNote)
                     stickyNotes.Add(new NoteNode
                         {Title = stickyNote.title, Description = stickyNote.contents, Position = stickyNote.GetPosition()});
@@ -76,6 +79,7 @@ namespace Editor.Exporters
             graph.RedirectNodes = redirects;
             graph.VariableNodes = variables;
             graph.Notes = stickyNotes;
+            graph.AudioEventNodes = audioEventNodes;
         }
 
         private static IEnumerable<RedirectNode> GetRedirectNodesFrom(UQueryState<Node> nodes) =>

@@ -71,6 +71,7 @@ namespace Editor.Importers
                 SwitchNode dialogue => _factory.CreateSwitch(dialogue),
                 VariableNode variableNode => CreateVariable(variableNode),
                 RedirectNode dialogue => _factory.CreateRedirect(dialogue),
+                AudioEventNode audioNode => _factory.CreateAudioEvent(audioNode),
                 _ => throw new ArgumentException()
             };
 
