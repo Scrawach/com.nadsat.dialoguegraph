@@ -1,12 +1,8 @@
 {
-    "name": "DialogueGraph.Editor",
+    "name": "Nadsat.DialogueGraph",
     "rootNamespace": "",
-    "references": [
-        "GUID:4e1f5c56cbc36e043b5bcd0119b7233d"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
