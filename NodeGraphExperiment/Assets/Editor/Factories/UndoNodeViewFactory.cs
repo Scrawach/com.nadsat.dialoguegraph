@@ -34,6 +34,9 @@ namespace Editor.Factories
         public VariableNodeView CreateVariable(VariableNode node) =>
             RegisterCreated(_factory.CreateVariable(node));
 
+        public AudioEventNodeView CreateAudioEvent(AudioEventNode node) =>
+            RegisterCreated(_factory.CreateAudioEvent(node));
+
         private TViewNode RegisterCreated<TViewNode>(TViewNode node) where TViewNode : GraphElement
         {
             _undoRegister.Register(new AddElement(node, _graphView));

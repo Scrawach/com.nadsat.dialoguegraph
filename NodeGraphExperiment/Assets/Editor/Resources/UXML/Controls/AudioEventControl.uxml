@@ -9,7 +9,10 @@
         <ui:VisualElement style="flex-grow: 1;">
             <ui:VisualElement name="control-container" style="flex-grow: 0; flex-direction: row;">
                 <ui:Button text="Play" display-tooltip-when-elided="true" name="play-button" />
-                <ui:VisualElement name="wwise-track-container" style="flex-grow: 1;" />
+                <ui:Button text="Stop" display-tooltip-when-elided="true" name="stop-button" />
+                <ui:VisualElement name="wwise-track-container" style="flex-grow: 1;">
+                    <ui:Button text="Select audio track..." display-tooltip-when-elided="true" name="audio-button" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:Slider value="42" high-value="1" name="audio-bar" />
             <ui:VisualElement style="flex-grow: 1;" />

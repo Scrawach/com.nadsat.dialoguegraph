@@ -13,20 +13,19 @@ namespace Editor.ContextualMenu
     {
         private readonly Dictionary<string, Action<Vector2>> _builders;
         private readonly GraphView _graphView;
-        private readonly INodeViewFactory _nodeViewFactory;
         private readonly TemplateDialogueFactory _templateFactory;
 
         public NodesCreationMenuBuilder(GraphView graphView, INodeViewFactory nodeViewFactory, TemplateDialogueFactory templateFactory)
         {
             _graphView = graphView;
-            _nodeViewFactory = nodeViewFactory;
             _templateFactory = templateFactory;
             _builders = new Dictionary<string, Action<Vector2>>
             {
                 ["Dialogue Node"] = position => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
                 ["Choices Node"] = position => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
                 ["Switch Node"] = position => nodeViewFactory.CreateSwitch(NewModel<SwitchNode>(position)),
-                ["Variable Node"] = position => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position))
+                ["Variable Node"] = position => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position)),
+                ["Audio Event Node"] = position => nodeViewFactory.CreateAudioEvent(NewModel<AudioEventNode>(position))
             };
         }
 

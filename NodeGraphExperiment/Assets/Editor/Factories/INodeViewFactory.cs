@@ -10,5 +10,6 @@ namespace Editor.Factories
         ChoicesNodeView CreateChoices(ChoicesNode node);
         SwitchNodeView CreateSwitch(SwitchNode node);
         VariableNodeView CreateVariable(VariableNode node);
+        AudioEventNodeView CreateAudioEvent(AudioEventNode node);
     }
 }

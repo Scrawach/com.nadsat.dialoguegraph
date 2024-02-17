@@ -51,6 +51,12 @@ namespace Editor.Factories
             return _baseFactory.Create(view, variable);
         }
 
+        public AudioEventNodeView CreateAudioEvent(AudioEventNode node)
+        {
+            var view = new AudioEventNodeView();
+            return _baseFactory.Create(view, node);
+        }
+
         public SwitchNodeView CreateSwitch(SwitchNode node)
         {
             var view = new SwitchNodeView();
