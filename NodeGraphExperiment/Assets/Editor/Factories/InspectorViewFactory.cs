@@ -1,4 +1,5 @@
 using Editor.AssetManagement;
+using Editor.Audios;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Windows.Search;
@@ -9,18 +10,21 @@ namespace Editor.Factories
     public class InspectorViewFactory
     {
         private readonly ChoicesRepository _choices;
+        private readonly AudioEditorService _audioService;
         private readonly DialogueDatabase _database;
         private readonly PhraseRepository _phrases;
         private readonly SearchWindowProvider _searchWindow;
 
         private DialogueNodeInspectorView _openedDialogueNodeInspector;
 
-        public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, ChoicesRepository choices)
+        public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, 
+            ChoicesRepository choices, AudioEditorService audioService)
         {
             _database = database;
             _searchWindow = searchWindow;
             _phrases = phrases;
             _choices = choices;
+            _audioService = audioService;
         }
 
         public VisualElement Build(VisualElement target) =>
@@ -29,7 +33,7 @@ namespace Editor.Factories
                 DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
                 SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model),
-                AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model),
+                AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService),
                 _ => new VisualElement()
             };
 

@@ -1,4 +1,5 @@
 using Editor.AssetManagement;
+using Editor.Audios;
 using Editor.ContextualMenu;
 using Editor.Data;
 using Editor.Drawing;
@@ -56,8 +57,9 @@ namespace Editor.Windows
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository);
 
+            var audioService = new AudioEditorService();
 
-            var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository);
+            var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, audioService);
             var nodesProvider = new NodesProvider(DialogueGraphView);
             NodesProvider = nodesProvider;
 

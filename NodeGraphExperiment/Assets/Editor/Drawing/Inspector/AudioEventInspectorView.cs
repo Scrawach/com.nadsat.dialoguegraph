@@ -1,4 +1,5 @@
-﻿using Editor.Drawing.Controls;
+﻿using Editor.Audios;
+using Editor.Drawing.Controls;
 using Runtime.Nodes;
 using UnityEngine.UIElements;
 
@@ -9,13 +10,15 @@ namespace Editor.Drawing.Inspector
         private const string Uxml = "UXML/AudioEventInspectorView";
 
         private readonly AudioEventNode _node;
-        
+        private readonly AudioEditorService _audioEditorService;
+
         private readonly Button _addButton;
         private readonly VisualElement _container;
         
-        public AudioEventInspectorView(AudioEventNode node) : base(Uxml)
+        public AudioEventInspectorView(AudioEventNode node, AudioEditorService audioEditorService) : base(Uxml)
         {
             _node = node;
+            _audioEditorService = audioEditorService;
             _addButton = this.Q<Button>("add-button");
             _container = this.Q<VisualElement>("container");
             
@@ -41,7 +44,8 @@ namespace Editor.Drawing.Inspector
 
         private AudioEventControl CreateControl(AudioEventData data)
         {
-            var control = new AudioEventControl(data);
+            var control = new AudioEventControl(_audioEditorService);
+            control.Bind(data);
 
             control.Closed += () =>
             {
