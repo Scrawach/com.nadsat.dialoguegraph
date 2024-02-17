@@ -7,14 +7,15 @@
         </ui:VisualElement>
         <ui:VisualElement name="divider" style="flex-grow: 0; height: 1px; width: auto; background-color: rgb(121, 121, 121);" />
         <ui:VisualElement style="flex-grow: 1;">
-            <ui:VisualElement name="control-container" style="flex-grow: 0; flex-direction: row;">
-                <ui:Button text="Play" display-tooltip-when-elided="true" name="play-button" />
-                <ui:Button text="Stop" display-tooltip-when-elided="true" name="stop-button" />
+            <ui:VisualElement name="control-container" style="flex-grow: 0; flex-direction: column;">
                 <ui:VisualElement name="wwise-track-container" style="flex-grow: 1;">
                     <ui:Button text="Select audio track..." display-tooltip-when-elided="true" name="audio-button" />
                 </ui:VisualElement>
+                <ui:Button text="Play" display-tooltip-when-elided="true" name="play-button" />
+                <ui:Button text="Stop" display-tooltip-when-elided="true" name="stop-button" />
             </ui:VisualElement>
-            <ui:Slider value="42" high-value="1" name="audio-bar" />
+            <ui:Slider value="0" high-value="1" name="audio-bar" />
+            <ui:FloatField label="Delay" value="0" name="delat-field" />
             <ui:VisualElement style="flex-grow: 1;" />
         </ui:VisualElement>
         <ui:TextField picking-mode="Ignore" multiline="true" auto-correction="true" keyboard-type="Default" name="text-field" style="white-space: normal; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-grow: 1; display: none;" />
