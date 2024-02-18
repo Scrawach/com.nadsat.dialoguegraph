@@ -58,7 +58,7 @@ namespace Editor.Windows
             var audioEventsProvider = new AudioEventsProvider();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEventsProvider);
 
-            var audioService = new AudioEditorService();
+            var audioService = new AudioEditorService(audioEventsProvider);
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, audioService);
             var nodesProvider = new NodesProvider(DialogueGraphView);
@@ -80,7 +80,6 @@ namespace Editor.Windows
             var pngExporter = new PngExporter(Root, DialogueGraphView);
             var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
 
-            audioService.Initialize();
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
             _dialogueGraphToolbar.Display(false);
