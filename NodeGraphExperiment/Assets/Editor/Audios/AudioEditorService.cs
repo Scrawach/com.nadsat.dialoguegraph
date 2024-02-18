@@ -11,8 +11,10 @@ namespace Editor.Audios
 
         public void Play(string eventName)
         {
+#if UseWwise
             var guid = _audioEventsProvider.GetGuidFromName(eventName);
             AkWaapiUtilities.TogglePlayEvent(WwiseObjectType.Event, guid);
+#endif
         }
 
         public void Stop(string eventName)
