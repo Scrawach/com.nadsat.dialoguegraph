@@ -2,6 +2,7 @@
 using Editor.Audios;
 using Editor.Windows.Search;
 using Runtime.Nodes;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -57,7 +58,7 @@ namespace Editor.Drawing.Controls
             remove => _closeButton.clicked -= value;
         }
 
-        public string EventName => _selectEventButton.text;
+        public string EventName => _data.EventName;
         
         private void OnSelectClicked()
         {
@@ -69,8 +70,16 @@ namespace Editor.Drawing.Controls
             });
         }
 
-        private void OnPlayClicked() =>
+        private void OnPlayClicked()
+        {
+            if (string.IsNullOrWhiteSpace(EventName))
+            {
+                EditorUtility.DisplayDialog("Warning", "Select event before play it!", "ok");
+                return;
+            }
+            
             _audioService.Play(EventName);
+        }
 
         private void OnStopClicked() =>
             _audioService.Stop(EventName);
