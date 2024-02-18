@@ -1,0 +1,23 @@
+{
+    "name": "com.nadsat.dialoguegraph",
+    "displayName": "Dialogue Graph",
+    "description": "Tool for create novel levels",
+    "version": "0.5.0",
+    "unity": "2023.1",
+    "licensesUrl": "See LICENSE.md",
+    "author": {
+     "name": "scrawach",
+     "email": "scrawach@gmail.com",
+     "url": "https://github.com/Scrawach"
+    },
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/scrawach/com.nadsat.dialoguegraph.git"
+    },
+    "keywords": [
+     "Utility",
+     "Editor",
+     "Tool"
+    ]
+   }
