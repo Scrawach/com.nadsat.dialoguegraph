@@ -10,7 +10,7 @@ namespace Editor.Factories
     public class InspectorViewFactory
     {
         private readonly ChoicesRepository _choices;
-        private readonly AudioEditorService _audioService;
+        private readonly IAudioEditorService _audioService;
         private readonly DialogueDatabase _database;
         private readonly PhraseRepository _phrases;
         private readonly SearchWindowProvider _searchWindow;
@@ -18,7 +18,7 @@ namespace Editor.Factories
         private DialogueNodeInspectorView _openedDialogueNodeInspector;
 
         public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, 
-            ChoicesRepository choices, AudioEditorService audioService)
+            ChoicesRepository choices, IAudioEditorService audioService)
         {
             _database = database;
             _searchWindow = searchWindow;

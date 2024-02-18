@@ -1,5 +1,6 @@
 using Editor.AssetManagement;
 using Editor.Audios;
+using Editor.Audios.Wwise;
 using Editor.ContextualMenu;
 using Editor.Data;
 using Editor.Drawing;
@@ -51,14 +52,14 @@ namespace Editor.Windows
             _languageProvider = new LanguageProvider();
             _multiTable = new MultiTable(_languageProvider);
 
+            var (audioEvents, audioService) = CreateAudio();
+
             var phraseRepository = new PhraseRepository(_multiTable);
             var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(_multiTable);
             var undoHistory = new UndoHistory();
-            var audioEventsProvider = new AudioEventsProvider();
-            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEventsProvider);
+            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEvents);
 
-            var audioService = new AudioEditorService(audioEventsProvider);
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, audioService);
             var nodesProvider = new NodesProvider(DialogueGraphView);
@@ -117,6 +118,15 @@ namespace Editor.Windows
             var templateHotkeys = new TemplateHotkeyShortcuts(templateFactory);
             var shortcuts = new ShortcutsProfile(saveShortcut, findShortcut, undoShortcut, redoShortcut, templateHotkeys);
             return shortcuts;
+        }
+
+        private (IAudioEventsProvider eventsProvider, IAudioEditorService audioService) CreateAudio()
+        {
+#if HAS_WWISE
+            var wwiseEvents = new WwiseAudioEventsProvider();
+            return (wwiseEvents, new WwiseAudioEditorService(wwiseEvents));
+#endif
+            return (new DebugEventsProvider(), new DebugAudioEditorService());
         }
 
         public void Load(DialogueGraphContainer container)

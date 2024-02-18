@@ -11,13 +11,13 @@ namespace Editor.Drawing.Inspector
         private const string Uxml = "UXML/AudioEventInspectorView";
 
         private readonly AudioEventNode _node;
-        private readonly AudioEditorService _audioService;
+        private readonly IAudioEditorService _audioService;
         private readonly SearchWindowProvider _searchWindow;
 
         private readonly Button _addButton;
         private readonly VisualElement _container;
         
-        public AudioEventInspectorView(AudioEventNode node, AudioEditorService audioService, SearchWindowProvider searchWindow) : base(Uxml)
+        public AudioEventInspectorView(AudioEventNode node, IAudioEditorService audioService, SearchWindowProvider searchWindow) : base(Uxml)
         {
             _node = node;
             _audioService = audioService;

@@ -15,7 +15,7 @@ namespace Editor.Windows.Search
     public class SearchWindowProvider
     {
         private readonly ChoicesRepository _choices;
-        private readonly AudioEventsProvider _audioEventsProvider;
+        private readonly IAudioEventsProvider _audioEventsProvider;
         private readonly EditorWindow _owner;
         private readonly PhraseRepository _phraseRepository;
         private readonly DialogueGraphView _view;
@@ -24,7 +24,7 @@ namespace Editor.Windows.Search
         private StringSearchWindow _searchWindow;
 
         public SearchWindowProvider(EditorWindow owner, DialogueGraphView view, PhraseRepository phraseRepository, 
-            ChoicesRepository choices, AudioEventsProvider audioEventsProvider)
+            ChoicesRepository choices, IAudioEventsProvider audioEventsProvider)
         {
             _owner = owner;
             _view = view;
@@ -89,7 +89,7 @@ namespace Editor.Windows.Search
 
         private (string[] choices, string[] tooltips) BuildEvents()
         {
-            var choices = _audioEventsProvider.GetEvents().ToArray();
+            var choices = _audioEventsProvider.AllEvents().ToArray();
             var tooltips = new List<string>();
             
             for (var i = 0; i < choices.Length; i++) 

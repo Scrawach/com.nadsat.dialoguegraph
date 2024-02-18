@@ -20,11 +20,11 @@ namespace Editor.Drawing.Controls
         private readonly FloatField _delayField;
         private readonly Button _closeButton;
 
-        private readonly AudioEditorService _audioService;
+        private readonly IAudioEditorService _audioService;
         private readonly SearchWindowProvider _searchWindow;
         private AudioEventData _data;
 
-        public AudioEventControl(AudioEditorService audioService, SearchWindowProvider searchWindow) : base(Uxml)
+        public AudioEventControl(IAudioEditorService audioService, SearchWindowProvider searchWindow) : base(Uxml)
         {
             _audioService = audioService;
             _searchWindow = searchWindow;
@@ -78,16 +78,16 @@ namespace Editor.Drawing.Controls
                 return;
             }
             
-            _audioService.Play(EventName);
+            _audioService.PlayEvent(EventName);
         }
 
         private void OnStopClicked() =>
-            _audioService.Stop(EventName);
+            _audioService.StopEvent(EventName);
 
         private void OnProgressValueChanged(ChangeEvent<float> evt)
         {
             var targetTime = evt.newValue;
-            _audioService.Seek(EventName, targetTime);
+            _audioService.SeekOnEvent(EventName, targetTime);
         }
 
         private void OnDelayValueChanged(ChangeEvent<float> evt)
