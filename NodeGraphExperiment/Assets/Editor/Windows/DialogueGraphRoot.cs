@@ -80,6 +80,7 @@ namespace Editor.Windows
             var pngExporter = new PngExporter(Root, DialogueGraphView);
             var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
 
+            audioService.Initialize();
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
             _dialogueGraphToolbar.Display(false);

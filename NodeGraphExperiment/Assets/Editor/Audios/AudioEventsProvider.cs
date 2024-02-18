@@ -6,9 +6,10 @@ namespace Editor.Audios
     {
         public IEnumerable<string> GetEvents()
         {
-            for (var i = 0; i < 3; i++)
+            foreach (var eventUnit in AkWwiseProjectInfo.GetData().EventWwu)
+            foreach (var e in eventUnit.List)
             {
-                yield return $"Audio Event #{i}";
+                yield return e.Name;
             }
         }
     }
