@@ -1,4 +1,8 @@
-﻿namespace Editor.Audios.Wwise
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Editor.Audios.Wwise
 {
 #if HAS_WWISE
     public class WwiseAudioEventsProvider : IAudioEventsProvider
