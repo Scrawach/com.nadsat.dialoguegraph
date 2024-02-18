@@ -12,7 +12,7 @@ namespace Editor.Audios
         public Guid GetGuidFromName(string name) =>
             AllEvents().First(audioEvent => audioEvent.Name == name).Guid;
 
-        private IEnumerable<AkWwiseProjectData.Event> AllEvents() =>
+        private static IEnumerable<AkWwiseProjectData.Event> AllEvents() =>
             AkWwiseProjectInfo.GetData().EventWwu.SelectMany(eventUnit => eventUnit.List);
     }
 }
