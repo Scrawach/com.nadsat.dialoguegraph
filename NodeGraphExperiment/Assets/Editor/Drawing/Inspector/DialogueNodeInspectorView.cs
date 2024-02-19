@@ -146,7 +146,7 @@ namespace Editor.Drawing.Inspector
             var inResourcesFolder = pathToSprite.Contains("Resources");
 
             if (!inResourcesFolder)
-                EditorUtility.DisplayDialog("Warning", "Sprite should place in Resources/ folder!", "Ok");
+                EditorUtility.DisplayDialog("Warning", "Sprite should be in Resources/ folder!", "Ok");
             
             return inResourcesFolder;
         }
