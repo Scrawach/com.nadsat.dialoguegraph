@@ -1,4 +1,5 @@
 using System;
+using Editor.Extensions;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,8 +35,14 @@ namespace Editor.Drawing.Controls
         public void SetImage(Sprite sprite)
         {
             _imageField.value = sprite;
-            _image.style.display = DisplayStyle.Flex;
+            _image.Display(true);
             _image.style.backgroundImage = new StyleBackground(sprite);
+        }
+
+        public void RemoveImage()
+        {
+            _imageField.value = null;
+            _image.Display(false);
         }
 
         private void OnFieldChanged(ChangeEvent<Object> evt)

@@ -125,7 +125,30 @@ namespace Editor.Drawing.Inspector
                 _node.SetPathToImage(string.Empty);
             };
 
-            item.Selected += sprite => { _node.SetPathToImage(AssetDatabase.GetAssetPath(sprite)); };
+            item.Selected += sprite =>
+            {
+                var pathToSprite = AssetDatabase.GetAssetPath(sprite);
+
+                if (Validate(pathToSprite))
+                {
+                    _node.SetPathToImage(pathToSprite);
+                }
+                else
+                {
+                    item.RemoveImage();
+                    _node.SetPathToImage(string.Empty);
+                }
+            };
+        }
+
+        private static bool Validate(string pathToSprite)
+        {
+            var inResourcesFolder = pathToSprite.Contains("Resources");
+
+            if (!inResourcesFolder)
+                EditorUtility.DisplayDialog("Warning", "Sprite should place in Resources/ folder!", "Ok");
+            
+            return inResourcesFolder;
         }
 
         public void StartEditPhrase() =>
