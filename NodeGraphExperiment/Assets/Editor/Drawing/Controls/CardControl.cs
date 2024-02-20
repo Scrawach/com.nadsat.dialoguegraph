@@ -10,31 +10,30 @@ namespace Editor.Drawing.Controls
         private const string Uxml = "UXML/Controls/CardControl";
 
         private readonly Button _close;
-        public readonly Label Description;
-        public readonly TextField TextField;
-
-        public readonly Label Title;
-
+        private readonly Label _title;
+        private readonly Label _description;
+        private readonly TextField _textField;
+        
         public CardControl(string title, string description) : this()
         {
-            Title.text = title;
-            Description.text = description;
+            _title.text = title;
+            _description.text = description;
         }
 
         public CardControl() : base(Uxml)
         {
-            Title = this.Q<Label>("title");
-            Description = this.Q<Label>("description");
-            TextField = this.Q<TextField>("text-field");
+            _title = this.Q<Label>("title");
+            _description = this.Q<Label>("description");
+            _textField = this.Q<TextField>("text-field");
             _close = this.Q<Button>("close-button");
 
-            var textInput = TextField.Q(TextInputBaseField<string>.textInputUssName);
+            var textInput = _textField.Q(TextInputBaseField<string>.textInputUssName);
             textInput.RegisterCallback<FocusOutEvent>(OnEditTextFinished, TrickleDown.TrickleDown);
             textInput.RegisterCallback<KeyDownEvent>(OnKeyDownEvent, TrickleDown.TrickleDown);
-            Description.RegisterCallback<MouseDownEvent>(OnMouseDownEvent);
+            _description.RegisterCallback<MouseDownEvent>(OnMouseDownEvent);
 
-            Title.selection.isSelectable = true;
-            Description.selection.isSelectable = true;
+            _title.selection.isSelectable = true;
+            _description.selection.isSelectable = true;
         }
 
         public event Action<string> TextEdited;
@@ -59,12 +58,12 @@ namespace Editor.Drawing.Controls
 
         private void OnEditTextFinished(FocusOutEvent evt)
         {
-            Description.Display(true);
-            TextField.Display(false);
+            _description.Display(true);
+            _textField.Display(false);
 
-            var text = TextField.text;
+            var text = _textField.text;
             text = RemoveNewlineSymbol(text);
-            Description.text = text;
+            _description.text = text;
             TextEdited?.Invoke(text);
         }
 
@@ -73,7 +72,7 @@ namespace Editor.Drawing.Controls
             if (string.IsNullOrWhiteSpace(text))
                 return text;
 
-            var lastIndex = TextField.text.Length - 1;
+            var lastIndex = _textField.text.Length - 1;
             if (text[lastIndex] == '\n')
                 text = text.Remove(lastIndex, 1);
 
@@ -90,11 +89,11 @@ namespace Editor.Drawing.Controls
 
         private void OpenTextEditor()
         {
-            TextField.SetValueWithoutNotify(Description.text);
-            TextField.Display(true);
-            Description.Display(false);
-            TextField.Q(TextInputBaseField<string>.textInputUssName).Focus();
-            TextField.textSelection.SelectAll();
+            _textField.SetValueWithoutNotify(_description.text);
+            _textField.Display(true);
+            _description.Display(false);
+            _textField.Q(TextInputBaseField<string>.textInputUssName).Focus();
+            _textField.textSelection.SelectAll();
         }
 
         public new class UxmlFactory : UxmlFactory<CardControl, UxmlTraits> { }
