@@ -5,19 +5,19 @@ using Editor.Undo.Commands;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Editor.Manipulators.GraphViewManipulators
 {
     public class GraphViewUndoManipulator : Manipulator
     {
         private readonly IUndoRegister _undoRegister;
-        private GraphView _graphView;
+        private UnityEditor.Experimental.GraphView.GraphView _graphView;
 
         public GraphViewUndoManipulator(IUndoRegister undoRegister) =>
             _undoRegister = undoRegister;
 
         protected override void RegisterCallbacksOnTarget()
         {
-            _graphView = (GraphView) target;
+            _graphView = (UnityEditor.Experimental.GraphView.GraphView) target;
             _graphView.graphViewChanged += OnGraphViewChanged;
         }
 

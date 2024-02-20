@@ -13,6 +13,7 @@ using Editor.Factories.NodeListeners;
 using Editor.Importers;
 using Editor.Localization;
 using Editor.Manipulators;
+using Editor.Manipulators.GraphViewManipulators;
 using Editor.Serialization;
 using Editor.Shortcuts;
 using Editor.Shortcuts.Concrete;

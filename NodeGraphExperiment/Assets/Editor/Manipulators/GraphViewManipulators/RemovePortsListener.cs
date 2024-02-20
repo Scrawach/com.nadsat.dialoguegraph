@@ -4,7 +4,7 @@ using Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Editor.Manipulators.GraphViewManipulators
 {
     public class RemovePortsListener : Manipulator
     {

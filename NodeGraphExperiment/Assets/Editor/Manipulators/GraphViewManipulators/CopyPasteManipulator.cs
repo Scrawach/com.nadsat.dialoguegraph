@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Editor.Manipulators.GraphViewManipulators
 {
     public class CopyPasteManipulator : Manipulator
     {
@@ -16,7 +16,7 @@ namespace Editor.Manipulators
         private readonly CopyPaste _copyPaste;
         private readonly CopyPasteFactory _copyPasteFactory;
 
-        private GraphView _graphView;
+        private UnityEditor.Experimental.GraphView.GraphView _graphView;
         private Vector2 _mousePosition;
 
         public CopyPasteManipulator(CopyPaste copyPaste, CopyPasteFactory factory)
@@ -27,7 +27,7 @@ namespace Editor.Manipulators
 
         protected override void RegisterCallbacksOnTarget()
         {
-            _graphView = (GraphView) target;
+            _graphView = (UnityEditor.Experimental.GraphView.GraphView) target;
             _graphView.serializeGraphElements += OnCutCopyOperation;
             _graphView.unserializeAndPaste += OnPasteOperation;
             _graphView.RegisterCallback<MouseMoveEvent>(OnMouseMoved);

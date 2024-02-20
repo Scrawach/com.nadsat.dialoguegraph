@@ -1,6 +1,7 @@
 using Editor.AssetManagement;
 using Editor.Drawing.Nodes;
 using Editor.Manipulators;
+using Editor.Manipulators.GraphViewManipulators;
 using Editor.Windows.Variables;
 using Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;

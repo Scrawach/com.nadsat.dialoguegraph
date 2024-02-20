@@ -8,7 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Editor.Manipulators.GraphViewManipulators
 {
     public class DragAndDropManipulator : Manipulator
     {
@@ -31,7 +31,7 @@ namespace Editor.Manipulators
 
         private void OnDragPerformEvent(DragPerformEvent evt)
         {
-            var graphView = (GraphView) target;
+            var graphView = (UnityEditor.Experimental.GraphView.GraphView) target;
 
             var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
             var fields = selection.OfType<BlackboardField>();
