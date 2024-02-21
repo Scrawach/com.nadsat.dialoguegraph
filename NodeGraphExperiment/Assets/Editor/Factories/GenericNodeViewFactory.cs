@@ -32,6 +32,7 @@ namespace Editor.Factories
             view.Bind(model);
             view.SetPosition(model.Position);
             view.AddManipulator(new InspectorShowManipulator(_inspectorView, _inspectorFactory));
+            view.AddManipulator(new NodeChangesDirtyMarkManipulator(_root, model));
             _canvas.AddElement(view);
             _canvas.AddToSelection(view);
             _root.IsDirty = true;
