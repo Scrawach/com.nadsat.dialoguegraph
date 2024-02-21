@@ -19,11 +19,10 @@ namespace Editor.Importers
             _table = table;
         }
 
-        public void Import(string dialogueName)
+        public void Import(string dialogueName, string pathToFolder)
         {
             _table.Clear();
-            var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{dialogueName}");
-            var csvFiles = GetCsvFilesFromDirectory(path).ToArray();
+            var csvFiles = GetCsvFilesFromDirectory(pathToFolder).ToArray();
             var csvNames = csvFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
             var csvTexts = csvFiles.Select(s => new CsvText(File.ReadAllText(s))).ToArray();
 

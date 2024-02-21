@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Editor.Data;
 using Editor.Drawing;
 using Editor.Drawing.Nodes;
@@ -8,7 +9,9 @@ using Editor.Factories.NodeListeners;
 using Editor.Windows.Variables;
 using Runtime;
 using Runtime.Nodes;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Importers
@@ -35,9 +38,10 @@ namespace Editor.Importers
 
         public void Import(DialogueGraphContainer container)
         {
+            var pathToContainerFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(container));
             container = UnityEngine.Object.Instantiate(container);
             _dialogueGraphProvider.Graph = container.Graph;
-            _csvImporter.Import(container.Graph.Name);
+            _csvImporter.Import(container.Graph.Name, pathToContainerFolder);
             ImportNodes(container.Graph);
         }
 
