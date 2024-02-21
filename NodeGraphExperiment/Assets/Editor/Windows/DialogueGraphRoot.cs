@@ -63,13 +63,13 @@ namespace Editor.Windows
             var undoHistory = new UndoHistory();
             var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEvents);
 
-
-            var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, audioService);
-            var nodesProvider = new NodesProvider(DialogueGraphView);
-
             var variables = new VariablesProvider();
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
 
+            var expressionVerifier = new ExpressionVerifier(choicesRepository, variables);
+            var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, expressionVerifier, audioService);
+            var nodesProvider = new NodesProvider(DialogueGraphView);
+            
             var genericFactory = new GenericNodeViewFactory(_root, DialogueGraphView, inspectorView, inspectorFactory);
             var dialogueFactory = new DialogueNodeViewFactory(genericFactory, dialogueDatabase, phraseRepository, inspectorFactory);
             var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, DialogueGraphView, choicesRepository, variables);

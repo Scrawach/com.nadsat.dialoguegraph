@@ -48,6 +48,17 @@ namespace Editor.Localization
 
             return table.Get(_language.CurrentLanguage, uniqueId);
         }
+        
+        
+        public bool Contains(string uniqueId)
+        {
+            if (!uniqueId.Contains('.'))
+                return false;
+            
+            var key = GetKeyFromUniqueId(uniqueId);
+            var table = _tables[key];
+            return table.ContainsKey(uniqueId);
+        }
 
         public bool Remove(string uniqueId)
         {

@@ -15,6 +15,9 @@ namespace Editor.AssetManagement
         public string Get(string choiceId) =>
             _table.Get(choiceId);
 
+        public bool Contains(string choiceId) =>
+            _table.Contains(choiceId);
+
         public void Update(string choiceId, string content) =>
             _table.Update(choiceId, content);
 

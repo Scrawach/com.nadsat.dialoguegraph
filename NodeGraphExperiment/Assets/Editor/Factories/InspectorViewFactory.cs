@@ -1,8 +1,10 @@
 using Editor.AssetManagement;
 using Editor.Audios;
+using Editor.Data;
 using Editor.Drawing.Inspector;
 using Editor.Drawing.Nodes;
 using Editor.Windows.Search;
+using Editor.Windows.Variables;
 using UnityEngine.UIElements;
 
 namespace Editor.Factories
@@ -10,6 +12,7 @@ namespace Editor.Factories
     public class InspectorViewFactory
     {
         private readonly ChoicesRepository _choices;
+        private readonly ExpressionVerifier _expressionVerifier;
         private readonly IAudioEditorService _audioService;
         private readonly DialogueDatabase _database;
         private readonly PhraseRepository _phrases;
@@ -18,12 +21,13 @@ namespace Editor.Factories
         private DialogueNodeInspectorView _openedDialogueNodeInspector;
 
         public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, 
-            ChoicesRepository choices, IAudioEditorService audioService)
+            ChoicesRepository choices, ExpressionVerifier expressionVerifier, IAudioEditorService audioService)
         {
             _database = database;
             _searchWindow = searchWindow;
             _phrases = phrases;
             _choices = choices;
+            _expressionVerifier = expressionVerifier;
             _audioService = audioService;
         }
 
@@ -32,7 +36,7 @@ namespace Editor.Factories
             {
                 DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
-                SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model),
+                SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier),
                 AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService, _searchWindow),
                 _ => new VisualElement()
             };

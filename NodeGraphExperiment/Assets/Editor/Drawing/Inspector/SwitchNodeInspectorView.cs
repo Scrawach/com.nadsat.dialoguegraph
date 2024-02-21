@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
+using Editor.Data;
 using Editor.Drawing.Controls;
 using Runtime.Nodes;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace Editor.Drawing.Inspector
@@ -13,10 +16,12 @@ namespace Editor.Drawing.Inspector
         private readonly Label _guidLabel;
 
         private readonly SwitchNode _node;
+        private readonly ExpressionVerifier _expressionVerifier;
 
-        public SwitchNodeInspectorView(SwitchNode node) : base(Uxml)
+        public SwitchNodeInspectorView(SwitchNode node, ExpressionVerifier expressionVerifier) : base(Uxml)
         {
             _node = node;
+            _expressionVerifier = expressionVerifier;
             _guidLabel = this.Q<Label>("guid-label");
             _casesContainer = this.Q<VisualElement>("button-container");
             _addCaseButton = this.Q<Button>("add-button");
@@ -43,11 +48,26 @@ namespace Editor.Drawing.Inspector
             card.Closed += () => { _node.RemoveBranch(branch.Condition); };
             card.TextEdited += value =>
             {
+                VerifyExpression(value);
                 branch.Condition = value;
                 _node.NotifyChanged();
             };
             _casesContainer.Add(card);
             return card;
+        }
+
+        private void VerifyExpression(string expression)
+        {
+            var (isValid, invalidKeys) = _expressionVerifier.Verify(expression);
+
+            if (isValid)
+                return;
+            
+            if (invalidKeys.Any())
+            {
+                var error = invalidKeys.Aggregate((origin, text) => $"{origin}, {text}");
+                var isOk = EditorUtility.DisplayDialog("Warning", $"Can't find keys: {error}", "Oops");
+            }
         }
     }
 }
