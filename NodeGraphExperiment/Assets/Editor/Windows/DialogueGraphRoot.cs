@@ -33,16 +33,17 @@ namespace Editor.Windows
         private const string Uxml = "UXML/DialogueGraphWindow";
         
         private readonly DialogueGraphWindow _root;
-        private readonly DialogueGraphView _dialogueGraphView;
         private readonly DialogueGraphToolbar _dialogueGraphToolbar;
         
         private readonly DialogueGraphExporter _graphExporter;
         private readonly DialogueGraphImporter _graphImporter;
-        
+
+        public DialogueGraphView DialogueGraphView { get; }
+
         public DialogueGraphRoot(DialogueGraphWindow root) : base(Uxml)
         {
             _root = root;
-            _dialogueGraphView = this.Q<DialogueGraphView>();
+            DialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
             _dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             var dialogueWindowToolbar = this.Q<DialogueWindowToolbar>();
@@ -59,32 +60,32 @@ namespace Editor.Windows
             var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(multiTable);
             var undoHistory = new UndoHistory();
-            var searchWindow = new SearchWindowProvider(root, _dialogueGraphView, phraseRepository, choicesRepository, audioEvents);
+            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEvents);
 
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, audioService);
-            var nodesProvider = new NodesProvider(_dialogueGraphView);
+            var nodesProvider = new NodesProvider(DialogueGraphView);
 
             var variables = new VariablesProvider();
-            var variablesBlackboard = new VariablesBlackboard(variables, _dialogueGraphView);
+            var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
 
-            var genericFactory = new GenericNodeViewFactory(_root, _dialogueGraphView, inspectorView, inspectorFactory);
+            var genericFactory = new GenericNodeViewFactory(_root, DialogueGraphView, inspectorView, inspectorFactory);
             var dialogueFactory = new DialogueNodeViewFactory(genericFactory, dialogueDatabase, phraseRepository, inspectorFactory);
-            var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, _dialogueGraphView, choicesRepository, variables);
-            var templateFactory = new TemplateDialogueFactory(dialogueDatabase, nodeFactory, _dialogueGraphView);
+            var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, DialogueGraphView, choicesRepository, variables);
+            var templateFactory = new TemplateDialogueFactory(dialogueDatabase, nodeFactory, DialogueGraphView);
             //var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, _dialogueGraphView);
-            var redirectNodeFactory = new RedirectNodeFactory(_dialogueGraphView, nodeFactory);
-            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(_dialogueGraphView, nodeFactory, templateFactory);
+            var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
+            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, nodeFactory, templateFactory);
 
-            var pngExporter = new PngExporter(_root, _dialogueGraphView);
+            var pngExporter = new PngExporter(_root, DialogueGraphView);
             var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
 
-            var graphSerializer = new DialogueGraphSerializer(_dialogueGraphView, nodesProvider, dialogueGraphProvider);
+            var graphSerializer = new DialogueGraphSerializer(DialogueGraphView, nodesProvider, dialogueGraphProvider);
             var csvExporter = new CsvExporter(multiTable);
             _graphExporter = new DialogueGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             
             var csvImporter = new CsvImporter(languageProvider, multiTable);
-            _graphImporter = new DialogueGraphImporter(_dialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider);
+            _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider);
             
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider);
@@ -95,23 +96,23 @@ namespace Editor.Windows
 
             createWindow.Display(false);
 
-            _dialogueGraphView.focusable = true;
-            _dialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
+            DialogueGraphView.focusable = true;
+            DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
             //_dialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
-            _dialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder,
-                new ElementsFactory(_dialogueGraphView)));
-            _dialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(_dialogueGraphView, factory)));
-            _dialogueGraphView.AddManipulator(new EdgeDoubleClickManipulator(redirectNodeFactory));
-            _dialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
-            _dialogueGraphView.Display(false);
+            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder,
+                new ElementsFactory(DialogueGraphView)));
+            DialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(DialogueGraphView, nodeFactory)));
+            DialogueGraphView.AddManipulator(new EdgeDoubleClickManipulator(redirectNodeFactory));
+            DialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
+            DialogueGraphView.Display(false);
 
             languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
         }
-
+        
         private ShortcutsProfile CreateShortcuts(SearchWindowProvider searchWindow, IUndoHistory undoHistory, TemplateDialogueFactory templateFactory)
         {
             var saveShortcut = new SaveShortcut(this);
-            var findShortcut = new FindShortcut(searchWindow, _dialogueGraphView);
+            var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
             var undoShortcut = new UndoShortcut(undoHistory);
             var redoShortcut = new RedoShortcut(undoHistory);
             var templateHotkeys = new TemplateHotkeyShortcuts(templateFactory);
@@ -132,7 +133,7 @@ namespace Editor.Windows
         {
             _graphImporter.Import(container);
             
-            _dialogueGraphView.Display(true);
+            DialogueGraphView.Display(true);
             _dialogueGraphToolbar.Display(true);
         }
 
