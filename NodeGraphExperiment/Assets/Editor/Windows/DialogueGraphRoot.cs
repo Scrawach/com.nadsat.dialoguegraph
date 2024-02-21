@@ -70,7 +70,7 @@ namespace Editor.Windows
             _variablesProvider = variables;
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
 
-            var genericFactory = new GenericNodeViewFactory(DialogueGraphView, inspectorView, inspectorFactory);
+            var genericFactory = new GenericNodeViewFactory(Root, DialogueGraphView, inspectorView, inspectorFactory);
             var dialogueFactory = new DialogueNodeViewFactory(genericFactory, dialogueDatabase, phraseRepository, inspectorFactory);
             var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, DialogueGraphView, choicesRepository, variables);
             _factory = nodeFactory;
