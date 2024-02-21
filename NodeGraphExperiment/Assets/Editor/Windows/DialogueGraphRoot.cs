@@ -89,7 +89,7 @@ namespace Editor.Windows
             _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider);
 
             var backupExporter = new BackupGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
-            _backupService = new BackupService(backupExporter, 0.1f);
+            _backupService = new BackupService(backupExporter, 5f);
             
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider);
