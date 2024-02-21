@@ -1,4 +1,5 @@
 using System.IO;
+using Editor.Data;
 using Editor.Localization;
 using UnityEditor;
 using UnityEngine;
@@ -9,17 +10,16 @@ namespace Editor.Exporters
     {
         private readonly MultiTable _table;
 
-        public CsvExporter(MultiTable table) =>
+        public CsvExporter(MultiTable table) => 
             _table = table;
 
-        public void Export(string dialogueName)
+        public void Export(string pathToFolder)
         {
             var csvInfos = _table.ExportToCsv();
-            var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{dialogueName}");
 
             foreach (var csvInfo in csvInfos)
             {
-                var pathToFile = Path.Combine(path, $"{csvInfo.Name}.csv");
+                var pathToFile = Path.Combine(pathToFolder, $"{csvInfo.Name}.csv");
                 File.WriteAllText(pathToFile, csvInfo.Content);
             }
 

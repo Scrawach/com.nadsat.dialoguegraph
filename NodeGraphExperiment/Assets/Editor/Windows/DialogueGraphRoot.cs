@@ -1,6 +1,7 @@
 using Editor.AssetManagement;
 using Editor.Audios;
 using Editor.Audios.Wwise;
+using Editor.Backup;
 using Editor.ContextualMenu;
 using Editor.Data;
 using Editor.Drawing;
@@ -40,6 +41,7 @@ namespace Editor.Windows
         private readonly VariablesProvider _variablesProvider;
 
         private DialogueGraphContainer _container;
+        private DialoguesProvider _dialoguesProvider;
 
         public DialogueGraphRoot(DialogueGraphWindow root) : base(Uxml)
         {
@@ -82,10 +84,12 @@ namespace Editor.Windows
             var pngExporter = new PngExporter(Root, DialogueGraphView);
             var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
 
+            _dialoguesProvider = new DialoguesProvider();
+
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
             _dialogueGraphToolbar.Display(false);
-            dialogueWindowToolbar.Initialize(this, CreateWindow, new DialoguesProvider(), pngExporter);
+            dialogueWindowToolbar.Initialize(this, CreateWindow, _dialoguesProvider, pngExporter);
             variablesBlackboard.Initialize();
             _languageProvider.AddLanguage("Russian");
 
@@ -150,10 +154,12 @@ namespace Editor.Windows
         public void Save()
         {
             var graphExporter = new DialogueGraphExporter(DialogueGraphView, NodesProvider, _container);
-            graphExporter.Export();
+            var assetPath = _dialoguesProvider.GetDialoguePath(_container.Graph.Name);
+            graphExporter.Export(assetPath);
 
+            var pathToFolder = _dialoguesProvider.GetDialogueFolder(_container.Graph.Name);
             var exporter = new CsvExporter(_multiTable);
-            exporter.Export(_container.Graph.Name);
+            exporter.Export(pathToFolder);
 
             Root.IsDirty = false;
         }

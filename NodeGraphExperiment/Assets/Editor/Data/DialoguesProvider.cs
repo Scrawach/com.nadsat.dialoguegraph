@@ -18,6 +18,9 @@ namespace Editor.Data
         public string GetDialoguePath(string dialogueName) =>
             $"{RootFolder}{dialogueName}/{dialogueName}.asset";
 
+        public string GetDialogueFolder(string dialogueName) =>
+            $"{RootFolder}{dialogueName}";
+
         public bool Contains(string dialogueName) =>
             AssetDatabase.AssetPathExists(GetDialoguePath(dialogueName));
 

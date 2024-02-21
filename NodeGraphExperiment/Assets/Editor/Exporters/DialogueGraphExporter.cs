@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Editor.Data;
 using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using Editor.Factories.NodeListeners;
@@ -15,6 +16,7 @@ namespace Editor.Exporters
     public class DialogueGraphExporter
     {
         private readonly DialogueGraphContainer _graph;
+        private readonly DialoguesProvider _dialogues;
         private readonly DialogueGraphView _graphView;
         private readonly NodesProvider _nodes;
 
@@ -25,7 +27,7 @@ namespace Editor.Exporters
             _graph = graph;
         }
 
-        public void Export()
+        public void Export(string pathToFile)
         {
             //_graph.Graph.Nodes = _nodes.Nodes.Select(node => node.Model).ToList();
             FillGraph(_graph.Graph, _graphView);
@@ -41,7 +43,7 @@ namespace Editor.Exporters
             //jsonExporter.Export("Tutor", _graphView);
 
             var clone = Object.Instantiate(_graph);
-            AssetDatabase.CreateAsset(clone, $"Assets/Resources/Dialogues/{_graph.Graph.Name}/{_graph.Graph.Name}.asset");
+            AssetDatabase.CreateAsset(clone, pathToFile);
             AssetDatabase.SaveAssetIfDirty(clone);
             EditorGUIUtility.PingObject(clone);
         }
