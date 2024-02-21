@@ -37,6 +37,7 @@ namespace Editor.Windows
         
         private readonly DialogueGraphExporter _graphExporter;
         private readonly DialogueGraphImporter _graphImporter;
+        private readonly BackupService _backupService;
 
         public DialogueGraphView DialogueGraphView { get; }
 
@@ -86,6 +87,9 @@ namespace Editor.Windows
             
             var csvImporter = new CsvImporter(languageProvider, multiTable);
             _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider);
+
+            var backupExporter = new BackupGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
+            _backupService = new BackupService(backupExporter, 0.1f);
             
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider);
@@ -142,5 +146,8 @@ namespace Editor.Windows
             _graphExporter.Export();
             _root.IsDirty = false;
         }
+
+        public void Update() => 
+            _backupService.Update();
     }
 }

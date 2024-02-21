@@ -1,3 +1,4 @@
+using System;
 using Editor.Drawing;
 using Runtime;
 using UnityEditor;
@@ -27,6 +28,9 @@ namespace Editor.Windows
 
             _graphView.graphViewChanged += OnChange;
         }
+
+        private void Update() => 
+            _graphRoot.Update();
 
         public void Populate(DialogueGraphContainer graph) =>
             _graphRoot.Load(graph);

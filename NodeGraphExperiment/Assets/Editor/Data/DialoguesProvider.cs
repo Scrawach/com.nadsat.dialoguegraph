@@ -25,7 +25,7 @@ namespace Editor.Data
             $"{GetBackupFolder(dialogueName)}/{dialogueName}.asset";
 
         public string GetBackupFolder(string dialogueName) =>
-            $"{RootFolder}{dialogueName}/backup";
+            $"{RootFolder}{dialogueName}/Backup";
         
         public bool Contains(string dialogueName) =>
             AssetDatabase.AssetPathExists(GetDialoguePath(dialogueName));
@@ -39,7 +39,6 @@ namespace Editor.Data
             container.Graph = graph;
             AssetDatabase.CreateAsset(container, pathToDialogueAsset);
             AssetDatabase.SaveAssets();
-            EditorGUIUtility.PingObject(container);
             return container;
         }
 
@@ -51,7 +50,6 @@ namespace Editor.Data
             var clone = Object.Instantiate(asset);
             AssetDatabase.CreateAsset(clone, path);
             AssetDatabase.SaveAssetIfDirty(clone);
-            EditorGUIUtility.PingObject(clone);
             return clone;
         }
 
