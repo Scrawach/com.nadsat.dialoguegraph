@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Editor.Data;
 using Editor.Drawing;
 using Editor.Drawing.Nodes;
 using Editor.Factories;
@@ -18,16 +19,29 @@ namespace Editor.Importers
         private readonly DialogueGraphView _graphView;
         private readonly NodesProvider _nodes;
         private readonly VariablesProvider _variables;
+        private readonly CsvImporter _csvImporter;
+        private readonly DialogueGraphProvider _dialogueGraphProvider;
 
-        public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes, VariablesProvider variables)
+        public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes, 
+            VariablesProvider variables, CsvImporter csvImporter, DialogueGraphProvider dialogueProvider)
         {
             _graphView = graphView;
             _factory = factory;
             _nodes = nodes;
             _variables = variables;
+            _csvImporter = csvImporter;
+            _dialogueGraphProvider = dialogueProvider;
         }
 
-        public void Import(DialogueGraph graph)
+        public void Import(DialogueGraphContainer container)
+        {
+            container = UnityEngine.Object.Instantiate(container);
+            _dialogueGraphProvider.Graph = container.Graph;
+            _csvImporter.Import(container.Graph.Name);
+            ImportNodes(container.Graph);
+        }
+
+        private void ImportNodes(DialogueGraph graph)
         {
             var mapping = new Dictionary<string, Node>();
 

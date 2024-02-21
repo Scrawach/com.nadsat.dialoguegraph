@@ -24,7 +24,6 @@ using Editor.Windows.Search;
 using Editor.Windows.Toolbar;
 using Editor.Windows.Variables;
 using Runtime;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Windows
@@ -32,92 +31,87 @@ namespace Editor.Windows
     public class DialogueGraphRoot : BaseControl
     {
         private const string Uxml = "UXML/DialogueGraphWindow";
-
+        
+        private readonly DialogueGraphWindow _root;
+        private readonly DialogueGraphView _dialogueGraphView;
         private readonly DialogueGraphToolbar _dialogueGraphToolbar;
-        private readonly INodeViewFactory _factory;
-        private readonly LanguageProvider _languageProvider;
-
-        private readonly MultiTable _multiTable;
-        private readonly VariablesProvider _variablesProvider;
-
-        private DialogueGraphContainer _container;
-        private DialoguesProvider _dialoguesProvider;
-
+        
+        private readonly DialogueGraphExporter _graphExporter;
+        private readonly DialogueGraphImporter _graphImporter;
+        
         public DialogueGraphRoot(DialogueGraphWindow root) : base(Uxml)
         {
-            Root = root;
-            DialogueGraphView = this.Q<DialogueGraphView>();
+            _root = root;
+            _dialogueGraphView = this.Q<DialogueGraphView>();
             var inspectorView = this.Q<InspectorView>();
             _dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             var dialogueWindowToolbar = this.Q<DialogueWindowToolbar>();
-            CreateWindow = this.Q<CreateGraphWindow>();
+            var createWindow = this.Q<CreateGraphWindow>();
 
-            _languageProvider = new LanguageProvider();
-            _multiTable = new MultiTable(_languageProvider);
+            var dialoguesProvider = new DialoguesProvider();
+            var dialogueGraphProvider = new DialogueGraphProvider();
+            var languageProvider = new LanguageProvider();
+            var multiTable = new MultiTable(languageProvider);
 
             var (audioEvents, audioService) = CreateAudio();
 
-            var phraseRepository = new PhraseRepository(_multiTable);
+            var phraseRepository = new PhraseRepository(multiTable);
             var dialogueDatabase = new DialogueDatabase();
-            var choicesRepository = new ChoicesRepository(_multiTable);
+            var choicesRepository = new ChoicesRepository(multiTable);
             var undoHistory = new UndoHistory();
-            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEvents);
+            var searchWindow = new SearchWindowProvider(root, _dialogueGraphView, phraseRepository, choicesRepository, audioEvents);
 
 
             var inspectorFactory = new InspectorViewFactory(dialogueDatabase, searchWindow, phraseRepository, choicesRepository, audioService);
-            var nodesProvider = new NodesProvider(DialogueGraphView);
-            NodesProvider = nodesProvider;
+            var nodesProvider = new NodesProvider(_dialogueGraphView);
 
             var variables = new VariablesProvider();
-            _variablesProvider = variables;
-            var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
+            var variablesBlackboard = new VariablesBlackboard(variables, _dialogueGraphView);
 
-            var genericFactory = new GenericNodeViewFactory(Root, DialogueGraphView, inspectorView, inspectorFactory);
+            var genericFactory = new GenericNodeViewFactory(_root, _dialogueGraphView, inspectorView, inspectorFactory);
             var dialogueFactory = new DialogueNodeViewFactory(genericFactory, dialogueDatabase, phraseRepository, inspectorFactory);
-            var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, DialogueGraphView, choicesRepository, variables);
-            _factory = nodeFactory;
-            var templateFactory = new TemplateDialogueFactory(dialogueDatabase, nodeFactory, DialogueGraphView);
-            var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, DialogueGraphView);
-            var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
-            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, undoNodeFactory, templateFactory);
+            var nodeFactory = new NodeViewFactory(genericFactory, dialogueFactory, _dialogueGraphView, choicesRepository, variables);
+            var templateFactory = new TemplateDialogueFactory(dialogueDatabase, nodeFactory, _dialogueGraphView);
+            //var undoNodeFactory = new UndoNodeViewFactory(nodeFactory, undoHistory, _dialogueGraphView);
+            var redirectNodeFactory = new RedirectNodeFactory(_dialogueGraphView, nodeFactory);
+            var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(_dialogueGraphView, nodeFactory, templateFactory);
 
-            var pngExporter = new PngExporter(Root, DialogueGraphView);
+            var pngExporter = new PngExporter(_root, _dialogueGraphView);
             var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
 
-            _dialoguesProvider = new DialoguesProvider();
-
+            var graphSerializer = new DialogueGraphSerializer(_dialogueGraphView, nodesProvider, dialogueGraphProvider);
+            var csvExporter = new CsvExporter(multiTable);
+            _graphExporter = new DialogueGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
+            
+            var csvImporter = new CsvImporter(languageProvider, multiTable);
+            _graphImporter = new DialogueGraphImporter(_dialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider);
+            
             dialogueDatabase.Initialize();
-            _dialogueGraphToolbar.Initialize(variablesBlackboard, _languageProvider);
+            _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider);
             _dialogueGraphToolbar.Display(false);
-            dialogueWindowToolbar.Initialize(this, CreateWindow, _dialoguesProvider, pngExporter);
+            dialogueWindowToolbar.Initialize(this, createWindow, dialoguesProvider, pngExporter);
             variablesBlackboard.Initialize();
-            _languageProvider.AddLanguage("Russian");
+            languageProvider.AddLanguage("Russian");
 
-            CreateWindow.Display(false);
+            createWindow.Display(false);
 
-            DialogueGraphView.focusable = true;
-            DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
-            DialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
-            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder,
-                new ElementsFactory(DialogueGraphView)));
-            DialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(DialogueGraphView, _factory)));
-            DialogueGraphView.AddManipulator(new EdgeDoubleClickManipulator(redirectNodeFactory));
-            DialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
-            DialogueGraphView.Display(false);
+            _dialogueGraphView.focusable = true;
+            _dialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
+            //_dialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
+            _dialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder,
+                new ElementsFactory(_dialogueGraphView)));
+            _dialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(_dialogueGraphView, factory)));
+            _dialogueGraphView.AddManipulator(new EdgeDoubleClickManipulator(redirectNodeFactory));
+            _dialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
+            _dialogueGraphView.Display(false);
 
-            _languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
+            languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
         }
-
-        public DialogueGraphView DialogueGraphView { get; }
-        public DialogueGraphWindow Root { get; }
-        public CreateGraphWindow CreateWindow { get; }
-
-        public NodesProvider NodesProvider { get; }
 
         private ShortcutsProfile CreateShortcuts(SearchWindowProvider searchWindow, IUndoHistory undoHistory, TemplateDialogueFactory templateFactory)
         {
             var saveShortcut = new SaveShortcut(this);
-            var findShortcut = new FindShortcut(searchWindow, DialogueGraphView);
+            var findShortcut = new FindShortcut(searchWindow, _dialogueGraphView);
             var undoShortcut = new UndoShortcut(undoHistory);
             var redoShortcut = new RedoShortcut(undoHistory);
             var templateHotkeys = new TemplateHotkeyShortcuts(templateFactory);
@@ -136,32 +130,16 @@ namespace Editor.Windows
 
         public void Load(DialogueGraphContainer container)
         {
-            container = Object.Instantiate(container);
-            _container = container;
-
-            _multiTable.Clear();
-            var csvImporter = new CsvImporter(_languageProvider, _multiTable);
-            csvImporter.Import(container.Graph.Name);
-            _multiTable.Initialize(container.Graph.Name);
-
-            var graphImporter = new DialogueGraphImporter(DialogueGraphView, _factory, NodesProvider, _variablesProvider);
-            graphImporter.Import(container.Graph);
-
-            DialogueGraphView.Display(true);
+            _graphImporter.Import(container);
+            
+            _dialogueGraphView.Display(true);
             _dialogueGraphToolbar.Display(true);
         }
 
         public void Save()
-        {
-            var graphExporter = new DialogueGraphExporter(DialogueGraphView, NodesProvider, _container);
-            var assetPath = _dialoguesProvider.GetDialoguePath(_container.Graph.Name);
-            graphExporter.Export(assetPath);
-
-            var pathToFolder = _dialoguesProvider.GetDialogueFolder(_container.Graph.Name);
-            var exporter = new CsvExporter(_multiTable);
-            exporter.Export(pathToFolder);
-
-            Root.IsDirty = false;
+        { 
+            _graphExporter.Export();
+            _root.IsDirty = false;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Editor.Importers
 
         public void Import(string dialogueName)
         {
+            _table.Clear();
             var path = Path.Combine(Application.dataPath, $"Resources/Dialogues/{dialogueName}");
             var csvFiles = GetCsvFilesFromDirectory(path).ToArray();
             var csvNames = csvFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
@@ -35,6 +36,7 @@ namespace Editor.Importers
             _table.AddHeaders(languages);
             foreach (var language in languages)
                 _language.AddLanguage(language);
+            _table.Initialize(dialogueName);
         }
 
         private IEnumerable<string> GetCsvFilesFromDirectory(string path)

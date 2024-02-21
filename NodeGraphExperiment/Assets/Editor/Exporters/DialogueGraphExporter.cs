@@ -1,109 +1,47 @@
-using System.Collections.Generic;
-using System.Linq;
 using Editor.Data;
-using Editor.Drawing;
-using Editor.Drawing.Nodes;
-using Editor.Factories.NodeListeners;
+using Editor.Serialization;
 using Runtime;
-using Runtime.Nodes;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Editor.Exporters
 {
     public class DialogueGraphExporter
     {
-        private readonly DialogueGraphContainer _graph;
+        private readonly DialogueGraphSerializer _graphSerializer;
+        private readonly CsvExporter _csvExporter;
         private readonly DialoguesProvider _dialogues;
-        private readonly DialogueGraphView _graphView;
-        private readonly NodesProvider _nodes;
 
-        public DialogueGraphExporter(DialogueGraphView graphView, NodesProvider nodes, DialogueGraphContainer graph)
+        public DialogueGraphExporter(DialogueGraphSerializer graphSerializer, CsvExporter csvExporter, DialoguesProvider dialogues)
         {
-            _graphView = graphView;
-            _nodes = nodes;
-            _graph = graph;
+            _graphSerializer = graphSerializer;
+            _csvExporter = csvExporter;
+            _dialogues = dialogues;
         }
 
-        public void Export(string pathToFile)
+        public void Export()
         {
-            //_graph.Graph.Nodes = _nodes.Nodes.Select(node => node.Model).ToList();
-            FillGraph(_graph.Graph, _graphView);
-            _graph.Graph.Links = GetLinksFrom(_graphView.edges).ToList();
-            //_graph.Graph.RedirectNodes = GetRedirectNodesFrom(_graphView.nodes).ToList();
+            var graph = _graphSerializer.Serialize();
+            ExportDialogueContainer(graph);
+            ExportCsvContent(graph);
+        }
 
-            if (_nodes.RootNode == null)
-                _nodes.RootNode = _nodes.Nodes.FirstOrDefault();
-
-            _graph.Graph.EntryNodeGuid = _nodes.RootNode?.Model.Guid;
-
-            //var jsonExporter = new JsonExporter();
-            //jsonExporter.Export("Tutor", _graphView);
-
-            var clone = Object.Instantiate(_graph);
-            AssetDatabase.CreateAsset(clone, pathToFile);
+        private void ExportDialogueContainer(DialogueGraph graph)
+        {
+            var asset = ScriptableObject.CreateInstance<DialogueGraphContainer>();
+            asset.Graph = graph;
+            
+            var assetPath = _dialogues.GetDialoguePath(graph.Name);
+            var clone = Object.Instantiate(asset);
+            AssetDatabase.CreateAsset(clone, assetPath);
             AssetDatabase.SaveAssetIfDirty(clone);
             EditorGUIUtility.PingObject(clone);
         }
 
-        private static void FillGraph(DialogueGraph graph, GraphView view)
+        private void ExportCsvContent(DialogueGraph graph)
         {
-            var dialogues = new List<DialogueNode>();
-            var choices = new List<ChoicesNode>();
-            var switches = new List<SwitchNode>();
-            var redirects = new List<RedirectNode>();
-            var variables = new List<VariableNode>();
-            var stickyNotes = new List<NoteNode>();
-            var audioEventNodes = new List<AudioEventNode>();
-
-            foreach (var viewNode in view.graphElements)
-                if (viewNode is DialogueNodeView dialogue)
-                    dialogues.Add(dialogue.Model);
-                else if (viewNode is ChoicesNodeView choice)
-                    choices.Add(choice.Model);
-                else if (viewNode is SwitchNodeView switchNode)
-                    switches.Add(switchNode.Model);
-                else if (viewNode is RedirectNodeView redirectNode)
-                    redirects.Add(redirectNode.Model);
-                else if (viewNode is VariableNodeView variableView)
-                    variables.Add(variableView.Model);
-                else if (viewNode is AudioEventNodeView audioEventView)
-                    audioEventNodes.Add(audioEventView.Model);
-                else if (viewNode is StickyNote stickyNote)
-                    stickyNotes.Add(new NoteNode
-                        {Title = stickyNote.title, Description = stickyNote.contents, Position = stickyNote.GetPosition()});
-
-            graph.Nodes = dialogues;
-            graph.ChoiceNodes = choices;
-            graph.SwitchNodes = switches;
-            graph.RedirectNodes = redirects;
-            graph.VariableNodes = variables;
-            graph.Notes = stickyNotes;
-            graph.AudioEventNodes = audioEventNodes;
-        }
-
-        private static IEnumerable<RedirectNode> GetRedirectNodesFrom(UQueryState<Node> nodes) =>
-            nodes
-                .Where(n => n is RedirectNodeView)
-                .Select(node => ((RedirectNodeView) node).Model);
-
-        private static IEnumerable<NodeLinks> GetLinksFrom(UQueryState<Edge> edges)
-        {
-            foreach (var edge in edges.Where(e => e.input.node != null))
-            {
-                var parentNode = (dynamic) edge.output.node;
-                var childNode = (dynamic) edge.input.node;
-
-                yield return new NodeLinks
-                {
-                    FromGuid = parentNode.Model.Guid,
-                    FromPortId = edge.output.viewDataKey,
-                    ToGuid = childNode.Model.Guid,
-                    ToPortId = edge.input.viewDataKey
-                };
-            }
+            var pathToFolder = _dialogues.GetDialogueFolder(graph.Name);
+            _csvExporter.Export(pathToFolder);
         }
     }
 }
