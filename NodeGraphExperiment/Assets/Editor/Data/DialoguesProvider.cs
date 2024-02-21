@@ -16,11 +16,17 @@ namespace Editor.Data
             RootFolder;
 
         public string GetDialoguePath(string dialogueName) =>
-            $"{RootFolder}{dialogueName}/{dialogueName}.asset";
+            $"{GetDialogueFolder(dialogueName)}/{dialogueName}.asset";
 
         public string GetDialogueFolder(string dialogueName) =>
             $"{RootFolder}{dialogueName}";
 
+        public string GetBackupDialoguePath(string dialogueName) =>
+            $"{GetBackupFolder(dialogueName)}/{dialogueName}.asset";
+
+        public string GetBackupFolder(string dialogueName) =>
+            $"{RootFolder}{dialogueName}/backup";
+        
         public bool Contains(string dialogueName) =>
             AssetDatabase.AssetPathExists(GetDialoguePath(dialogueName));
 
@@ -35,6 +41,18 @@ namespace Editor.Data
             AssetDatabase.SaveAssets();
             EditorGUIUtility.PingObject(container);
             return container;
+        }
+
+        public DialogueGraphContainer CreateNewDialogue(DialogueGraph graph, string path)
+        {
+            CreateDirectoriesForFile(path);
+            var asset = ScriptableObject.CreateInstance<DialogueGraphContainer>();
+            asset.Graph = graph;
+            var clone = Object.Instantiate(asset);
+            AssetDatabase.CreateAsset(clone, path);
+            AssetDatabase.SaveAssetIfDirty(clone);
+            EditorGUIUtility.PingObject(clone);
+            return clone;
         }
 
         public string[] GetExistingNames() =>

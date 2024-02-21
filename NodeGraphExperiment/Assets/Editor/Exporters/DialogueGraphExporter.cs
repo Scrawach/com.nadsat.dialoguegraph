@@ -1,8 +1,5 @@
 using Editor.Data;
 using Editor.Serialization;
-using Runtime;
-using UnityEditor;
-using UnityEngine;
 
 namespace Editor.Exporters
 {
@@ -22,24 +19,9 @@ namespace Editor.Exporters
         public void Export()
         {
             var graph = _graphSerializer.Serialize();
-            ExportDialogueContainer(graph);
-            ExportCsvContent(graph);
-        }
-
-        private void ExportDialogueContainer(DialogueGraph graph)
-        {
-            var asset = ScriptableObject.CreateInstance<DialogueGraphContainer>();
-            asset.Graph = graph;
-            
             var assetPath = _dialogues.GetDialoguePath(graph.Name);
-            var clone = Object.Instantiate(asset);
-            AssetDatabase.CreateAsset(clone, assetPath);
-            AssetDatabase.SaveAssetIfDirty(clone);
-            EditorGUIUtility.PingObject(clone);
-        }
-
-        private void ExportCsvContent(DialogueGraph graph)
-        {
+            _dialogues.CreateNewDialogue(graph, assetPath);
+            
             var pathToFolder = _dialogues.GetDialogueFolder(graph.Name);
             _csvExporter.Export(pathToFolder);
         }
