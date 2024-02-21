@@ -1,9 +1,4 @@
-using Editor.Drawing;
-using Editor.Exporters;
-using Editor.Factories.NodeListeners;
-using Runtime;
 using UnityEditor;
-using UnityEngine;
 
 namespace Editor.Backup
 {
@@ -23,16 +18,11 @@ namespace Editor.Backup
         public void Update()
         {
             var current = EditorApplication.timeSinceStartup;
-            if (current >= _targetTime)
-            {
-                _targetTime = current + _targetTimeInSeconds;
-                SaveBackup();
-            }
-        }
 
-        private void SaveBackup()
-        {
-            Debug.Log($"processing save backup...");
+            if (current < _targetTime) 
+                return;
+            
+            _targetTime = current + _targetTimeInSeconds;
             _exporter.Export();
         }
     }
