@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Editor.AssetManagement
+namespace Nadsat.DialogueGraph.Editor.AssetManagement
 {
     public class LanguageProvider
     {

@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators
 {
     public class DragAndDropInspectorManipulator : PointerManipulator
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace Runtime.Localization
+namespace Nadsat.DialogueGraph.Runtime.Localization
 {
     public class CsvAsset
     {

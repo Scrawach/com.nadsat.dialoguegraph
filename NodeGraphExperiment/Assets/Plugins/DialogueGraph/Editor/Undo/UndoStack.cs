@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Editor.Undo
+namespace Nadsat.DialogueGraph.Editor.Undo
 {
     public class UndoStack
     {

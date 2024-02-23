@@ -1,4 +1,4 @@
-﻿namespace Editor.Audios
+﻿namespace Nadsat.DialogueGraph.Editor.Audios
 {
     public interface IAudioEditorService
     {

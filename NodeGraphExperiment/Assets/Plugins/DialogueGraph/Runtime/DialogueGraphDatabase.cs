@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime
+namespace Nadsat.DialogueGraph.Runtime
 {
     [CreateAssetMenu(fileName = "Dialogue Database", menuName = "Dialogue Graph/Database", order = 0)]
     public class DialogueGraphDatabase : ScriptableObject

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Inspector
+namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 {
     public class InspectorView : VisualElement
     {

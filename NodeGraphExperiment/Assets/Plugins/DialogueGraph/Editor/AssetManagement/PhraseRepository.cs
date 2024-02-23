@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Localization;
-using Runtime.Localization;
+using Nadsat.DialogueGraph.Editor.Localization;
+using Nadsat.DialogueGraph.Runtime.Localization;
 
-namespace Editor.AssetManagement
+namespace Nadsat.DialogueGraph.Editor.AssetManagement
 {
     public class PhraseRepository
     {

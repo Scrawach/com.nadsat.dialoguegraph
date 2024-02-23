@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 
-namespace Runtime
+namespace Nadsat.DialogueGraph.Runtime
 {
     [Serializable]
     public class DialogueGraph

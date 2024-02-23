@@ -1,13 +1,13 @@
 using System;
-using Editor.AssetManagement;
-using Editor.Drawing.Nodes;
-using Editor.Factories;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.ContextualMenu
+namespace Nadsat.DialogueGraph.Editor.ContextualMenu
 {
     public class TemplateDialogueFactory
     {

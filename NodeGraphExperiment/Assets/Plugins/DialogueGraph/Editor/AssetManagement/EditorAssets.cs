@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Editor.AssetManagement
+namespace Nadsat.DialogueGraph.Editor.AssetManagement
 {
     public class EditorAssets
     {

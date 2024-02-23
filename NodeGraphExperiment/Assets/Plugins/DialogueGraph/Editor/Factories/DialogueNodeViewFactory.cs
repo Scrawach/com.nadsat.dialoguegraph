@@ -1,8 +1,8 @@
-using Editor.AssetManagement;
-using Editor.Drawing.Nodes;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 
-namespace Editor.Factories
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class DialogueNodeViewFactory
     {

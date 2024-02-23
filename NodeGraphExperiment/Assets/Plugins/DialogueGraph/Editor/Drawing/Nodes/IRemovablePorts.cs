@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public interface IRemovablePorts
     {

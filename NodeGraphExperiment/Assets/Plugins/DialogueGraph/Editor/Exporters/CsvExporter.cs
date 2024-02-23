@@ -1,10 +1,8 @@
 using System.IO;
-using Editor.Data;
-using Editor.Localization;
+using Nadsat.DialogueGraph.Editor.Localization;
 using UnityEditor;
-using UnityEngine;
 
-namespace Editor.Exporters
+namespace Nadsat.DialogueGraph.Editor.Exporters
 {
     public class CsvExporter
     {

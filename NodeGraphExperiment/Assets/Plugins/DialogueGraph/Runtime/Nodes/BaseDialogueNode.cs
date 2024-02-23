@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Runtime.Nodes
+namespace Nadsat.DialogueGraph.Runtime.Nodes
 {
     public class BaseDialogueNode
     {

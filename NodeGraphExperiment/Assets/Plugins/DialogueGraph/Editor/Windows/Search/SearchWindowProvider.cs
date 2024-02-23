@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.AssetManagement;
-using Editor.Audios;
-using Editor.Drawing;
-using Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Audios;
+using Nadsat.DialogueGraph.Editor.Drawing;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using Action = Unity.Android.Gradle.Manifest.Action;
 
-namespace Editor.Windows.Search
+namespace Nadsat.DialogueGraph.Editor.Windows.Search
 {
     public class SearchWindowProvider
     {

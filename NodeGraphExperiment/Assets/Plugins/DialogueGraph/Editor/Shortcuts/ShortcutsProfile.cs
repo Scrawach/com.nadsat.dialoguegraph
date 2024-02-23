@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine.UIElements;
 
-namespace Editor.Shortcuts
+namespace Nadsat.DialogueGraph.Editor.Shortcuts
 {
     public class ShortcutsProfile
     {

@@ -1,4 +1,4 @@
-namespace Editor.Windows.Variables
+namespace Nadsat.DialogueGraph.Editor.Windows.Variables
 {
     public class Variable
     {

@@ -1,8 +1,8 @@
-using Editor.Undo;
+using Nadsat.DialogueGraph.Editor.Undo;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Shortcuts.Concrete
+namespace Nadsat.DialogueGraph.Editor.Shortcuts.Concrete
 {
     public class UndoShortcut : ICustomShortcut
     {

@@ -1,13 +1,13 @@
 using System.IO;
-using Editor.Data;
-using Editor.Drawing.Controls;
-using Editor.Exporters;
-using Editor.Windows.CreateGraph;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Editor.Exporters;
+using Nadsat.DialogueGraph.Editor.Windows.CreateGraph;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace Editor.Windows.Toolbar
+namespace Nadsat.DialogueGraph.Editor.Windows.Toolbar
 {
     public class DialogueWindowToolbar : BaseControl
     {

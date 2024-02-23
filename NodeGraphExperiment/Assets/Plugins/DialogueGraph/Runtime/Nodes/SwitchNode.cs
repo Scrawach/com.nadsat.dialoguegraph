@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Runtime.Nodes
+namespace Nadsat.DialogueGraph.Runtime.Nodes
 {
     [Serializable]
     public class SwitchNode : BaseDialogueNode

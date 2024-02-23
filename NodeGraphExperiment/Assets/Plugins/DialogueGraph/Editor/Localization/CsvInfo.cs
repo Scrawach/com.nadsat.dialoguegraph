@@ -1,4 +1,4 @@
-namespace Editor.Localization
+namespace Nadsat.DialogueGraph.Editor.Localization
 {
     public readonly struct CsvInfo
     {

@@ -1,11 +1,11 @@
 using System;
-using Editor.Drawing.Inspector;
-using Editor.Drawing.Nodes;
-using Editor.Factories;
+using Nadsat.DialogueGraph.Editor.Drawing.Inspector;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators
 {
     public class InspectorShowManipulator : Manipulator
     {

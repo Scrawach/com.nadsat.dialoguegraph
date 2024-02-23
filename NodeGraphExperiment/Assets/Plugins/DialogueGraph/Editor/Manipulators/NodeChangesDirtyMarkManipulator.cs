@@ -1,9 +1,8 @@
-using Editor.Drawing.Nodes;
-using Editor.Windows;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Windows;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators
 {
     public class NodeChangesDirtyMarkManipulator : Manipulator
     {

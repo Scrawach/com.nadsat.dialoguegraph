@@ -1,9 +1,7 @@
-using Runtime;
-
-namespace Editor.Data
+namespace Nadsat.DialogueGraph.Editor.Data
 {
     public class DialogueGraphProvider
     {
-        public DialogueGraph Graph;
+        public Runtime.DialogueGraph Graph;
     }
 }

@@ -1,11 +1,10 @@
-using System;
-using Editor.Drawing;
-using Runtime;
+using Nadsat.DialogueGraph.Editor.Drawing;
+using Nadsat.DialogueGraph.Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Windows
+namespace Nadsat.DialogueGraph.Editor.Windows
 {
     public class DialogueGraphWindow : EditorWindow
     {

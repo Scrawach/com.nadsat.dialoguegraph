@@ -1,7 +1,7 @@
-using Editor.Shortcuts;
+using Nadsat.DialogueGraph.Editor.Shortcuts;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators
 {
     public class CustomShortcutsManipulator : Manipulator
     {

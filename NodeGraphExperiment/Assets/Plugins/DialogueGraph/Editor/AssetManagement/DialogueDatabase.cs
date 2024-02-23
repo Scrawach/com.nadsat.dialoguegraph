@@ -1,10 +1,10 @@
 using System.IO;
 using System.Linq;
-using Runtime;
+using Nadsat.DialogueGraph.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.AssetManagement
+namespace Nadsat.DialogueGraph.Editor.AssetManagement
 {
     public class DialogueDatabase
     {

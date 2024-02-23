@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Editor.Audios
+namespace Nadsat.DialogueGraph.Editor.Audios
 {
     public interface IAudioEventsProvider
     {

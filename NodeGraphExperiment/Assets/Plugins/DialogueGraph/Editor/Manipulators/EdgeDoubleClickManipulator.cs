@@ -1,8 +1,8 @@
-using Editor.Factories;
+using Nadsat.DialogueGraph.Editor.Factories;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators
 {
     public class EdgeDoubleClickManipulator : Manipulator
     {

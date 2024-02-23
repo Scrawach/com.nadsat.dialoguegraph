@@ -1,4 +1,4 @@
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public interface IRootable
     {

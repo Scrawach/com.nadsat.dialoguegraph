@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public class SwitchNodeView : BaseNodeView<SwitchNode>, IRemovablePorts
     {

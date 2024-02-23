@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Runtime.Localization
+namespace Nadsat.DialogueGraph.Runtime.Localization
 {
     public class LocalizedString
     {

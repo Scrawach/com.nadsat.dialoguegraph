@@ -1,11 +1,11 @@
-using Editor.AssetManagement;
-using Editor.Extensions;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Extensions;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public class DialogueNodeView : BaseNodeView<DialogueNode>
     {

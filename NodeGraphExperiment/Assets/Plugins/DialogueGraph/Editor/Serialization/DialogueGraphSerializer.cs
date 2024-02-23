@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Data;
-using Editor.Drawing;
-using Editor.Drawing.Nodes;
-using Editor.Factories.NodeListeners;
-using Runtime;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Drawing;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories.NodeListeners;
+using Nadsat.DialogueGraph.Runtime;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Serialization
+namespace Nadsat.DialogueGraph.Editor.Serialization
 {
     public class DialogueGraphSerializer
     {
@@ -24,9 +24,9 @@ namespace Editor.Serialization
             _dialogueGraphProvider = dialogueGraphProvider;
         }
 
-        public DialogueGraph Serialize()
+        public Runtime.DialogueGraph Serialize()
         {
-            var graph = new DialogueGraph { Name = _dialogueGraphProvider.Graph.Name };
+            var graph = new Runtime.DialogueGraph { Name = _dialogueGraphProvider.Graph.Name };
             FillGraph(graph, _graphView);
             graph.Links = GetLinksFrom(_graphView.edges).ToList();
             _nodes.RootNode ??= _nodes.Nodes.FirstOrDefault();
@@ -34,7 +34,7 @@ namespace Editor.Serialization
             return graph;
         }
         
-        private static void FillGraph(DialogueGraph graph, GraphView view)
+        private static void FillGraph(Runtime.DialogueGraph graph, GraphView view)
         {
             var dialogues = new List<DialogueNode>();
             var choices = new List<ChoicesNode>();

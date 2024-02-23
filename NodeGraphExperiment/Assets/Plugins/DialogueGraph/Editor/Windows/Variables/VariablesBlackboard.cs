@@ -3,7 +3,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Windows.Variables
+namespace Nadsat.DialogueGraph.Editor.Windows.Variables
 {
     public class VariablesBlackboard : Blackboard
     {

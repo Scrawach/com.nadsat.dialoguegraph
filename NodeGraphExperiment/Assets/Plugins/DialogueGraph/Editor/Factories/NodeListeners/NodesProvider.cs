@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Factories.NodeListeners
+namespace Nadsat.DialogueGraph.Editor.Factories.NodeListeners
 {
     public class NodesProvider
     {

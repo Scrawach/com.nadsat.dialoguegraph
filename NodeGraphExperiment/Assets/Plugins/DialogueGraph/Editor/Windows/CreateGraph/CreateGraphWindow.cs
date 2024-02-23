@@ -1,12 +1,12 @@
 using System;
-using Editor.Data;
-using Editor.Drawing.Controls;
-using Editor.Extensions;
-using Runtime;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Editor.Extensions;
+using Nadsat.DialogueGraph.Runtime;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Editor.Windows.CreateGraph
+namespace Nadsat.DialogueGraph.Editor.Windows.CreateGraph
 {
     public class CreateGraphWindow : BaseControl
     {
@@ -37,7 +37,7 @@ namespace Editor.Windows.CreateGraph
             _dialogues = new DialoguesProvider();
         }
 
-        public event Action<DialogueGraph> Created;
+        public event Action<Runtime.DialogueGraph> Created;
 
         public event Action Closed
         {

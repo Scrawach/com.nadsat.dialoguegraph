@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace Editor.Windows.Search
+namespace Nadsat.DialogueGraph.Editor.Windows.Search
 {
     public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
     {

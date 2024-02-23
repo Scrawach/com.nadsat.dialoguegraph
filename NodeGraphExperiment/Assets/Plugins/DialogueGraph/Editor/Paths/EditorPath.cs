@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEditor;
 
-namespace Editor.Paths
+namespace Nadsat.DialogueGraph.Editor.Paths
 {
     public static class EditorPath
     {

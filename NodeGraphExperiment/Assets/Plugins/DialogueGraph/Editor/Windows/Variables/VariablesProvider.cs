@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Editor.Windows.Variables
+namespace Nadsat.DialogueGraph.Editor.Windows.Variables
 {
     public class VariablesProvider
     {

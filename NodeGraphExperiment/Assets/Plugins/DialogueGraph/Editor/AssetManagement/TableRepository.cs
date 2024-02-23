@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Editor.AssetManagement
+namespace Nadsat.DialogueGraph.Editor.AssetManagement
 {
     public class CsvTableInfo
     {

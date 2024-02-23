@@ -1,4 +1,4 @@
-﻿namespace Editor.Audios.Wwise
+﻿namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
 {
 #if HAS_WWISE
     public class WwiseAudioEditorService : IAudioEditorService

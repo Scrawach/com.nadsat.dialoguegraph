@@ -4,7 +4,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing
+namespace Nadsat.DialogueGraph.Editor.Drawing
 {
     public class DialogueGraphView : GraphView
     {

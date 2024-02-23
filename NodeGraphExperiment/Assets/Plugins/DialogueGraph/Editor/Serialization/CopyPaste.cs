@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Editor.Drawing.Nodes;
-using Runtime;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Runtime;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Serialization
+namespace Nadsat.DialogueGraph.Editor.Serialization
 {
     public class CopyPaste
     {

@@ -1,10 +1,10 @@
 using System.Linq;
-using Editor.AssetManagement;
-using Editor.Drawing.Controls;
-using Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Editor.Windows.Variables;
 using UnityEngine.UIElements;
 
-namespace Editor.Windows.Toolbar
+namespace Nadsat.DialogueGraph.Editor.Windows.Toolbar
 {
     public class DialogueGraphToolbar : BaseControl
     {

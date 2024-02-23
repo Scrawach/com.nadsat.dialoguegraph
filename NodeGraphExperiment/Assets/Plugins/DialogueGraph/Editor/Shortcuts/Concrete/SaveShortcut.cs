@@ -1,8 +1,8 @@
-using Editor.Windows;
+using Nadsat.DialogueGraph.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Shortcuts.Concrete
+namespace Nadsat.DialogueGraph.Editor.Shortcuts.Concrete
 {
     public class SaveShortcut : ICustomShortcut
     {

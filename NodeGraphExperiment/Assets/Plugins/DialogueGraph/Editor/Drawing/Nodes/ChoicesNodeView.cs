@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.AssetManagement;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public class ChoicesNodeView : BaseNodeView<ChoicesNode>, IRemovablePorts
     {

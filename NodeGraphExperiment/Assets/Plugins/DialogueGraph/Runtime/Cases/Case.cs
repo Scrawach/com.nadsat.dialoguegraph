@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime.Cases
+namespace Nadsat.DialogueGraph.Runtime.Cases
 {
     public class Case
     {

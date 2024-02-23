@@ -1,11 +1,11 @@
 using System;
-using Editor.Paths;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Paths;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public abstract class BaseNodeView<TModel> : Node, IMovableNode, ISelectableNode, IModelHandle, IRootable
         where TModel : BaseDialogueNode

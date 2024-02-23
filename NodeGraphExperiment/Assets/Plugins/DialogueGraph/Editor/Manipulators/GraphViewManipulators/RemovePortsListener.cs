@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators.GraphViewManipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators.GraphViewManipulators
 {
     public class RemovePortsListener : Manipulator
     {

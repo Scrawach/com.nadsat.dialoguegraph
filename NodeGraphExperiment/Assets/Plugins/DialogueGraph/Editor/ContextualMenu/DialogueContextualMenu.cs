@@ -1,10 +1,10 @@
-using Editor.Drawing.Nodes;
-using Editor.Factories;
-using Editor.Factories.NodeListeners;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories;
+using Nadsat.DialogueGraph.Editor.Factories.NodeListeners;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.ContextualMenu
+namespace Nadsat.DialogueGraph.Editor.ContextualMenu
 {
     public class DialogueContextualMenu : Manipulator
     {

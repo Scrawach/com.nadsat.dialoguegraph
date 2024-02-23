@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using Editor.AssetManagement;
-using Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Windows.Variables;
 
-namespace Editor.Data
+namespace Nadsat.DialogueGraph.Editor.Data
 {
     public class ExpressionVerifier
     {

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Runtime.Localization;
+using Nadsat.DialogueGraph.Runtime.Localization;
 
-namespace Editor.Localization
+namespace Nadsat.DialogueGraph.Editor.Localization
 {
     public class Table
     {

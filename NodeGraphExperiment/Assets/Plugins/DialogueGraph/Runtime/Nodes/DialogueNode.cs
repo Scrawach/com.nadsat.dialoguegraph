@@ -1,6 +1,6 @@
 using System;
 
-namespace Runtime.Nodes
+namespace Nadsat.DialogueGraph.Runtime.Nodes
 {
     [Serializable]
     public class DialogueNode : BaseDialogueNode

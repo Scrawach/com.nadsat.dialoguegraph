@@ -1,4 +1,4 @@
-namespace Editor.Undo.Commands
+namespace Nadsat.DialogueGraph.Editor.Undo.Commands
 {
     public class CompositeCommand : IUndoCommand
     {

@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace Editor.Backup
+namespace Nadsat.DialogueGraph.Editor.Backup
 {
     public class BackupService
     {

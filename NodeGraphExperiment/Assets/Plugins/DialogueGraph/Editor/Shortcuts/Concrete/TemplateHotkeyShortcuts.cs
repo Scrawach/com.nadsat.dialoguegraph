@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.ContextualMenu;
+using Nadsat.DialogueGraph.Editor.ContextualMenu;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Shortcuts.Concrete
+namespace Nadsat.DialogueGraph.Editor.Shortcuts.Concrete
 {
     public class TemplateHotkeyShortcuts : ICustomShortcut
     {

@@ -1,13 +1,12 @@
-using Editor.AssetManagement;
-using Editor.Audios;
-using Editor.Data;
-using Editor.Drawing.Inspector;
-using Editor.Drawing.Nodes;
-using Editor.Windows.Search;
-using Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Audios;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Drawing.Inspector;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Windows.Search;
 using UnityEngine.UIElements;
 
-namespace Editor.Factories
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class InspectorViewFactory
     {

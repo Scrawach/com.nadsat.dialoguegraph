@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Editor.AssetManagement;
-using Editor.Localization;
-using Runtime.Localization;
-using UnityEngine;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Localization;
+using Nadsat.DialogueGraph.Runtime.Localization;
 
-namespace Editor.Importers
+namespace Nadsat.DialogueGraph.Editor.Importers
 {
     public class CsvImporter
     {

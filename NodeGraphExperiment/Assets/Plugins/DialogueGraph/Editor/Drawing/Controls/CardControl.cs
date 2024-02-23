@@ -1,9 +1,9 @@
 using System;
-using Editor.Extensions;
+using Nadsat.DialogueGraph.Editor.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Controls
+namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
 {
     public class CardControl : BaseControl
     {

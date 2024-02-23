@@ -1,6 +1,6 @@
 using System;
 
-namespace Runtime
+namespace Nadsat.DialogueGraph.Runtime
 {
     [Serializable]
     public class NodeLinks

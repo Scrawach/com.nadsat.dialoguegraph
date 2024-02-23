@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
 using UnityEngine;
 
-namespace Editor.Undo.Commands
+namespace Nadsat.DialogueGraph.Editor.Undo.Commands
 {
     public class MoveNodes : IUndoCommand
     {

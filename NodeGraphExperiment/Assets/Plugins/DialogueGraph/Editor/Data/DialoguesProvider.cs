@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Runtime;
+using Nadsat.DialogueGraph.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Data
+namespace Nadsat.DialogueGraph.Editor.Data
 {
     public class DialoguesProvider
     {
@@ -35,14 +35,14 @@ namespace Editor.Data
             var pathToDialogueAsset = GetDialoguePath(dialogueName);
             CreateDirectoriesForFile(pathToDialogueAsset);
             var container = ScriptableObject.CreateInstance<DialogueGraphContainer>();
-            var graph = new DialogueGraph {Name = dialogueName};
+            var graph = new Runtime.DialogueGraph {Name = dialogueName};
             container.Graph = graph;
             AssetDatabase.CreateAsset(container, pathToDialogueAsset);
             AssetDatabase.SaveAssets();
             return container;
         }
 
-        public DialogueGraphContainer CreateNewDialogue(DialogueGraph graph, string path)
+        public DialogueGraphContainer CreateNewDialogue(Runtime.DialogueGraph graph, string path)
         {
             CreateDirectoriesForFile(path);
             var asset = ScriptableObject.CreateInstance<DialogueGraphContainer>();

@@ -1,14 +1,13 @@
-using Editor.AssetManagement;
-using Editor.Drawing.Nodes;
-using Editor.Manipulators;
-using Editor.Manipulators.GraphViewManipulators;
-using Editor.Windows.Variables;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Manipulators.GraphViewManipulators;
+using Nadsat.DialogueGraph.Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Factories
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class NodeViewFactory : INodeViewFactory
     {

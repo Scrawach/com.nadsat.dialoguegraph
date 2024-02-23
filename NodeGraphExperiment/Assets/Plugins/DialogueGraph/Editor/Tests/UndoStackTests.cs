@@ -1,7 +1,7 @@
-using Editor.Undo;
+using Nadsat.DialogueGraph.Editor.Undo;
 using NUnit.Framework;
 
-namespace Editor.Tests
+namespace Nadsat.DialogueGraph.Editor.Tests
 {
     public class UndoHistoryTests
     {

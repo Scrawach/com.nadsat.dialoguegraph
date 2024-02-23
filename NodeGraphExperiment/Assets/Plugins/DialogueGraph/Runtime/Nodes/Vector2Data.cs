@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Runtime.Nodes
+namespace Nadsat.DialogueGraph.Runtime.Nodes
 {
     [Serializable]
     public class Vector2Data

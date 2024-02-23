@@ -1,6 +1,6 @@
-using Editor.Localization;
+using Nadsat.DialogueGraph.Editor.Localization;
 
-namespace Editor.AssetManagement
+namespace Nadsat.DialogueGraph.Editor.AssetManagement
 {
     public class ChoicesRepository
     {

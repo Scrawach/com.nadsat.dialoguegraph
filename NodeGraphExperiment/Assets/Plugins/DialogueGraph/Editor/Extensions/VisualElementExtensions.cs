@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace Editor.Extensions
+namespace Nadsat.DialogueGraph.Editor.Extensions
 {
     public static class VisualElementExtensions
     {

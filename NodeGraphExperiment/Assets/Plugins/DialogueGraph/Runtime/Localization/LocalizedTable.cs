@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Runtime.Localization
+namespace Nadsat.DialogueGraph.Runtime.Localization
 {
     public class LocalizedTable
     {

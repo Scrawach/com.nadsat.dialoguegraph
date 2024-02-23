@@ -1,6 +1,6 @@
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public interface IModelHandle : IRootable
     {

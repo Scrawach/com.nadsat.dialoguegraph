@@ -1,12 +1,12 @@
-using Editor.Drawing.Inspector;
-using Editor.Drawing.Nodes;
-using Editor.Manipulators;
-using Editor.Windows;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Inspector;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Manipulators;
+using Nadsat.DialogueGraph.Editor.Windows;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Factories
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class GenericNodeViewFactory
     {

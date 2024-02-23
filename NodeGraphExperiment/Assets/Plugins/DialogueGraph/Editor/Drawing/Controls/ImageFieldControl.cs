@@ -1,11 +1,11 @@
 using System;
-using Editor.Extensions;
+using Nadsat.DialogueGraph.Editor.Extensions;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace Editor.Drawing.Controls
+namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
 {
     public class ImageFieldControl : BaseControl
     {

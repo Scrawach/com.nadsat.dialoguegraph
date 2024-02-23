@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Undo.Commands
+namespace Nadsat.DialogueGraph.Editor.Undo.Commands
 {
     public class AddElements : IUndoCommand
     {

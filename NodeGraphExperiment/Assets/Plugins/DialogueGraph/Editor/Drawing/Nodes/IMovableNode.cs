@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public interface IMovableNode
     {

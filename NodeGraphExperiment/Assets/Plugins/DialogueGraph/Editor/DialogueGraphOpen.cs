@@ -1,9 +1,9 @@
-using Editor.Windows;
-using Runtime;
+using Nadsat.DialogueGraph.Editor.Windows;
+using Nadsat.DialogueGraph.Runtime;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
-namespace Editor
+namespace Nadsat.DialogueGraph.Editor
 {
     public static class DialogueGraphOpen
     {

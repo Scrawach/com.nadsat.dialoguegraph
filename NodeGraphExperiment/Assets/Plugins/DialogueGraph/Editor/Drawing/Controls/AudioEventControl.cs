@@ -1,12 +1,11 @@
 ﻿using System;
-using Editor.Audios;
-using Editor.Windows.Search;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Audios;
+using Nadsat.DialogueGraph.Editor.Windows.Search;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Controls
+namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
 {
     public class AudioEventControl : BaseControl
     {

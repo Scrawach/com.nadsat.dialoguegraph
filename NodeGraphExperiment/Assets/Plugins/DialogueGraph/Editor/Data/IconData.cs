@@ -1,4 +1,4 @@
-namespace Editor.Data
+namespace Nadsat.DialogueGraph.Editor.Data
 {
     public class IconData
     {

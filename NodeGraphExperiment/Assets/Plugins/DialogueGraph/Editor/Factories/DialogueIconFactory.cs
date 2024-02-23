@@ -1,8 +1,8 @@
-using Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Editor.Drawing.Controls;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Factories
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class DialogueIconFactory
     {

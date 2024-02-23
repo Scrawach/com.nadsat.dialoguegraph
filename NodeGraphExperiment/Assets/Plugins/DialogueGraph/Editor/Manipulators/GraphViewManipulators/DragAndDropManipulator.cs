@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Editor.Factories;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Manipulators.GraphViewManipulators
+namespace Nadsat.DialogueGraph.Editor.Manipulators.GraphViewManipulators
 {
     public class DragAndDropManipulator : Manipulator
     {

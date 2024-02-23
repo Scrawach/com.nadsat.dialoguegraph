@@ -1,9 +1,9 @@
 using System.Linq;
-using Editor.Windows.Variables;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Nodes
+namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public class VariableNodeView : BaseNodeView<VariableNode>
     {

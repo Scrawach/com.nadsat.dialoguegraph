@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Undo.Commands
+namespace Nadsat.DialogueGraph.Editor.Undo.Commands
 {
     public class RemoveEdges : IUndoCommand
     {

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Editor.Drawing;
-using Editor.Drawing.Nodes;
-using Editor.Factories;
-using Runtime;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories;
+using Nadsat.DialogueGraph.Runtime;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Editor.Serialization
+namespace Nadsat.DialogueGraph.Editor.Serialization
 {
     public class CopyPasteFactory
     {

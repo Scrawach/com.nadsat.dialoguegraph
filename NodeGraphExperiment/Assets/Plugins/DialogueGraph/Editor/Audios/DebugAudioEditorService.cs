@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Editor.Audios
+namespace Nadsat.DialogueGraph.Editor.Audios
 {
     public class DebugAudioEditorService : IAudioEditorService
     {

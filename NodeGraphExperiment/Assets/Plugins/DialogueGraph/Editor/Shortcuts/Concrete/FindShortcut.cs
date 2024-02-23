@@ -1,9 +1,9 @@
-using Editor.Drawing;
-using Editor.Windows.Search;
+using Nadsat.DialogueGraph.Editor.Drawing;
+using Nadsat.DialogueGraph.Editor.Windows.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Shortcuts.Concrete
+namespace Nadsat.DialogueGraph.Editor.Shortcuts.Concrete
 {
     public class FindShortcut : ICustomShortcut
     {

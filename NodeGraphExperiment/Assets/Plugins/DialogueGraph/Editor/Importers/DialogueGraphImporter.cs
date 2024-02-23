@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Editor.Data;
-using Editor.Drawing;
-using Editor.Drawing.Nodes;
-using Editor.Factories;
-using Editor.Factories.NodeListeners;
-using Editor.Windows.Variables;
-using Runtime;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Drawing;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Factories;
+using Nadsat.DialogueGraph.Editor.Factories.NodeListeners;
+using Nadsat.DialogueGraph.Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Runtime;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Importers
+namespace Nadsat.DialogueGraph.Editor.Importers
 {
     public class DialogueGraphImporter
     {
@@ -45,7 +44,7 @@ namespace Editor.Importers
             ImportNodes(container.Graph);
         }
 
-        private void ImportNodes(DialogueGraph graph)
+        private void ImportNodes(Runtime.DialogueGraph graph)
         {
             var mapping = new Dictionary<string, Node>();
 
@@ -98,7 +97,7 @@ namespace Editor.Importers
             return _factory.CreateVariable(node);
         }
 
-        private static IEnumerable<Edge> ConnectNodes(IReadOnlyDictionary<string, Node> mapping, DialogueGraph graph)
+        private static IEnumerable<Edge> ConnectNodes(IReadOnlyDictionary<string, Node> mapping, Runtime.DialogueGraph graph)
         {
             foreach (var link in graph.Links)
             {

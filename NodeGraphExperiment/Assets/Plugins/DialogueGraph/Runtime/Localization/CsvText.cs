@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Runtime.Localization
+namespace Nadsat.DialogueGraph.Runtime.Localization
 {
     public class CsvText
     {

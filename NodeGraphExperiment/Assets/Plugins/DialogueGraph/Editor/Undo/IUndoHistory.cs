@@ -1,4 +1,4 @@
-namespace Editor.Undo
+namespace Nadsat.DialogueGraph.Editor.Undo
 {
     public interface IUndoHistory
     {

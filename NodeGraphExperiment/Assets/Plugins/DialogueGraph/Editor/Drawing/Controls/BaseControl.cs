@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Controls
+namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
 {
     public class BaseControl : VisualElement
     {

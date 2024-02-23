@@ -1,10 +1,10 @@
-using Editor.Drawing.Nodes;
-using Editor.Undo;
-using Editor.Undo.Commands;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Undo;
+using Nadsat.DialogueGraph.Editor.Undo.Commands;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 
-namespace Editor.Factories
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class UndoNodeViewFactory : INodeViewFactory
     {

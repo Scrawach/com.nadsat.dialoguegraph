@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Runtime
+namespace Nadsat.DialogueGraph.Runtime
 {
     [Serializable]
     public class PersonData

@@ -1,10 +1,10 @@
-﻿using Editor.Audios;
-using Editor.Drawing.Controls;
-using Editor.Windows.Search;
-using Runtime.Nodes;
+﻿using Nadsat.DialogueGraph.Editor.Audios;
+using Nadsat.DialogueGraph.Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Editor.Windows.Search;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Inspector
+namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 {
     public class AudioEventInspectorView : BaseControl
     {

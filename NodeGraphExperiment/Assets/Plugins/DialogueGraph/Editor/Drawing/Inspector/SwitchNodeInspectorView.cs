@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using Editor.Data;
-using Editor.Drawing.Controls;
-using Runtime.Nodes;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Editor.Drawing.Inspector
+namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 {
     public class SwitchNodeInspectorView : BaseControl
     {

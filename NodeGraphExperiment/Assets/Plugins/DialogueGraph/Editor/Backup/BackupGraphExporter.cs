@@ -1,8 +1,8 @@
-using Editor.Data;
-using Editor.Exporters;
-using Editor.Serialization;
+using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Exporters;
+using Nadsat.DialogueGraph.Editor.Serialization;
 
-namespace Editor.Backup
+namespace Nadsat.DialogueGraph.Editor.Backup
 {
     public class BackupGraphExporter
     {
