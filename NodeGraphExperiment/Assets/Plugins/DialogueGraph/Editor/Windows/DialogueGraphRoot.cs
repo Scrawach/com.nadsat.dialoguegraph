@@ -49,7 +49,6 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             _dialogueGraphToolbar = this.Q<DialogueGraphToolbar>();
             var dialogueWindowToolbar = this.Q<DialogueWindowToolbar>();
             var createWindow = this.Q<CreateGraphWindow>();
-            Debug.Log($"{DialogueGraphView}");
 
             var dialoguesProvider = new DialoguesProvider();
             var dialogueGraphProvider = new DialogueGraphProvider();
