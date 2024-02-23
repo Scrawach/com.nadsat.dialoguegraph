@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Runtime.Localization;
+using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Editor.Localization
 {
@@ -14,7 +15,7 @@ namespace Nadsat.DialogueGraph.Editor.Localization
         public MultiTable(LanguageProvider language) =>
             _language = language;
 
-        public void Initialize(string key) =>
+        public void Initialize(string key) => 
             _key = key;
 
         public string Create(string key)

@@ -11,6 +11,7 @@ using Nadsat.DialogueGraph.Runtime;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nadsat.DialogueGraph.Editor.Importers

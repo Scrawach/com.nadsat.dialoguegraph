@@ -4,6 +4,7 @@ using System.Linq;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Localization;
 using Nadsat.DialogueGraph.Runtime.Localization;
+using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Editor.Importers
 {
@@ -21,6 +22,8 @@ namespace Nadsat.DialogueGraph.Editor.Importers
         public void Import(string dialogueName, string pathToFolder)
         {
             _table.Clear();
+            _table.Initialize(dialogueName);
+
             var csvFiles = GetCsvFilesFromDirectory(pathToFolder).ToArray();
             var csvNames = csvFiles.Select(Path.GetFileNameWithoutExtension).ToArray();
             var csvTexts = csvFiles.Select(s => new CsvText(File.ReadAllText(s))).ToArray();
@@ -34,7 +37,6 @@ namespace Nadsat.DialogueGraph.Editor.Importers
             _table.AddHeaders(languages);
             foreach (var language in languages)
                 _language.AddLanguage(language);
-            _table.Initialize(dialogueName);
         }
 
         private IEnumerable<string> GetCsvFilesFromDirectory(string path)
