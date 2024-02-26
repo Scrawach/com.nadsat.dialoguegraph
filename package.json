@@ -2,7 +2,7 @@
     "name": "com.nadsat.dialoguegraph",
     "displayName": "Dialogue Graph",
     "description": "Tool for create novel levels",
-    "version": "0.5.1",
+    "version": "0.5.0",
     "unity": "2023.1",
     "licensesUrl": "See LICENSE.md",
     "author": {

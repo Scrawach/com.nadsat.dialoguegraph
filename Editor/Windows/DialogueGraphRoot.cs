@@ -93,11 +93,11 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             
             dialogueDatabase.Initialize();
             _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider);
-            _dialogueGraphToolbar.Display(false);
             dialogueWindowToolbar.Initialize(this, createWindow, dialoguesProvider, pngExporter);
             variablesBlackboard.Initialize();
             languageProvider.AddLanguage("Russian");
 
+            _dialogueGraphToolbar.Display(false);
             createWindow.Display(false);
 
             DialogueGraphView.focusable = true;
