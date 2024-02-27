@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using Nadsat.DialogueGraph.Runtime;
@@ -17,8 +18,10 @@ namespace Nadsat.DialogueGraph.Editor.AssetManagement
             _database = GetOrCreateDatabase(path);
         }
 
-        public string[] All() =>
-            _database.Persons.Select(x => x.Name).ToArray();
+        public string[] All() => 
+            _database.Persons.Count < 1 
+                ? Array.Empty<string>() 
+                : _database.Persons.Select(x => x.Name).ToArray();
 
         public PersonData Get(string key) =>
             _database.Persons.FirstOrDefault(p => p.Name == key) ?? _none;
