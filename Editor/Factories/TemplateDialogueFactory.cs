@@ -1,13 +1,12 @@
 using System;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
-using Nadsat.DialogueGraph.Editor.Factories;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Nadsat.DialogueGraph.Editor.ContextualMenu
+namespace Nadsat.DialogueGraph.Editor.Factories
 {
     public class TemplateDialogueFactory
     {

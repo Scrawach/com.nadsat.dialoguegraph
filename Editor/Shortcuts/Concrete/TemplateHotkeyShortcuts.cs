@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.ContextualMenu;
+using Nadsat.DialogueGraph.Editor.Factories;
 using UnityEngine;
 using UnityEngine.UIElements;
 

@@ -1,6 +1,6 @@
 {
     "name": "Nadsat.DialogueGraph.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "Nadsat.DialogueGraph.Editor",
     "references": [
         "GUID:4e1f5c56cbc36e043b5bcd0119b7233d"
     ],
