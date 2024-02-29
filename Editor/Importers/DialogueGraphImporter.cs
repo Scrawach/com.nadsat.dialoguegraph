@@ -60,11 +60,12 @@ namespace Nadsat.DialogueGraph.Editor.Importers
 
             foreach (var note in graph.Notes)
             {
-                var noteView = new StickyNote(note.Position)
+                var noteView = new StickyNoteView()
                 {
                     title = note.Title,
                     contents = note.Description
                 };
+                noteView.SetPosition(new Rect(note.Position, note.Size));
                 noteView.FitText(true);
                 _graphView.AddElement(noteView);
             }

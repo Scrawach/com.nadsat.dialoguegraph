@@ -57,9 +57,14 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                     variables.Add(variableView.Model);
                 else if (viewNode is AudioEventNodeView audioEventView)
                     audioEventNodes.Add(audioEventView.Model);
-                else if (viewNode is StickyNote stickyNote)
+                else if (viewNode is StickyNoteView stickyNote)
                     stickyNotes.Add(new NoteNode
-                        {Title = stickyNote.title, Description = stickyNote.contents, Position = stickyNote.GetPosition()});
+                    {
+                        Title = stickyNote.title, 
+                        Description = stickyNote.contents, 
+                        Position = stickyNote.GetPosition(), 
+                        Size = stickyNote.GetSize()
+                    });
 
             graph.Nodes = dialogues;
             graph.ChoiceNodes = choices;
