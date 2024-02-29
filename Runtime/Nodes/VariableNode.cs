@@ -6,5 +6,11 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
     public class VariableNode : BaseDialogueNode
     {
         public string Name;
+
+        public void SetName(string newName)
+        {
+            Name = newName;
+            NotifyChanged();
+        }
     }
 }

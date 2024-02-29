@@ -20,20 +20,22 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 
             _variablesDropdown = this.Q<DropdownField>("variables-dropdown");
             _numberField = this.Q<IntegerField>("number-field");
+
+            _variablesDropdown.RegisterValueChangedCallback(OnDropdownChanged);
+            _variables.Changed += UpdateDropdownChoices;
+            UpdateDropdownChoices();
         }
 
-        public void SetVariable(string variableName) =>
-            _variablesDropdown.value = variableName;
+        private void OnDropdownChanged(ChangeEvent<string> evt) => 
+            Model.SetName(evt.newValue);
 
-        protected override void OnModelChanged()
+        protected override void OnModelChanged() => 
+            _variablesDropdown.SetValueWithoutNotify(Model.Name);
+
+        private void UpdateDropdownChoices()
         {
             _variablesDropdown.choices = _variables.All().Select(v => v.Name).ToList();
-            _variablesDropdown.value = Model.Name;
-            _variables.Changed += () =>
-            {
-                _variablesDropdown.choices = _variables.All().Select(v => v.Name).ToList();
-                if (!_variables.Contains(_variablesDropdown.value)) _variablesDropdown.value = string.Empty;
-            };
+            if (!_variables.Contains(_variablesDropdown.value)) _variablesDropdown.value = string.Empty;
         }
     }
 }
