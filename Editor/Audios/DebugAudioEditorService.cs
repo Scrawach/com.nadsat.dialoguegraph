@@ -4,6 +4,9 @@ namespace Nadsat.DialogueGraph.Editor.Audios
 {
     public class DebugAudioEditorService : IAudioEditorService
     {
+        public void Initialize() => 
+            Debug.Log($"Debug Audio Editor Service initialized");
+
         public void PlayEvent(string eventName) =>
             Debug.Log($"Play event {eventName}");
 

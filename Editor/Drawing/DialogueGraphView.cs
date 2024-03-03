@@ -29,9 +29,9 @@ namespace Nadsat.DialogueGraph.Editor.Drawing
         private static Manipulator ContentDragger()
         {
             var dragger = new ContentDragger();
-            dragger.activators.Add(new ManipulatorActivationFilter
+            dragger.activators.Add(new ManipulatorActivationFilter()
             {
-                button = MouseButton.RightMouse
+                
             });
             return dragger;
         }

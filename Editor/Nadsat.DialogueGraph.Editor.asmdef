@@ -2,7 +2,10 @@
     "name": "Nadsat.DialogueGraph.Editor",
     "rootNamespace": "Nadsat.DialogueGraph.Editor",
     "references": [
-        "GUID:4e1f5c56cbc36e043b5bcd0119b7233d"
+        "GUID:4e1f5c56cbc36e043b5bcd0119b7233d",
+        "GUID:a84dd6788118d86499c792561fe48422",
+        "GUID:14c52eb141169104fadec777b335b036",
+        "GUID:a10c3c09183dc4dd187936fa1e8aa1e4"
     ],
     "includePlatforms": [
         "Editor"
