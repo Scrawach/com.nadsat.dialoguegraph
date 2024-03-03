@@ -49,7 +49,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
 
         private void OnKeyDownEvent(KeyDownEvent evt)
         {
-            if (evt.keyCode == KeyCode.Return)
+            if (evt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)
             {
                 OnEditTextFinished(null);
                 evt.StopPropagation();

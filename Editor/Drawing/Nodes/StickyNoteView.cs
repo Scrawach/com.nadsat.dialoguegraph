@@ -1,4 +1,5 @@
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
@@ -19,6 +20,14 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
                 base.title = value;
                 FitText(true);
             }
+        }
+
+        public Vector2 GetSize()
+        {
+            var width = this.style.width.value.value;
+            var height = this.style.height.value.value;
+            var size = new Vector2(width, height);
+            return size;
         }
 
         private void OnContentChanged(ChangeEvent<string> evt)

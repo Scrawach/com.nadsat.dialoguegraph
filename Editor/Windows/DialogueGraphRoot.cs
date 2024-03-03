@@ -79,6 +79,8 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             var redirectNodeFactory = new RedirectNodeFactory(DialogueGraphView, nodeFactory);
             var nodesCreationMenuBuilder = new NodesCreationMenuBuilder(DialogueGraphView, nodeFactory, templateFactory);
 
+            var elementsFactory = new ElementsFactory(DialogueGraphView);
+
             var pngExporter = new PngExporter(_root, DialogueGraphView);
             var shortcuts = CreateShortcuts(searchWindow, undoHistory, templateFactory);
 
@@ -87,7 +89,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             _graphExporter = new DialogueGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             
             var csvImporter = new CsvImporter(languageProvider, multiTable);
-            _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider);
+            _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider, elementsFactory);
 
             var backupExporter = new BackupGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             _backupService = new BackupService(backupExporter, 5f);
@@ -105,8 +107,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             DialogueGraphView.focusable = true;
             DialogueGraphView.AddManipulator(new CustomShortcutsManipulator(shortcuts));
             //_dialogueGraphView.AddManipulator(new DragAndDropManipulator(undoNodeFactory));
-            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder,
-                new ElementsFactory(DialogueGraphView)));
+            DialogueGraphView.AddManipulator(new DialogueContextualMenu(nodesProvider, nodesCreationMenuBuilder, elementsFactory));
             DialogueGraphView.AddManipulator(new CopyPasteManipulator(new CopyPaste(), new CopyPasteFactory(DialogueGraphView, nodeFactory)));
             DialogueGraphView.AddManipulator(new EdgeDoubleClickManipulator(redirectNodeFactory));
             DialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));

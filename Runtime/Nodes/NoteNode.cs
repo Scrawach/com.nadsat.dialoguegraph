@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Runtime.Nodes
 {
@@ -7,5 +8,6 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
     {
         public string Title;
         public string Description;
+        public Vector2 Size;
     }
 }

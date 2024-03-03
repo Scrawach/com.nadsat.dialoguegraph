@@ -1,4 +1,5 @@
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -28,6 +29,15 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             stickyNote.SetPosition(new Rect(worldPosition, Vector2.zero));
             _canvas.AddElement(stickyNote);
             return stickyNote;
+        }
+
+        public StickyNoteView CreateStickyNote(NoteNode note)
+        {
+            var noteView = new StickyNoteView {title = note.Title, contents = note.Description};
+            noteView.SetPosition(new Rect(note.Position, note.Size));
+            noteView.FitText(true);
+            _canvas.AddElement(noteView);
+            return noteView;
         }
     }
 }

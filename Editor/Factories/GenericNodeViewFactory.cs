@@ -34,6 +34,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             view.AddManipulator(new InspectorShowManipulator(_inspectorView, _inspectorFactory));
             view.AddManipulator(new NodeChangesDirtyMarkManipulator(_root, model));
             _canvas.AddElement(view);
+            _canvas.ClearSelection();
             _canvas.AddToSelection(view);
             _root.IsDirty = true;
             return view;

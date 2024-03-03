@@ -24,9 +24,11 @@ namespace Nadsat.DialogueGraph.Editor.Importers
         private readonly VariablesProvider _variables;
         private readonly CsvImporter _csvImporter;
         private readonly DialogueGraphProvider _dialogueGraphProvider;
+        private readonly ElementsFactory _elementsFactory;
 
         public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes, 
-            VariablesProvider variables, CsvImporter csvImporter, DialogueGraphProvider dialogueProvider)
+            VariablesProvider variables, CsvImporter csvImporter, DialogueGraphProvider dialogueProvider,
+            ElementsFactory elementsFactory)
         {
             _graphView = graphView;
             _factory = factory;
@@ -34,6 +36,7 @@ namespace Nadsat.DialogueGraph.Editor.Importers
             _variables = variables;
             _csvImporter = csvImporter;
             _dialogueGraphProvider = dialogueProvider;
+            _elementsFactory = elementsFactory;
         }
 
         public void Import(DialogueGraphContainer container)
@@ -58,25 +61,31 @@ namespace Nadsat.DialogueGraph.Editor.Importers
                 mapping.Add(node.Guid, view);
             }
 
-            foreach (var note in graph.Notes)
-            {
-                var noteView = new StickyNote(note.Position)
-                {
-                    title = note.Title,
-                    contents = note.Description
-                };
-                noteView.FitText(true);
-                _graphView.AddElement(noteView);
-            }
+            foreach (var note in graph.Notes) 
+                _elementsFactory.CreateStickyNote(note);
 
             foreach (var edge in ConnectNodes(mapping, graph))
                 _graphView.AddElement(edge);
 
-            if (!string.IsNullOrWhiteSpace(graph.EntryNodeGuid) && mapping[graph.EntryNodeGuid] is IModelHandle nodeView)
+            if (TryGetRootNode(graph, mapping, out var nodeView))
             {
                 _nodes.RootNode = nodeView;
                 nodeView.MarkAsRoot(true);
             }
+        }
+
+        private static bool TryGetRootNode(Runtime.DialogueGraph graph, IReadOnlyDictionary<string, Node> mapping, out IModelHandle modelHandle)
+        {
+            modelHandle = null;
+
+            if (string.IsNullOrWhiteSpace(graph.EntryNodeGuid))
+                return false;
+
+            if (mapping[graph.EntryNodeGuid] is not IModelHandle nodeView)
+                return false;
+            
+            modelHandle = nodeView;
+            return true;
         }
 
         private Node CreateFrom<TModel>(TModel model)
