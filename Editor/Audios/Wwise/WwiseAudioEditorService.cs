@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
 {
@@ -21,10 +22,21 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             _initializer = Resources.Load<AkInitializer>(PathToInitializer);
             AkSoundEngineController.Instance.Init(_initializer);
             AkSoundEngine.RegisterGameObj(_initializer.gameObject);
-            AkBankManager.LoadBankAsync("Init", OnBankLoaded);
-            AkBankManager.LoadBankAsync("L1_Intro", OnBankLoaded);
-            AkBankManager.LoadBankAsync("L2_Tutor", OnBankLoaded);
+            AkSoundEngine.SetCurrentLanguage("Russian");
+            LoadAllBanks();
         }
+
+        private void LoadAllBanks()
+        {
+            AkBankManager.LoadInitBank();
+            foreach (var bankName in AllBankNames()) 
+                AkBankManager.LoadBankAsync(bankName);
+        }
+        
+        private static IEnumerable<string> AllBankNames() => 
+            from bankUnit in AkWwiseProjectInfo.GetData().BankWwu 
+            from information in bankUnit.List 
+            select information.Name;
 
         private void OnBankLoaded(uint in_bankid, IntPtr in_inmemorybankptr, AKRESULT in_eloadresult, object in_cookie)
         {
