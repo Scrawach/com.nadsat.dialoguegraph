@@ -38,11 +38,6 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             from information in bankUnit.List 
             select information.Name;
 
-        private void OnBankLoaded(uint in_bankid, IntPtr in_inmemorybankptr, AKRESULT in_eloadresult, object in_cookie)
-        {
-            Debug.Log($"Loaded bank {in_bankid} with {in_eloadresult}");
-        }
-
         public void PlayEvent(string eventName)
         {
             var flags = (uint)AkCallbackType.AK_EnableGetSourcePlayPosition;
