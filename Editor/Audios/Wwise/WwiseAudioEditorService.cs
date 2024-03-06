@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             LoadAllBanks();
         }
 
-        private void LoadAllBanks()
+        private static void LoadAllBanks()
         {
             AkBankManager.LoadInitBank();
             foreach (var bankName in AllBankNames()) 
@@ -40,7 +39,7 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
 
         public void PlayEvent(string eventName)
         {
-            var flags = (uint)AkCallbackType.AK_EnableGetSourcePlayPosition;
+            const uint flags = (uint) AkCallbackType.AK_EnableGetSourcePlayPosition;
             _playingId = AkSoundEngine.PostEvent(eventName, _initializer.gameObject, flags, null, null);
         }
 
