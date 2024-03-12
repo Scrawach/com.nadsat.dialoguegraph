@@ -27,14 +27,6 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             AkSoundEngine.RegisterGameObj(_initializer.gameObject);
             AkSoundEngine.SetCurrentLanguage("English");
             LoadAllBanks();
-
-            foreach (var test in AkWwiseProjectInfo.GetData().EventWwu)
-            {
-                foreach (var value in test.List)
-                {
-                    Debug.Log($"[{value.Name}]: {value.maxDuration}");
-                }
-            }
         }
 
         private static void LoadAllBanks()
