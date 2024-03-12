@@ -50,6 +50,18 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
             
             _delayField.value = _data.Delay;
         }
+        
+        public event Action PlayClicked
+        {
+            add => _playButton.clicked += value;
+            remove => _playButton.clicked -= value;
+        }
+        
+        public event Action StopClicked
+        {
+            add => _stopButton.clicked += value;
+            remove => _stopButton.clicked -= value;
+        }
 
         public event Action Closed
         {
@@ -58,7 +70,10 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
         }
 
         public string EventName => _data.EventName;
-        
+
+        public void SetProgressWithoutNotification(float value) => 
+            _progressSlider.SetValueWithoutNotify(value);
+
         private void OnSelectClicked()
         {
             var position = _selectEventButton.worldBound.center;

@@ -16,6 +16,8 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 
         private readonly Button _addButton;
         private readonly VisualElement _container;
+
+        private AudioEventControl _activeAudioControl;
         
         public AudioEventInspectorView(AudioEventNode node, IAudioEditorService audioService, SearchWindowProvider searchWindow) : base(Uxml)
         {
@@ -27,8 +29,12 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             
             _addButton.clicked += OnAddEventButtonClicked;
             _node.Changed += OnModelChanged;
+            _audioService.PlayingProgressChanged += OnPlayingProgressChanged;
             OnModelChanged();
         }
+
+        private void OnPlayingProgressChanged(float ratio) => 
+            _activeAudioControl.SetProgressWithoutNotification(ratio);
 
         private void OnAddEventButtonClicked()
         {
@@ -54,7 +60,18 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             {
                 _node.RemoveEvent(data);
             };
-            
+
+            control.PlayClicked += () =>
+            {
+                _activeAudioControl = control;
+            };
+
+            control.StopClicked += () =>
+            {
+                _activeAudioControl = null;
+                _activeAudioControl.SetProgressWithoutNotification(0);
+            };
+
             return control;
         }
     }

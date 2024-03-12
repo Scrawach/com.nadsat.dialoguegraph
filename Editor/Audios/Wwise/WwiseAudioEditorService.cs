@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,17 +13,28 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
 
         private AkInitializer _initializer;
         private uint _playingId;
+        private AkWwiseProjectData.Event _playingEvent;
 
         public WwiseAudioEditorService(IAudioEventsProvider audioEventsProvider) =>
             _audioEventsProvider = audioEventsProvider;
+
+        public event Action<float> PlayingProgressChanged;
 
         public void Initialize()
         {
             _initializer = Resources.Load<AkInitializer>(PathToInitializer);
             AkSoundEngineController.Instance.Init(_initializer);
             AkSoundEngine.RegisterGameObj(_initializer.gameObject);
-            AkSoundEngine.SetCurrentLanguage("Russian");
+            AkSoundEngine.SetCurrentLanguage("English");
             LoadAllBanks();
+
+            foreach (var test in AkWwiseProjectInfo.GetData().EventWwu)
+            {
+                foreach (var value in test.List)
+                {
+                    Debug.Log($"[{value.Name}]: {value.maxDuration}");
+                }
+            }
         }
 
         private static void LoadAllBanks()
@@ -37,16 +49,38 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             from information in bankUnit.List 
             select information.Name;
 
+        public void Update()
+        {
+            if (_playingId == 0)
+                return;
+
+            var progress = GetCurrentProgress();
+            PlayingProgressChanged?.Invoke(progress);
+        }
+        
         public void PlayEvent(string eventName)
         {
-            const uint flags = (uint) AkCallbackType.AK_EnableGetSourcePlayPosition;
-            _playingId = AkSoundEngine.PostEvent(eventName, _initializer.gameObject, flags, null, null);
+            //const uint flags = (uint) AkCallbackType.AK_EnableGetSourcePlayPosition;
+            const uint flags =   (uint)AkCallbackType.AK_MusicSyncAll 
+                               | (uint)AkCallbackType.AK_EnableGetMusicPlayPosition 
+                               | (uint)AkCallbackType.AK_EnableGetSourcePlayPosition
+                               | (uint)AkCallbackType.AK_EnableGetSourceStreamBuffering 
+                               | (uint)AkCallbackType.AK_CallbackBits;
+            _playingId = AkSoundEngine.PostEvent(eventName, _initializer.gameObject, flags, OnCallback, null);
+            var eventId = AkSoundEngine.GetEventIDFromPlayingID(_playingId);
+            _playingEvent =  AkWwiseProjectInfo.GetData().GetEventInfo(eventId);
         }
 
+        private void OnCallback(object in_cookie, AkCallbackType in_type, AkCallbackInfo in_info)
+        {
+            // Need callback, because without OnCallback can't get source play position, idk why (?!)
+        }
+        
         public void StopEvent(string eventName)
         {
             AkSoundEngine.StopAll();
             AkSoundEngine.StopPlayingID(_playingId);
+            _playingId = 0;
         }
 
         public void SeekOnEvent(string eventName, float progress)
@@ -56,9 +90,28 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             AkSoundEngine.SeekOnEvent(eventName, _initializer.gameObject, progress);
         }
 
-        public void StopAll() => 
+        public void StopAll()
+        {
             AkSoundEngine.StopAll();
-        
+            _playingId = 0;
+        }
+
+        public float GetCurrentProgress()
+        {
+            var eventId = AkSoundEngine.GetEventIDFromPlayingID(_playingId);
+
+            if (eventId == 0)
+            {
+                _playingId = 0;
+                _playingEvent = default;
+                return 0;
+            }
+            
+            var result = AkSoundEngine.GetSourcePlayPosition(_playingId, out var playingPosition);
+            var playingPositionInSeconds = playingPosition / 1000f;
+            var progress = playingPositionInSeconds / _playingEvent.maxDuration;
+            return progress;
+        }
     }
 #endif
 }

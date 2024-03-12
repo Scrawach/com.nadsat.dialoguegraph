@@ -39,6 +39,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
         private readonly DialogueGraphExporter _graphExporter;
         private readonly DialogueGraphImporter _graphImporter;
         private readonly BackupService _backupService;
+        private readonly IAudioEditorService _audioService;
 
         public DialogueGraphView DialogueGraphView { get; }
 
@@ -57,6 +58,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             var multiTable = new MultiTable(languageProvider);
 
             var (audioEvents, audioService) = CreateAudio();
+            _audioService = audioService;
 
             var phraseRepository = new PhraseRepository(multiTable);
             var dialogueDatabase = new DialogueDatabase();
@@ -150,7 +152,10 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             _root.IsDirty = false;
         }
 
-        public void Update() => 
+        public void Update()
+        {
             _backupService.Update();
+            _audioService.Update();
+        }
     }
 }
