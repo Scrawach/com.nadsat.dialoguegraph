@@ -69,6 +69,8 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
             remove => _closeButton.clicked -= value;
         }
 
+        public event Action<float> ProgressChanged;
+
         public string EventName => _data.EventName;
 
         public void SetProgressWithoutNotification(float value) => 
@@ -101,6 +103,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
         private void OnProgressValueChanged(ChangeEvent<float> evt)
         {
             var targetTime = evt.newValue;
+            ProgressChanged?.Invoke(targetTime);
             _audioService.SeekOnEvent(EventName, targetTime);
         }
 

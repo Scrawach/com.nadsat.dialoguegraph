@@ -72,6 +72,11 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
                 _activeAudioControl.SetProgressWithoutNotification(0);
             };
 
+            control.ProgressChanged += (value) =>
+            {
+                _activeAudioControl = control;
+            };
+
             return control;
         }
     }
