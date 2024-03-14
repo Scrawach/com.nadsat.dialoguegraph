@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes.Abstract;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 

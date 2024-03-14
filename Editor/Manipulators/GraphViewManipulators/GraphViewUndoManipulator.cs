@@ -1,5 +1,6 @@
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes.Abstract;
 using Nadsat.DialogueGraph.Editor.Undo;
 using Nadsat.DialogueGraph.Editor.Undo.Commands;
 using UnityEditor.Experimental.GraphView;

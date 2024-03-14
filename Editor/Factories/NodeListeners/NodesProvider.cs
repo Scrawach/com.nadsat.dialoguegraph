@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes.Abstract;
 using UnityEditor.Experimental.GraphView;
 
 namespace Nadsat.DialogueGraph.Editor.Factories.NodeListeners

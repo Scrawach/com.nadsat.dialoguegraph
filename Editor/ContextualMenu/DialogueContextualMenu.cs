@@ -1,4 +1,5 @@
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes.Abstract;
 using Nadsat.DialogueGraph.Editor.Factories;
 using Nadsat.DialogueGraph.Editor.Factories.NodeListeners;
 using UnityEditor.Experimental.GraphView;

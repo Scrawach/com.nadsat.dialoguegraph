@@ -1,6 +1,7 @@
 using System;
 using Nadsat.DialogueGraph.Editor.Drawing.Inspector;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Drawing.Nodes.Abstract;
 using Nadsat.DialogueGraph.Editor.Factories;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
