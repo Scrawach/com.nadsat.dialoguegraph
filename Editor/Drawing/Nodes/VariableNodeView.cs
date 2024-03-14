@@ -23,14 +23,21 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 
             _variablesDropdown.RegisterValueChangedCallback(OnDropdownChanged);
             _variables.Changed += UpdateDropdownChoices;
+            _numberField.RegisterValueChangedCallback(OnValueChanged);
             UpdateDropdownChoices();
         }
 
         private void OnDropdownChanged(ChangeEvent<string> evt) => 
             Model.SetName(evt.newValue);
+        
+        private void OnValueChanged(ChangeEvent<int> evt) => 
+            Model.SetValue(evt.newValue);
 
-        protected override void OnModelChanged() => 
+        protected override void OnModelChanged()
+        {
             _variablesDropdown.SetValueWithoutNotify(Model.Name);
+            _numberField.SetValueWithoutNotify(Model.Value);
+        }
 
         private void UpdateDropdownChoices()
         {
