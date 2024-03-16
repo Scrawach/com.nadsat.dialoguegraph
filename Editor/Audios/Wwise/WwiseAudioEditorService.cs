@@ -28,8 +28,7 @@ namespace Nadsat.DialogueGraph.Editor.Audios.Wwise
             
             AkSoundEngineController.Instance.Init(_initializer);
             AkSoundEngine.RegisterGameObj(_initializer.gameObject);
-            var changeLanguageResult = AkSoundEngine.SetCurrentLanguage("English");
-            Debug.Log($"{changeLanguageResult}");
+            AkSoundEngine.SetCurrentLanguage("English");
             LoadAllBanks();
         }
 
