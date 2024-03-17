@@ -1,6 +1,6 @@
 {
     "name": "Nadsat.DialogueGraph",
-    "rootNamespace": "",
+    "rootNamespace": "Nadsat.DialogueGraph",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

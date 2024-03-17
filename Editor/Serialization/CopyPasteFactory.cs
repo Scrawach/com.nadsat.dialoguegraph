@@ -4,6 +4,7 @@ using Nadsat.DialogueGraph.Editor.Drawing;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
 using Nadsat.DialogueGraph.Editor.Factories;
 using Nadsat.DialogueGraph.Runtime;
+using Nadsat.DialogueGraph.Runtime.Data;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;

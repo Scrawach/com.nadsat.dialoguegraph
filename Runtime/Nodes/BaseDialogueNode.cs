@@ -1,4 +1,5 @@
 using System;
+using Nadsat.DialogueGraph.Runtime.Data;
 using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Runtime.Nodes
