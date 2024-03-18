@@ -13,8 +13,9 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
         private readonly Label _title;
         private readonly Label _description;
         private readonly TextField _textField;
-        
-        public CardControl(string title, string description) : this()
+
+        public CardControl(string title, string description, string uxml = Uxml) 
+            : this(uxml)
         {
             _title.text = title;
             _description.text = description;

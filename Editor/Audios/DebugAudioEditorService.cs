@@ -10,8 +10,10 @@ namespace Nadsat.DialogueGraph.Editor.Audios
         public void Initialize() => 
             Debug.Log($"Debug Audio Editor Service initialized");
 
-        public void Update() => 
-            Debug.Log($"Update audio editor service");
+        public void Update()
+        {
+            // Debug.Log($"Update audio editor service");
+        }
 
         public void PlayEvent(string eventName) =>
             Debug.Log($"Play event {eventName}");

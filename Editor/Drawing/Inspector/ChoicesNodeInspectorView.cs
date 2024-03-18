@@ -46,10 +46,11 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
                 CreateCardControl(choice, _choices.Get(choice.ChoiceId));
         }
 
-        private CardControl CreateCardControl(ChoiceData data, string description)
+        private ChoiceCardControl CreateCardControl(ChoiceData data, string description)
         {
             var id = data.ChoiceId;
-            var card = new CardControl(id, description);
+            var card = new ChoiceCardControl(data, description);
+            
             card.Closed += () =>
             {
                 var isOk = EditorUtility.DisplayDialog("Warning", "This action delete phrase from table", "Ok", "Cancel");
@@ -60,11 +61,23 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
                 _choices.Remove(id);
                 _node.RemoveChoice(data);
             };
+            
             card.TextEdited += value =>
             {
                 _choices.Update(id, value);
                 _node.NotifyChanged();
             };
+
+            card.IsLockedToggled += value =>
+            {
+                _node.SetLockedState(id, value);
+            };
+
+            card.UnlockConditionChanged += value =>
+            {
+                _node.SetUnlockCondition(id, value);
+            };
+            
             _choicesContainer.Add(card);
             return card;
         }
