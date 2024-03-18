@@ -65,7 +65,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Search
                     var model = choiceView.Model;
                     foreach (var choice in model.Choices)
                     {
-                        tooltips.Add($"[{choice}] {_choices.Get(choice)}");
+                        tooltips.Add($"[{choice}] {_choices.Get(choice.ChoiceId)}");
                         nodes.Add(choiceView);
                     }
                 }

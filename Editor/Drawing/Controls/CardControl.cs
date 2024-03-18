@@ -19,8 +19,10 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
             _title.text = title;
             _description.text = description;
         }
+        
+        public CardControl() : this(Uxml) { }
 
-        public CardControl() : base(Uxml)
+        public CardControl(string uxml) : base(uxml)
         {
             _title = this.Q<Label>("title");
             _description = this.Q<Label>("description");

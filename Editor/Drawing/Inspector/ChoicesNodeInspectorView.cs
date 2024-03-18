@@ -1,5 +1,6 @@
 using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Drawing.Controls;
+using Nadsat.DialogueGraph.Runtime.Data;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -30,20 +31,24 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             OnModelChanged();
         }
 
-        private void OnAddChoiceClicked() =>
-            _node.AddChoice(_choices.Create());
+        private void OnAddChoiceClicked()
+        {
+            var choiceData = new ChoiceData { ChoiceId = _choices.Create() };
+            _node.AddChoice(choiceData);
+        }
 
         private void OnModelChanged()
         {
             _guidLabel.text = _node.Guid;
 
             _choicesContainer.Clear();
-            foreach (var button in _node.Choices)
-                CreateCardControl(button, _choices.Get(button));
+            foreach (var choice in _node.Choices)
+                CreateCardControl(choice, _choices.Get(choice.ChoiceId));
         }
 
-        private CardControl CreateCardControl(string id, string description)
+        private CardControl CreateCardControl(ChoiceData data, string description)
         {
+            var id = data.ChoiceId;
             var card = new CardControl(id, description);
             card.Closed += () =>
             {
@@ -53,7 +58,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
                     return;
 
                 _choices.Remove(id);
-                _node.RemoveChoice(id);
+                _node.RemoveChoice(data);
             };
             card.TextEdited += value =>
             {
