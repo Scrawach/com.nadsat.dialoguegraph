@@ -49,7 +49,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
         {
             SetPerson(model.PersonId);
             SetPhrase(model.PhraseId);
-            SetImage(model.PathToImage);
+            SetImage(model.BackgroundImage);
         }
 
         private void SetPhrase(string phraseId)
@@ -85,15 +85,15 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
             }
         }
 
-        private void SetImage(string pathToImage)
+        private void SetImage(BackgroundImageData data)
         {
-            if (string.IsNullOrWhiteSpace(pathToImage))
+            if (data == null || string.IsNullOrWhiteSpace(data.PathToImage))
             {
                 _imageContainer.style.display = DisplayStyle.None;
             }
             else
             {
-                var image = AssetDatabase.LoadAssetAtPath<Sprite>(pathToImage);
+                var image = AssetDatabase.LoadAssetAtPath<Sprite>(data.PathToImage);
                 _imageContainer.style.display = DisplayStyle.Flex;
                 _image.style.backgroundImage = new StyleBackground(image);
             }

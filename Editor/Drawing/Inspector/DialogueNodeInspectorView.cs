@@ -64,9 +64,12 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             if (!string.IsNullOrWhiteSpace(node.PhraseId))
                 SetPhrase(node.PhraseId);
 
-            if (!string.IsNullOrWhiteSpace(node.PathToImage))
-                SetImage(node.PathToImage);
+            if (HasImage(node.BackgroundImage))
+                SetImage(node.BackgroundImage);
         }
+
+        private bool HasImage(BackgroundImageData data) => 
+            data != null && !string.IsNullOrEmpty(data.PathToImage);
 
         private void SetPhrase(string phraseId)
         {
@@ -101,7 +104,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             };
         }
 
-        private void SetImage(string pathToImage)
+        private void SetImage(BackgroundImageData data)
         {
             if (_activeImage != null)
                 _imagesContainer.Remove(_activeImage);
@@ -109,10 +112,10 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             var item = new ImageFieldControl();
             _activeImage = item;
 
-            if (!string.IsNullOrWhiteSpace(pathToImage))
+            if (!string.IsNullOrWhiteSpace(data.PathToImage))
             {
                 _addImageButton.style.display = DisplayStyle.None;
-                item.SetImage(AssetDatabase.LoadAssetAtPath<Sprite>(pathToImage));
+                item.SetImage(AssetDatabase.LoadAssetAtPath<Sprite>(data.PathToImage));
             }
 
             _imagesContainer.Add(item);
@@ -122,7 +125,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
                 _activeImage = null;
                 _imagesContainer.Remove(item);
                 _addImageButton.style.display = DisplayStyle.Flex;
-                _node.SetPathToImage(string.Empty);
+                _node.SetBackgroundImage(data);
             };
 
             item.Selected += sprite =>
@@ -131,12 +134,13 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 
                 if (Validate(pathToSprite))
                 {
-                    _node.SetPathToImage(pathToSprite);
+                    _node.BackgroundImage.PathToImage = pathToSprite;
+                    _node.NotifyChanged();
                 }
                 else
                 {
                     item.RemoveImage();
-                    _node.SetPathToImage(string.Empty);
+                    _node.SetBackgroundImage(null);
                 }
             };
         }
@@ -157,7 +161,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
         private void OnAddImageButtonClicked()
         {
             _addImageButton.style.display = DisplayStyle.None;
-            SetImage(string.Empty);
+            SetImage(new BackgroundImageData());
         }
 
         private void OnAddPhraseButtonClicked()
