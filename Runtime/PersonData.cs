@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Runtime
@@ -11,9 +10,5 @@ namespace Nadsat.DialogueGraph.Runtime
         public Sprite Icon;
         public Color Color;
 
-        public string PathToIcon =>
-            Icon == null
-                ? string.Empty
-                : AssetDatabase.GetAssetPath(Icon);
     }
 }

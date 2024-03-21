@@ -70,7 +70,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
         private void SetPerson(string personId)
         {
             var person = _database.Get(personId);
-            var avatar = AssetDatabase.LoadAssetAtPath<Sprite>(person.PathToIcon);
+            var avatar = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GetAssetPath(person.Icon));
             _personNameLabel.text = person.Name;
             _header.style.backgroundColor = person.Color;
 
