@@ -5,6 +5,7 @@ using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Audios;
 using Nadsat.DialogueGraph.Editor.Drawing;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
+using Nadsat.DialogueGraph.Editor.Windows.Variables;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Search
     {
         private readonly ChoicesRepository _choices;
         private readonly IAudioEventsProvider _audioEventsProvider;
+        private readonly VariablesProvider _variablesProvider;
         private readonly EditorWindow _owner;
         private readonly PhraseRepository _phraseRepository;
         private readonly DialogueGraphView _view;
@@ -23,13 +25,14 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Search
         private StringSearchWindow _searchWindow;
 
         public SearchWindowProvider(EditorWindow owner, DialogueGraphView view, PhraseRepository phraseRepository, 
-            ChoicesRepository choices, IAudioEventsProvider audioEventsProvider)
+            ChoicesRepository choices, IAudioEventsProvider audioEventsProvider, VariablesProvider variablesProvider)
         {
             _owner = owner;
             _view = view;
             _phraseRepository = phraseRepository;
             _choices = choices;
             _audioEventsProvider = audioEventsProvider;
+            _variablesProvider = variablesProvider;
         }
 
         public void FindNodes(Vector2 position, Action<Node> onSelected = null)
@@ -97,6 +100,39 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Search
             return (choices, tooltips.ToArray());
         }
 
+        public void FindVariables(Vector2 position, Action<string> onSelected = null)
+        {
+            const int searchWindowWidth = 600;
+            var point = _owner.position.position + position + new Vector2(searchWindowWidth / 3f, 0);
+            
+            if (_searchWindow == null)
+                _searchWindow = ScriptableObject.CreateInstance<StringSearchWindow>();
+
+            var (choices, tooltips) = BuildVariables();
+            _searchWindow.Configure("Variables", choices, tooltips, onSelected);
+            SearchWindow.Open(new SearchWindowContext(point, searchWindowWidth), _searchWindow);
+        }
+
+        private (string[] choices, string[] tooltips) BuildVariables()
+        {
+            var choices = new List<string>();            
+            var tooltips = new List<string>();
+
+            foreach (var variable in _variablesProvider.All())
+            {
+                choices.Add(variable.Name);
+                tooltips.Add("Variable");
+            }
+
+            foreach (var (key, content) in _choices.All())
+            {
+                choices.Add(key);
+                tooltips.Add(content);
+            }
+            
+            return (choices.ToArray(), tooltips.ToArray());
+        }
+        
         public void FindPhrase(Vector2 position, Action<string> onSelected = null)
         {
             const int searchWindowWidth = 600;

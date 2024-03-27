@@ -18,6 +18,12 @@ namespace Nadsat.DialogueGraph.Editor.Localization
         public void Initialize(string key) => 
             _key = key;
 
+        public IEnumerable<(string key, string value)> All(string key)
+        {
+            var table = _tables[key];
+            return table.All(_language.CurrentLanguage);
+        }
+
         public string Create(string key)
         {
             if (!_tables.ContainsKey(key))

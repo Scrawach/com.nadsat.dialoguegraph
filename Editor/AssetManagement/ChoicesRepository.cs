@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Nadsat.DialogueGraph.Editor.Localization;
 
 namespace Nadsat.DialogueGraph.Editor.AssetManagement
@@ -8,6 +9,9 @@ namespace Nadsat.DialogueGraph.Editor.AssetManagement
 
         public ChoicesRepository(MultiTable table) =>
             _table = table;
+
+        public IEnumerable<(string key, string content)> All() => 
+            _table.All("Button");
 
         public string Create() =>
             _table.Create("Button");

@@ -64,9 +64,10 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             var dialogueDatabase = new DialogueDatabase();
             var choicesRepository = new ChoicesRepository(multiTable);
             var undoHistory = new UndoHistory();
-            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEvents);
-
             var variables = new VariablesProvider();
+            
+            var searchWindow = new SearchWindowProvider(root, DialogueGraphView, phraseRepository, choicesRepository, audioEvents, variables);
+
             var variablesBlackboard = new VariablesBlackboard(variables, DialogueGraphView);
 
             var expressionVerifier = new ExpressionVerifier(choicesRepository, variables);

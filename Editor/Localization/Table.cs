@@ -28,6 +28,13 @@ namespace Nadsat.DialogueGraph.Editor.Localization
             return contentTable[columnIndex];
         }
 
+        public IEnumerable<(string key, string content)> All(string column)
+        {
+            var columnIndex = _headers.IndexOf(column) - 1;
+            foreach (var key in _content.Keys)
+                yield return (key, _content[key][columnIndex]);
+        }
+
         public void Set(string column, string row, string content)
         {
             var columnIndex = _headers.IndexOf(column) - 1;

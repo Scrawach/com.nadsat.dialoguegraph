@@ -35,7 +35,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             {
                 DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
-                SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier),
+                SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier, _searchWindow),
                 AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService, _searchWindow),
                 _ => new VisualElement()
             };

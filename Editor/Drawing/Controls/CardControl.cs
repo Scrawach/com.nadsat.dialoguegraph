@@ -99,6 +99,9 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
             _textField.textSelection.SelectAll();
         }
 
+        public void Add(string text) => 
+            _description.text += " " + text;
+
         public new class UxmlFactory : UxmlFactory<CardControl, UxmlTraits> { }
     }
 }
