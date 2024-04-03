@@ -26,6 +26,7 @@ namespace Nadsat.DialogueGraph.Editor.ContextualMenu
                 ["Choices Node"] = position => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
                 ["Switch Node"] = position => nodeViewFactory.CreateSwitch(NewModel<SwitchNode>(position)),
                 ["Variable Node"] = position => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position)),
+                ["Placement Node"] = position => nodeViewFactory.CreatePlacement(NewModel<PlacementNode>(position)),
                 ["Audio Event Node"] = position => nodeViewFactory.CreateAudioEvent(NewModel<AudioEventNode>(position))
             };
         }

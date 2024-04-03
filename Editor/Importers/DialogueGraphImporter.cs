@@ -100,6 +100,7 @@ namespace Nadsat.DialogueGraph.Editor.Importers
                 VariableNode variableNode => CreateVariable(variableNode),
                 RedirectNode dialogue => _factory.CreateRedirect(dialogue),
                 AudioEventNode audioNode => _factory.CreateAudioEvent(audioNode),
+                PlacementNode placementNode => _factory.CreatePlacement(placementNode),
                 _ => throw new ArgumentException()
             };
 

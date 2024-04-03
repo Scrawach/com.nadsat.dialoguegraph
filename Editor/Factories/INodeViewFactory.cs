@@ -7,6 +7,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
     {
         DialogueNodeView CreateDialogue(DialogueNode node);
         PopupPhraseNodeView CreatePopup(PopupPhraseNode node);
+        PlacementNodeView CreatePlacement(PlacementNode node);
         RedirectNodeView CreateRedirect(RedirectNode node);
         ChoicesNodeView CreateChoices(ChoicesNode node);
         SwitchNodeView CreateSwitch(SwitchNode node);

@@ -38,12 +38,20 @@ namespace Nadsat.DialogueGraph.Editor.Factories
                 SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier, _searchWindow),
                 AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService, _searchWindow),
                 PopupPhraseNodeView popupNodeView => new PopupPhraseNodeInspectorView(popupNodeView.Model, _phrases),
+                PlacementNodeView placementNodeView => CreatePlacementNodeInspector(placementNodeView),
                 _ => new VisualElement()
             };
 
         public void StartEditPhrase(string phraseId) =>
             _openedDialogueNodeInspector.StartEditPhrase();
 
+
+        private VisualElement CreatePlacementNodeInspector(PlacementNodeView nodeView)
+        {
+            var inspector = new PlacementNodeInspectorView(nodeView.Model, _database);
+            return inspector;
+        }
+        
         private VisualElement CreateDialogueNodeInspector(DialogueNodeView nodeView)
         {
             var inspector = new DialogueNodeInspectorView(nodeView.Model, _phrases);

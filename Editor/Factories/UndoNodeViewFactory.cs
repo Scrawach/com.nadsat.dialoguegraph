@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Nadsat.DialogueGraph.Editor.Factories
 {
-    public class UndoNodeViewFactory : INodeViewFactory
+    public class UndoNodeViewFactory
     {
         private readonly INodeViewFactory _factory;
         private readonly GraphView _graphView;

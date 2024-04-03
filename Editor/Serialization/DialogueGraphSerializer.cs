@@ -39,6 +39,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
             var dialogues = new List<DialogueNode>();
             var popups = new List<PopupPhraseNode>();
             var choices = new List<ChoicesNode>();
+            var placements = new List<PlacementNode>();
             var switches = new List<SwitchNode>();
             var redirects = new List<RedirectNode>();
             var variables = new List<VariableNode>();
@@ -53,6 +54,9 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                         break;
                     case PopupPhraseNodeView popupView:
                         popups.Add(popupView.Model);
+                        break;
+                    case PlacementNodeView placementNodeView:
+                        placements.Add(placementNodeView.Model);
                         break;
                     case ChoicesNodeView choice:
                         choices.Add(choice.Model);
@@ -82,6 +86,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
 
             graph.Nodes = dialogues;
             graph.Popups = popups;
+            graph.Placements = placements;
             graph.ChoiceNodes = choices;
             graph.SwitchNodes = switches;
             graph.RedirectNodes = redirects;
