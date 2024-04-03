@@ -37,6 +37,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
                 SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier, _searchWindow),
                 AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService, _searchWindow),
+                PopupPhraseNodeView popupNodeView => new PopupPhraseNodeInspectorView(popupNodeView.Model, _phrases),
                 _ => new VisualElement()
             };
 
@@ -45,7 +46,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
 
         private VisualElement CreateDialogueNodeInspector(DialogueNodeView nodeView)
         {
-            var inspector = new DialogueNodeInspectorView(nodeView.Model, _searchWindow, _phrases);
+            var inspector = new DialogueNodeInspectorView(nodeView.Model, _phrases);
             _openedDialogueNodeInspector = inspector;
             inspector.UpdateDropdownChoices(_database.All());
             return inspector;

@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="DialogueNodeInspectorView" style="flex-grow: 1;">
+        <ui:VisualElement name="title" style="flex-grow: 0; flex-direction: row; flex-shrink: 1;">
+            <ui:Label tabindex="-1" text="Guid: " display-tooltip-when-elided="true" name="guid-title" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; font-size: 8px; color: rgb(190, 190, 190); background-color: rgba(40, 40, 40, 0); padding-right: 0; padding-left: 4px;" />
+            <ui:Label tabindex="-1" text="&lt;none&gt;" display-tooltip-when-elided="true" name="guid-label" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; font-size: 8px; color: rgb(190, 190, 190); background-color: rgba(40, 40, 40, 0); flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="phrases">
+            <ui:VisualElement name="phrases-container" style="flex-grow: 0;" />
+            <ui:Button text="Set Phrase" display-tooltip-when-elided="true" name="add-phrase-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

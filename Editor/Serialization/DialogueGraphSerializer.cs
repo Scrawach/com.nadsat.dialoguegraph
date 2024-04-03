@@ -37,6 +37,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
         private static void FillGraph(Runtime.DialogueGraph graph, GraphView view)
         {
             var dialogues = new List<DialogueNode>();
+            var popups = new List<PopupPhraseNode>();
             var choices = new List<ChoicesNode>();
             var switches = new List<SwitchNode>();
             var redirects = new List<RedirectNode>();
@@ -45,28 +46,42 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
             var audioEventNodes = new List<AudioEventNode>();
 
             foreach (var viewNode in view.graphElements)
-                if (viewNode is DialogueNodeView dialogue)
-                    dialogues.Add(dialogue.Model);
-                else if (viewNode is ChoicesNodeView choice)
-                    choices.Add(choice.Model);
-                else if (viewNode is SwitchNodeView switchNode)
-                    switches.Add(switchNode.Model);
-                else if (viewNode is RedirectNodeView redirectNode)
-                    redirects.Add(redirectNode.Model);
-                else if (viewNode is VariableNodeView variableView)
-                    variables.Add(variableView.Model);
-                else if (viewNode is AudioEventNodeView audioEventView)
-                    audioEventNodes.Add(audioEventView.Model);
-                else if (viewNode is StickyNoteView stickyNote)
-                    stickyNotes.Add(new NoteNode
-                    {
-                        Title = stickyNote.title, 
-                        Description = stickyNote.contents, 
-                        Position = stickyNote.GetPosition(), 
-                        Size = stickyNote.GetSize()
-                    });
+                switch (viewNode)
+                {
+                    case DialogueNodeView dialogue:
+                        dialogues.Add(dialogue.Model);
+                        break;
+                    case PopupPhraseNodeView popupView:
+                        popups.Add(popupView.Model);
+                        break;
+                    case ChoicesNodeView choice:
+                        choices.Add(choice.Model);
+                        break;
+                    case SwitchNodeView switchNode:
+                        switches.Add(switchNode.Model);
+                        break;
+                    case RedirectNodeView redirectNode:
+                        redirects.Add(redirectNode.Model);
+                        break;
+                    case VariableNodeView variableView:
+                        variables.Add(variableView.Model);
+                        break;
+                    case AudioEventNodeView audioEventView:
+                        audioEventNodes.Add(audioEventView.Model);
+                        break;
+                    case StickyNoteView stickyNote:
+                        stickyNotes.Add(new NoteNode
+                        {
+                            Title = stickyNote.title, 
+                            Description = stickyNote.contents, 
+                            Position = stickyNote.GetPosition(), 
+                            Size = stickyNote.GetSize()
+                        });
+                        break;
+                }
 
             graph.Nodes = dialogues;
+            graph.Popups = popups;
             graph.ChoiceNodes = choices;
             graph.SwitchNodes = switches;
             graph.RedirectNodes = redirects;

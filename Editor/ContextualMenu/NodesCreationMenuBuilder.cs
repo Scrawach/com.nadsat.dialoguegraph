@@ -22,6 +22,7 @@ namespace Nadsat.DialogueGraph.Editor.ContextualMenu
             _builders = new Dictionary<string, Action<Vector2>>
             {
                 ["Dialogue Node"] = position => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
+                ["Popup node"] = position => nodeViewFactory.CreatePopup(NewModel<PopupPhraseNode>(position)),
                 ["Choices Node"] = position => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
                 ["Switch Node"] = position => nodeViewFactory.CreateSwitch(NewModel<SwitchNode>(position)),
                 ["Variable Node"] = position => nodeViewFactory.CreateVariable(NewModel<VariableNode>(position)),

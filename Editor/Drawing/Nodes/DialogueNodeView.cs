@@ -10,14 +10,10 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
     public class DialogueNodeView : BaseNodeView<DialogueNode>
     {
         private const string UxmlPath = "UXML/DialogueNodeView";
-        private readonly EditorAssets _assets;
         private readonly VisualElement _avatar;
         private readonly DialogueDatabase _database;
 
         private readonly VisualElement _header;
-
-        private readonly VisualElement _iconContainer;
-
         private readonly VisualElement _image;
         private readonly VisualElement _imageContainer;
 
@@ -39,7 +35,6 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
             _avatar = this.Q<VisualElement>("avatar");
             _image = this.Q<VisualElement>("image");
             _imageContainer = this.Q<VisualElement>("image-container");
-            _iconContainer = this.Q<VisualElement>("icons-container");
         }
 
         protected override void OnModelChanged() =>

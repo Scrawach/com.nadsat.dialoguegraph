@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Drawing.Controls;
-using Nadsat.DialogueGraph.Editor.Windows.Search;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -25,16 +24,14 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
         private readonly PhraseRepository _phrases;
         private readonly VisualElement _phrasesContainer;
 
-        private readonly SearchWindowProvider _searchWindow;
         private ImageFieldControl _activeImage;
 
         private CardControl _activePhrase;
 
-        public DialogueNodeInspectorView(DialogueNode node, SearchWindowProvider searchWindow, PhraseRepository phrases)
+        public DialogueNodeInspectorView(DialogueNode node, PhraseRepository phrases)
             : base(Uxml)
         {
             _node = node;
-            _searchWindow = searchWindow;
             _phrases = phrases;
 
             _dropdownField = this.Q<DropdownField>();

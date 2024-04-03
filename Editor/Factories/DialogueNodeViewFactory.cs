@@ -34,6 +34,13 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             return view;
         }
 
+        public PopupPhraseNodeView CreatePopup(PopupPhraseNode node)
+        {
+            var view = new PopupPhraseNodeView(_phrases);
+            view = _baseFactory.Create(view, node);
+            return view;
+        }
+
         private static bool IsPersonWithoutPhrase(DialogueNode node) =>
             !string.IsNullOrWhiteSpace(node.PersonId) && string.IsNullOrWhiteSpace(node.PhraseId);
     }

@@ -31,6 +31,10 @@ namespace Nadsat.DialogueGraph.Editor.Factories
         public DialogueNodeView CreateDialogue(DialogueNode node) =>
             _dialogueFactory.Create(node);
 
+        public PopupPhraseNodeView CreatePopup(PopupPhraseNode node) =>
+            _dialogueFactory.CreatePopup(node);
+        
+
         public RedirectNodeView CreateRedirect(RedirectNode node)
         {
             var redirectNode = new RedirectNodeView {title = ""};
