@@ -37,7 +37,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 
         private void OnAddPhraseButtonClicked()
         {
-            var phraseId = _phrases.Create("Popup");
+            var phraseId = _phrases.Create(PopupPhraseNode.TableName);
             _node.SetPhraseId(phraseId);
             SetPhrase(phraseId);
         }
