@@ -32,7 +32,8 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
 
     public enum PlacementEffect
     {
-        Entering = 0,
-        Leaving = 1,
+        None = 0,
+        Entering = 1,
+        Leaving = 2,
     }
 }
