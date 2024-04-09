@@ -10,6 +10,7 @@ namespace Nadsat.DialogueGraph.Runtime
         public string Name;
         public string EntryNodeGuid;
         public List<DialogueNode> Nodes = new();
+        public List<InterludeNode> Interludes = new();
         public List<PopupPhraseNode> Popups = new();
         public List<PlacementNode> Placements = new();
         public List<ChoicesNode> ChoiceNodes = new();
@@ -27,6 +28,7 @@ namespace Nadsat.DialogueGraph.Runtime
         {
             var nodes = new List<BaseDialogueNode>();
             nodes.AddRange(Nodes);
+            nodes.AddRange(Interludes);
             nodes.AddRange(Popups);
             nodes.AddRange(Placements);
             nodes.AddRange(ChoiceNodes);

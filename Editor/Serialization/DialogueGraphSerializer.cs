@@ -7,6 +7,7 @@ using Nadsat.DialogueGraph.Editor.Factories.NodeListeners;
 using Nadsat.DialogueGraph.Runtime;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nadsat.DialogueGraph.Editor.Serialization
@@ -37,6 +38,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
         private static void FillGraph(Runtime.DialogueGraph graph, GraphView view)
         {
             var dialogues = new List<DialogueNode>();
+            var interludes = new List<InterludeNode>();
             var popups = new List<PopupPhraseNode>();
             var choices = new List<ChoicesNode>();
             var placements = new List<PlacementNode>();
@@ -52,6 +54,9 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                 {
                     case DialogueNodeView dialogue:
                         dialogues.Add(dialogue.Model);
+                        break;
+                    case InterludeNodeView interlude:
+                        interludes.Add(interlude.Model);
                         break;
                     case PopupPhraseNodeView popupView:
                         popups.Add(popupView.Model);
@@ -89,6 +94,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                 }
 
             graph.Nodes = dialogues;
+            graph.Interludes = interludes;
             graph.Popups = popups;
             graph.Placements = placements;
             graph.ChoiceNodes = choices;
