@@ -42,7 +42,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             if (IsPersonWithoutPhrase(node.PersonId, node.PersonId))
             {
                 node.SetPhraseId(_phrases.Create(node.PersonId));
-                _inspectorFactory.StartEditPhrase(node.PhraseId);
+                _inspectorFactory.StartEditInterludePhrase(node.PhraseId);
             }
 
             return view;

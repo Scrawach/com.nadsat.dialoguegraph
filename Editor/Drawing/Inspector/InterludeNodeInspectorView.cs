@@ -4,48 +4,50 @@ using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Drawing.Controls;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 {
-    public class DialogueNodeInspectorView : BaseControl
+    public class InterludeNodeInspectorView : BaseControl
     {
-        private const string Uxml = "UXML/DialogueNodeInspectorView";
-        private readonly Button _addImageButton;
+        private const string Uxml = "UXML/InterludeNodeInspectorView";
         private readonly Button _addPhraseButton;
         private readonly DropdownField _dropdownField;
+        private readonly DropdownField _emotionsDropdown;
         private readonly Label _guidLabel;
 
-        private readonly VisualElement _imagesContainer;
-
-        private readonly DialogueNode _node;
+        private readonly InterludeNode _node;
         private readonly EditorWindow _owner;
-        private readonly PhraseRepository _phrases;
         private readonly VisualElement _phrasesContainer;
 
         private ImageFieldControl _activeImage;
 
         private CardControl _activePhrase;
+        
+        private readonly PhraseRepository _phrases;
+        private readonly DialogueDatabase _database;
 
-        public DialogueNodeInspectorView(DialogueNode node, PhraseRepository phrases)
+        public InterludeNodeInspectorView(InterludeNode node, PhraseRepository phrases, DialogueDatabase dialogueDatabase)
             : base(Uxml)
         {
             _node = node;
             _phrases = phrases;
+            _database = dialogueDatabase;
 
-            _dropdownField = this.Q<DropdownField>();
+            _dropdownField = this.Q<DropdownField>("person-dropdown");
             _dropdownField.RegisterValueChangedCallback(OnDropdownChanged);
+
+            _emotionsDropdown = this.Q<DropdownField>("emotion-dropdown");
+            _emotionsDropdown.RegisterValueChangedCallback(OnEmotionDropdownChanged);
+            
             _guidLabel = this.Q<Label>("guid-label");
             _phrasesContainer = this.Q<VisualElement>("phrases-container");
 
             _addPhraseButton = this.Q<Button>("add-phrase-button");
             _addPhraseButton.clicked += OnAddPhraseButtonClicked;
 
-            _imagesContainer = this.Q<VisualElement>("images-container");
-            _addImageButton = this.Q<Button>("add-image-button");
-            _addImageButton.clicked += OnAddImageButtonClicked;
-
+            _dropdownField.choices = _database.All().ToList();
+            
             _node.Changed += OnNodeUpdated;
             OnNodeUpdated();
         }
@@ -53,20 +55,28 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
         private void OnNodeUpdated() =>
             Draw(_node);
 
-        private void Draw(DialogueNode node)
+        private void Draw(InterludeNode node)
         {
             _guidLabel.text = node.Guid;
             _dropdownField.SetValueWithoutNotify(node.PersonId);
+            UpdateEmotions(node.PersonId);
 
             if (!string.IsNullOrWhiteSpace(node.PhraseId))
                 SetPhrase(node.PhraseId);
-
-            if (HasImage(node.BackgroundImage))
-                SetImage(node.BackgroundImage);
         }
 
-        private bool HasImage(BackgroundImageData data) => 
-            data != null && !string.IsNullOrEmpty(data.PathToImage);
+        private void UpdateEmotions(string personId)
+        {
+            if (string.IsNullOrWhiteSpace(personId))
+            {
+                _emotionsDropdown.choices = new List<string>();
+                _emotionsDropdown.SetValueWithoutNotify(string.Empty);
+                return;
+            }
+
+            var availableEmotions = _database.AllEmotions(personId);
+            _emotionsDropdown.choices = availableEmotions.ToList();
+        }
 
         private void SetPhrase(string phraseId)
         {
@@ -101,65 +111,8 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             };
         }
 
-        private void SetImage(BackgroundImageData data)
-        {
-            if (_activeImage != null)
-                _imagesContainer.Remove(_activeImage);
-
-            var item = new ImageFieldControl();
-            _activeImage = item;
-
-            if (!string.IsNullOrWhiteSpace(data.PathToImage))
-            {
-                _addImageButton.style.display = DisplayStyle.None;
-                item.SetImage(AssetDatabase.LoadAssetAtPath<Sprite>(data.PathToImage));
-            }
-
-            _imagesContainer.Add(item);
-
-            item.Closed += () =>
-            {
-                _activeImage = null;
-                _imagesContainer.Remove(item);
-                _addImageButton.style.display = DisplayStyle.Flex;
-                _node.SetBackgroundImage(data);
-            };
-
-            item.Selected += sprite =>
-            {
-                var pathToSprite = AssetDatabase.GetAssetPath(sprite);
-
-                if (Validate(pathToSprite))
-                {
-                    _node.BackgroundImage.PathToImage = pathToSprite;
-                    _node.NotifyChanged();
-                }
-                else
-                {
-                    item.RemoveImage();
-                    _node.SetBackgroundImage(null);
-                }
-            };
-        }
-
-        private static bool Validate(string pathToSprite)
-        {
-            var inResourcesFolder = pathToSprite.Contains("Resources");
-
-            if (!inResourcesFolder)
-                EditorUtility.DisplayDialog("Warning", "Sprite should be in Resources/ folder!", "Ok");
-            
-            return inResourcesFolder;
-        }
-
         public void StartEditPhrase() =>
             _activePhrase?.StartEdit();
-
-        private void OnAddImageButtonClicked()
-        {
-            _addImageButton.style.display = DisplayStyle.None;
-            SetImage(new BackgroundImageData());
-        }
 
         private void OnAddPhraseButtonClicked()
         {
@@ -176,8 +129,8 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 
         private void OnDropdownChanged(ChangeEvent<string> action) =>
             _node.SetPersonId(action.newValue);
-
-        public void UpdateDropdownChoices(IEnumerable<string> dropdownChoices) =>
-            _dropdownField.choices = dropdownChoices.ToList();
+        
+        private void OnEmotionDropdownChanged(ChangeEvent<string> evt) => 
+            _node.SetEmotion(evt.newValue);
     }
 }

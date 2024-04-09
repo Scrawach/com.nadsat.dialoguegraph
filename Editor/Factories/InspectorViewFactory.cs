@@ -18,6 +18,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
         private readonly SearchWindowProvider _searchWindow;
 
         private DialogueNodeInspectorView _openedDialogueNodeInspector;
+        private InterludeNodeInspectorView _openedInterludeNodeInspector;
 
         public InspectorViewFactory(DialogueDatabase database, SearchWindowProvider searchWindow, PhraseRepository phrases, 
             ChoicesRepository choices, ExpressionVerifier expressionVerifier, IAudioEditorService audioService)
@@ -34,6 +35,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             target switch
             {
                 DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
+                InterludeNodeView interludeNodeView => CreateInterludeNodeInspector(interludeNodeView),
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
                 SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier, _searchWindow),
                 AudioEventNodeView audioEventView => new AudioEventInspectorView(audioEventView.Model, _audioService, _searchWindow),
@@ -41,10 +43,13 @@ namespace Nadsat.DialogueGraph.Editor.Factories
                 PlacementNodeView placementNodeView => CreatePlacementNodeInspector(placementNodeView),
                 _ => new VisualElement()
             };
-
+        
         public void StartEditPhrase(string phraseId) =>
             _openedDialogueNodeInspector.StartEditPhrase();
 
+        public void StartEditInterludePhrase(string phraseId) =>
+            _openedInterludeNodeInspector.StartEditPhrase();
+            
 
         private VisualElement CreatePlacementNodeInspector(PlacementNodeView nodeView)
         {
@@ -57,6 +62,13 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             var inspector = new DialogueNodeInspectorView(nodeView.Model, _phrases);
             _openedDialogueNodeInspector = inspector;
             inspector.UpdateDropdownChoices(_database.All());
+            return inspector;
+        }
+        
+        private VisualElement CreateInterludeNodeInspector(InterludeNodeView nodeView)
+        {
+            var inspector = new InterludeNodeInspectorView(nodeView.Model, _phrases, _database);
+            _openedInterludeNodeInspector = inspector;
             return inspector;
         }
     }
