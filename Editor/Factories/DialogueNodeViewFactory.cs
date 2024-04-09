@@ -25,7 +25,21 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             var view = new DialogueNodeView(_phrases, _persons);
             view = _baseFactory.Create(view, node);
 
-            if (IsPersonWithoutPhrase(node))
+            if (IsPersonWithoutPhrase(node.PersonId, node.PersonId))
+            {
+                node.SetPhraseId(_phrases.Create(node.PersonId));
+                _inspectorFactory.StartEditPhrase(node.PhraseId);
+            }
+
+            return view;
+        }
+
+        public InterludeNodeView CreateInterlude(InterludeNode node)
+        {
+            var view = new InterludeNodeView(_phrases, _persons);
+            view = _baseFactory.Create(view, node);
+
+            if (IsPersonWithoutPhrase(node.PersonId, node.PersonId))
             {
                 node.SetPhraseId(_phrases.Create(node.PersonId));
                 _inspectorFactory.StartEditPhrase(node.PhraseId);
@@ -40,8 +54,8 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             view = _baseFactory.Create(view, node);
             return view;
         }
-
-        private static bool IsPersonWithoutPhrase(DialogueNode node) =>
-            !string.IsNullOrWhiteSpace(node.PersonId) && string.IsNullOrWhiteSpace(node.PhraseId);
+        
+        private static bool IsPersonWithoutPhrase(string personId, string phraseId) =>
+            !string.IsNullOrWhiteSpace(personId) && string.IsNullOrWhiteSpace(phraseId);
     }
 }

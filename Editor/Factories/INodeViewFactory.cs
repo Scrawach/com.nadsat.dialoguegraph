@@ -6,6 +6,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
     public interface INodeViewFactory
     {
         DialogueNodeView CreateDialogue(DialogueNode node);
+        InterludeNodeView CreateInterlude(InterludeNode node);
         PopupPhraseNodeView CreatePopup(PopupPhraseNode node);
         PlacementNodeView CreatePlacement(PlacementNode node);
         RedirectNodeView CreateRedirect(RedirectNode node);

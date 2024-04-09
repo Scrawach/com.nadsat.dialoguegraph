@@ -31,6 +31,9 @@ namespace Nadsat.DialogueGraph.Editor.Factories
         public DialogueNodeView CreateDialogue(DialogueNode node) =>
             _dialogueFactory.Create(node);
 
+        public InterludeNodeView CreateInterlude(InterludeNode node) => 
+            _dialogueFactory.CreateInterlude(node);
+
         public PopupPhraseNodeView CreatePopup(PopupPhraseNode node) =>
             _dialogueFactory.CreatePopup(node);
 

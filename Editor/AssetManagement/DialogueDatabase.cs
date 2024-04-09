@@ -23,6 +23,9 @@ namespace Nadsat.DialogueGraph.Editor.AssetManagement
                 ? Array.Empty<string>() 
                 : _database.Persons.Select(x => x.Name).ToArray();
 
+        public string[] AllEmotions(string personId) => 
+            Get(personId).Emotions.Select(emotion => emotion.Name).ToArray();
+
         public PersonData Get(string key) =>
             _database.Persons.FirstOrDefault(p => p.Name == key) ?? _none;
 
