@@ -21,6 +21,7 @@ namespace Nadsat.DialogueGraph.Runtime
         public List<NoteNode> Notes = new();
 
         public List<AudioEventNode> AudioEventNodes = new();
+        public List<EndNode> EndNodes = new();
 
         public List<BaseDialogueNode> GetNodes()
         {
@@ -33,6 +34,7 @@ namespace Nadsat.DialogueGraph.Runtime
             nodes.AddRange(VariableNodes);
             nodes.AddRange(RedirectNodes);
             nodes.AddRange(AudioEventNodes);
+            nodes.AddRange(EndNodes);
             return nodes;
         }
     }

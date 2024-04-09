@@ -45,6 +45,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
             var variables = new List<VariableNode>();
             var stickyNotes = new List<NoteNode>();
             var audioEventNodes = new List<AudioEventNode>();
+            var endNodes = new List<EndNode>();
 
             foreach (var viewNode in view.graphElements)
                 switch (viewNode)
@@ -73,6 +74,9 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                     case AudioEventNodeView audioEventView:
                         audioEventNodes.Add(audioEventView.Model);
                         break;
+                    case EndNodeView endNodeView:
+                        endNodes.Add(endNodeView.Model);
+                        break;
                     case StickyNoteView stickyNote:
                         stickyNotes.Add(new NoteNode
                         {
@@ -93,6 +97,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
             graph.VariableNodes = variables;
             graph.Notes = stickyNotes;
             graph.AudioEventNodes = audioEventNodes;
+            graph.EndNodes = endNodes;
         }
         
         private static IEnumerable<NodeLinks> GetLinksFrom(UQueryState<Edge> edges)
