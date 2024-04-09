@@ -66,6 +66,9 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
             Model = null;
         }
 
+        public virtual void Initialize() => 
+            AddInputAndOutputPorts();
+
         public void AddInputAndOutputPorts(string inputPortName = "", string outputPortName = "")
         {
             AddInput(inputPortName);

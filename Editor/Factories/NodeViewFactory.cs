@@ -66,6 +66,12 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             return _baseFactory.Create(view, node);
         }
 
+        public EndNodeView CreateEnd(EndNode node)
+        {
+            var view = new EndNodeView();
+            return _baseFactory.Create(view, node);
+        }
+
         public SwitchNodeView CreateSwitch(SwitchNode node)
         {
             var view = new SwitchNodeView();

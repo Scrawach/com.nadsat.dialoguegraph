@@ -13,5 +13,6 @@ namespace Nadsat.DialogueGraph.Editor.Factories
         SwitchNodeView CreateSwitch(SwitchNode node);
         VariableNodeView CreateVariable(VariableNode node);
         AudioEventNodeView CreateAudioEvent(AudioEventNode node);
+        EndNodeView CreateEnd(EndNode node);
     }
 }

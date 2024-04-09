@@ -28,7 +28,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             where TNodeView : BaseNodeView<TModel>
             where TModel : BaseDialogueNode
         {
-            view.AddInputAndOutputPorts();
+            view.Initialize();
             view.Bind(model);
             view.SetPosition(model.Position);
             view.AddManipulator(new InspectorShowManipulator(_inspectorView, _inspectorFactory));
