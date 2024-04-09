@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Runtime
@@ -9,6 +10,6 @@ namespace Nadsat.DialogueGraph.Runtime
         public string Name;
         public Sprite Icon;
         public Color Color;
-
+        public List<PersonEmotion> Emotions;
     }
 }
