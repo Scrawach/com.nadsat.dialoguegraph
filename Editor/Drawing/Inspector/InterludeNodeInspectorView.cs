@@ -59,13 +59,13 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
         {
             _guidLabel.text = node.Guid;
             _dropdownField.SetValueWithoutNotify(node.PersonId);
-            UpdateEmotions(node.PersonId);
+            UpdateEmotions(node.PersonId, node.Emotion);
 
             if (!string.IsNullOrWhiteSpace(node.PhraseId))
                 SetPhrase(node.PhraseId);
         }
 
-        private void UpdateEmotions(string personId)
+        private void UpdateEmotions(string personId, string selectedEmotion)
         {
             if (string.IsNullOrWhiteSpace(personId))
             {
@@ -76,6 +76,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
 
             var availableEmotions = _database.AllEmotions(personId);
             _emotionsDropdown.choices = availableEmotions.ToList();
+            _emotionsDropdown.SetValueWithoutNotify(selectedEmotion);
         }
 
         private void SetPhrase(string phraseId)

@@ -94,6 +94,7 @@ namespace Nadsat.DialogueGraph.Editor.Importers
             model switch
             {
                 DialogueNode dialogue => _factory.CreateDialogue(dialogue),
+                InterludeNode interlude => _factory.CreateInterlude(interlude),
                 PopupPhraseNode popup => _factory.CreatePopup(popup),
                 ChoicesNode dialogue => _factory.CreateChoices(dialogue),
                 SwitchNode dialogue => _factory.CreateSwitch(dialogue),
