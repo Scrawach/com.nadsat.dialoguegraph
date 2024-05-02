@@ -116,7 +116,8 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             DialogueGraphView.AddManipulator(new GraphViewUndoManipulator(undoHistory));
             DialogueGraphView.Display(false);
 
-            languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
+            // commented because change language update all models, that mark editor window as dirty, because model updated
+            //languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
         }
         
         private ShortcutsProfile CreateShortcuts(SearchWindowProvider searchWindow, IUndoHistory undoHistory, TemplateDialogueFactory templateFactory)
@@ -145,6 +146,8 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             
             DialogueGraphView.Display(true);
             _dialogueGraphToolbar.Display(true);
+
+            _root.IsDirty = false;
         }
 
         public void Save()
