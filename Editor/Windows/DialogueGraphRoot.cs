@@ -24,7 +24,6 @@ using Nadsat.DialogueGraph.Editor.Windows.Search;
 using Nadsat.DialogueGraph.Editor.Windows.Toolbar;
 using Nadsat.DialogueGraph.Editor.Windows.Variables;
 using Nadsat.DialogueGraph.Runtime;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nadsat.DialogueGraph.Editor.Windows
