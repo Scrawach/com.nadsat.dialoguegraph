@@ -23,16 +23,16 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
         }
 
         private static IEnumerable<Port> GetUnusedPorts(SwitchNode model, IEnumerable<Port> ports) =>
-            ports.Where(port => model.Branches.FirstOrDefault(b => b.Condition == port.viewDataKey) == null);
+            ports.Where(port => model.Branches.FirstOrDefault(b => b.Guid == port.viewDataKey) == null);
 
         private void CreateMissingOutputPorts(SwitchNode model, Port[] ports)
         {
             foreach (var branch in model.Branches)
             {
-                if (ports.FirstOrDefault(port => port.viewDataKey == branch.Condition) != null)
+                if (ports.FirstOrDefault(port => port.viewDataKey == branch.Guid) != null)
                     continue;
 
-                AddOutput(branch.Condition, branch.Condition);
+                AddOutput(branch.Condition, branch.Guid);
             }
         }
     }

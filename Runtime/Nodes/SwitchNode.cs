@@ -9,9 +9,9 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
     {
         public List<Branch> Branches = new();
 
-        public void RemoveBranch(string condition)
+        public void RemoveBranch(string guid)
         {
-            var branch = Branches.First(b => b.Condition == condition);
+            var branch = Branches.First(b => b.Condition == guid);
             Branches.Remove(branch);
             NotifyChanged();
         }
