@@ -1,0 +1,19 @@
+{
+    "name": "Nadsat.DialogueGraph.Editor.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a396626f280b1be4e9f74744ed461c1e",
+        "GUID:4e1f5c56cbc36e043b5bcd0119b7233d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
