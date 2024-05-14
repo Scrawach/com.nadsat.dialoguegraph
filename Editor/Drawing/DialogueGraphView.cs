@@ -18,22 +18,12 @@ namespace Nadsat.DialogueGraph.Editor.Drawing
 
             this.AddManipulator(new ContentZoomer
                 {maxScale = 2f, minScale = 0.1f});
-            this.AddManipulator(ContentDragger());
+            this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
             var stylesheet = Resources.Load<StyleSheet>(StyleSheetPath);
             styleSheets.Add(stylesheet);
-        }
-
-        private static Manipulator ContentDragger()
-        {
-            var dragger = new ContentDragger();
-            dragger.activators.Add(new ManipulatorActivationFilter()
-            {
-                
-            });
-            return dragger;
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) =>
