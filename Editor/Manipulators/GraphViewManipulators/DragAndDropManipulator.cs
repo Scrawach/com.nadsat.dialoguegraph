@@ -12,6 +12,7 @@ namespace Nadsat.DialogueGraph.Editor.Manipulators.GraphViewManipulators
 {
     public class DragAndDropManipulator : Manipulator
     {
+        private const string DragSelection = "DragSelection";
         private readonly INodeViewFactory _factory;
 
         public DragAndDropManipulator(INodeViewFactory factory) =>
@@ -33,7 +34,7 @@ namespace Nadsat.DialogueGraph.Editor.Manipulators.GraphViewManipulators
         {
             var graphView = (UnityEditor.Experimental.GraphView.GraphView) target;
 
-            var selection = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
+            var selection = DragAndDrop.GetGenericData(DragSelection) as List<ISelectable>;
             var fields = selection.OfType<BlackboardField>();
             foreach (var field in fields)
                 _factory.CreateVariable(new VariableNode
@@ -46,7 +47,7 @@ namespace Nadsat.DialogueGraph.Editor.Manipulators.GraphViewManipulators
 
         private void OnDragUpdated(DragUpdatedEvent e)
         {
-            if (DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection && selection.OfType<BlackboardField>().Count() >= 0)
+            if (DragAndDrop.GetGenericData(DragSelection) is List<ISelectable> selection && selection.OfType<BlackboardField>().Count() >= 0)
                 DragAndDrop.visualMode = e.actionKey ? DragAndDropVisualMode.Copy : DragAndDropVisualMode.Move;
         }
     }
