@@ -60,7 +60,9 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             {
                 _searchWindow.FindVariables(card.transform.position, selected =>
                 {
-                    card.Add(selected);
+                    card.AddText(selected);
+                    branch.Condition = card.Text;
+                    _node.NotifyChanged();
                 });
             };
             _casesContainer.Add(card);

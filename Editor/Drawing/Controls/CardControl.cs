@@ -39,6 +39,8 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
             _description.selection.isSelectable = true;
         }
 
+        public string Text => _description.text;
+        
         public event Action<string> TextEdited;
 
         public event Action Closed
@@ -99,7 +101,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
             _textField.textSelection.SelectAll();
         }
 
-        public void Add(string text) => 
+        public void AddText(string text) => 
             _description.text += " " + text;
 
         public new class UxmlFactory : UxmlFactory<CardControl, UxmlTraits> { }
