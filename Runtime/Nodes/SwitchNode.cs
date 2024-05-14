@@ -21,6 +21,9 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
             Branches.Add(branch);
             NotifyChanged();
         }
+
+        public Branch Find(string guid) => 
+            Branches.Find(branch => branch.Guid == guid);
     }
 
     [Serializable]

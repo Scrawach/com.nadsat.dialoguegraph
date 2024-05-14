@@ -20,6 +20,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
             var ports = outputContainer.Children().Cast<Port>().ToArray();
             PortRemoved?.Invoke(GetUnusedPorts(Model, ports));
             CreateMissingOutputPorts(Model, ports);
+            UpdatePortNamesFromConditions(Model, ports);
         }
 
         private static IEnumerable<Port> GetUnusedPorts(SwitchNode model, IEnumerable<Port> ports) =>
@@ -33,6 +34,19 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
                     continue;
 
                 AddOutput(branch.Condition, branch.Guid);
+            }
+        }
+
+        private static void UpdatePortNamesFromConditions(SwitchNode node, IEnumerable<Port> ports)
+        {
+            foreach (var port in ports)
+            {
+                var branch = node.Branches.FirstOrDefault(b => b.Guid == port.viewDataKey);
+
+                if (branch == null)
+                    continue;
+                
+                port.portName = branch.Condition;
             }
         }
     }
