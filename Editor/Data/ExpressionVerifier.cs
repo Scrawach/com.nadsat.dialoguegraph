@@ -18,7 +18,7 @@ namespace Nadsat.DialogueGraph.Editor.Data
 
         public (bool isValid, string[] invalidKeys) Verify(string expression)
         {
-            var mathSymbols = new[] {"||", ">", "<", "&&", "|", "&", " "};
+            var mathSymbols = new[] {"||", ">", "<", "&&", "|", "&", " ", "=", "=="};
             var terms = expression.Split(mathSymbols, StringSplitOptions.RemoveEmptyEntries);
             var invalidKeys = terms.Where(IsInvalidKeys).ToArray();
             return invalidKeys.Any() ? (false, invalidKeys) : (true, null);
