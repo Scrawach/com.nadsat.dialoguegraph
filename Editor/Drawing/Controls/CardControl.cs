@@ -1,4 +1,5 @@
 using System;
+using Nadsat.DialogueGraph.Editor.Data;
 using Nadsat.DialogueGraph.Editor.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -68,6 +69,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Controls
 
             var text = _textField.text;
             text = RemoveNewlineSymbol(text);
+            text = new FormattedTextLine(text).ToString();
             _description.text = text;
             TextEdited?.Invoke(text);
         }
