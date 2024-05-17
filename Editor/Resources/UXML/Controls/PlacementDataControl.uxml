@@ -1,8 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="placement" style="flex-grow: 0; flex-direction: row;">
-        <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="person-dropdown" style="width: 114px;" />
-        <ui:EnumField type="Nadsat.DialogueGraph.Runtime.Nodes.PlacementEffect, Nadsat.DialogueGraph" name="effect-field" />
-        <ui:IntegerField value="42" name="priority-field" />
+    <ui:VisualElement name="placement" style="flex-grow: 0; flex-direction: row; align-items: stretch; justify-content: space-between; height: 40px;">
+        <ui:VisualElement style="flex-grow: 0; flex-direction: row; flex-shrink: 0;">
+            <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="person-dropdown" style="width: auto;" />
+            <ui:EnumField type="Nadsat.DialogueGraph.Runtime.Nodes.PlacementEffect, Nadsat.DialogueGraph" name="effect-field" />
+            <ui:EnumField type="Nadsat.DialogueGraph.Editor.Data.PhoneCallPlacement, Nadsat.DialogueGraph.Editor" name="place-field" />
+        </ui:VisualElement>
         <ui:Button text="x" display-tooltip-when-elided="true" name="remove-button" />
     </ui:VisualElement>
 </ui:UXML>
