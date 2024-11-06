@@ -6,7 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Nadsat.DialogueGraph.Editor.Exporters
+namespace Nadsat.DialogueGraph.Editor.Serialization.Exporters
 {
     public class PngExporter
     {

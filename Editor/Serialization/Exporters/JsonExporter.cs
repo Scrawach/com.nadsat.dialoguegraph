@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.Data;
-using Nadsat.DialogueGraph.Editor.Drawing.Nodes;
 using Nadsat.DialogueGraph.Editor.Drawing.Nodes.Abstract;
 using Nadsat.DialogueGraph.Runtime;
 using Nadsat.DialogueGraph.Runtime.Nodes;
@@ -11,7 +10,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace Nadsat.DialogueGraph.Editor.Exporters
+namespace Nadsat.DialogueGraph.Editor.Serialization.Exporters
 {
     public class JsonExporter
     {

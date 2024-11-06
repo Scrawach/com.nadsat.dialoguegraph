@@ -2,7 +2,7 @@ using System.IO;
 using Nadsat.DialogueGraph.Editor.Localization;
 using UnityEditor;
 
-namespace Nadsat.DialogueGraph.Editor.Exporters
+namespace Nadsat.DialogueGraph.Editor.Serialization.Exporters
 {
     public class CsvExporter
     {

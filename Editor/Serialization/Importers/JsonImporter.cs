@@ -1,4 +1,4 @@
-namespace Nadsat.DialogueGraph.Editor.Importers
+namespace Nadsat.DialogueGraph.Editor.Serialization.Importers
 {
     public class JsonImporter
     {

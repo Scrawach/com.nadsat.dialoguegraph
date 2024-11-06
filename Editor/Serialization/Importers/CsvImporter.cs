@@ -4,9 +4,8 @@ using System.Linq;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
 using Nadsat.DialogueGraph.Editor.Localization;
 using Nadsat.DialogueGraph.Runtime.Localization;
-using UnityEngine;
 
-namespace Nadsat.DialogueGraph.Editor.Importers
+namespace Nadsat.DialogueGraph.Editor.Serialization.Importers
 {
     public class CsvImporter
     {

@@ -1,7 +1,6 @@
 using Nadsat.DialogueGraph.Editor.Data;
-using Nadsat.DialogueGraph.Editor.Serialization;
 
-namespace Nadsat.DialogueGraph.Editor.Exporters
+namespace Nadsat.DialogueGraph.Editor.Serialization.Exporters
 {
     public class DialogueGraphExporter
     {
