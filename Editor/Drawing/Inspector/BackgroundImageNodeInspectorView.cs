@@ -85,14 +85,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Inspector
             };
         }
         
-        private static bool Validate(string pathToSprite)
-        {
-            var inResourcesFolder = pathToSprite.Contains("Resources");
-
-            if (!inResourcesFolder)
-                EditorUtility.DisplayDialog("Warning", "Sprite should be in Resources/ folder!", "Ok");
-            
-            return inResourcesFolder;
-        }
+        private static bool Validate(string pathToSprite) => 
+            true;
     }
 }
