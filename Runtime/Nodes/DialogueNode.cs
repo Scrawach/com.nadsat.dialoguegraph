@@ -7,7 +7,6 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
     {
         public string PersonId;
         public string PhraseId;
-        public BackgroundImageData BackgroundImage;
 
         public void SetPersonId(string personId)
         {
@@ -18,12 +17,6 @@ namespace Nadsat.DialogueGraph.Runtime.Nodes
         public void SetPhraseId(string phraseId)
         {
             PhraseId = phraseId;
-            NotifyChanged();
-        }
-
-        public void SetBackgroundImage(BackgroundImageData data)
-        {
-            BackgroundImage = data;
             NotifyChanged();
         }
     }

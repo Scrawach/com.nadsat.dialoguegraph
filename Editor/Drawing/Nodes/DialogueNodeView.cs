@@ -14,8 +14,6 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
         private readonly DialogueDatabase _database;
 
         private readonly VisualElement _header;
-        private readonly VisualElement _image;
-        private readonly VisualElement _imageContainer;
 
         private readonly Label _personNameLabel;
         private readonly PhraseRepository _phrases;
@@ -33,8 +31,6 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
             _phraseTextLabel = this.Q<Label>("description-label");
             _header = this.Q<VisualElement>("header");
             _avatar = this.Q<VisualElement>("avatar");
-            _image = this.Q<VisualElement>("image");
-            _imageContainer = this.Q<VisualElement>("image-container");
         }
 
         protected override void OnModelChanged() =>
@@ -44,7 +40,6 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
         {
             SetPerson(model.PersonId);
             SetPhrase(model.PhraseId);
-            SetImage(model.BackgroundImage);
         }
 
         private void SetPhrase(string phraseId)
@@ -77,20 +72,6 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
             else
             {
                 _avatar.Display(false);
-            }
-        }
-
-        private void SetImage(BackgroundImageData data)
-        {
-            if (data == null || string.IsNullOrWhiteSpace(data.PathToImage))
-            {
-                _imageContainer.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                var image = AssetDatabase.LoadAssetAtPath<Sprite>(data.PathToImage);
-                _imageContainer.style.display = DisplayStyle.Flex;
-                _image.style.backgroundImage = new StyleBackground(image);
             }
         }
     }
