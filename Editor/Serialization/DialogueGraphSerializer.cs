@@ -38,6 +38,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
         private static void FillGraph(Runtime.DialogueGraph graph, GraphView view)
         {
             var dialogues = new List<DialogueNode>();
+            var images = new List<BackgroundImageNode>();
             var interludes = new List<InterludeNode>();
             var popups = new List<PopupPhraseNode>();
             var choices = new List<ChoicesNode>();
@@ -54,6 +55,9 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                 {
                     case DialogueNodeView dialogue:
                         dialogues.Add(dialogue.Model);
+                        break;
+                    case BackgroundImageNodeView image:
+                        images.Add(image.Model);
                         break;
                     case InterludeNodeView interlude:
                         interludes.Add(interlude.Model);
@@ -94,6 +98,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization
                 }
 
             graph.Nodes = dialogues;
+            graph.Images = images;
             graph.Interludes = interludes;
             graph.Popups = popups;
             graph.Placements = placements;
