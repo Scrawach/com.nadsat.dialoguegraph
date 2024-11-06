@@ -7,7 +7,7 @@ namespace Nadsat.DialogueGraph.Editor.Drawing.Nodes
 {
     public class BackgroundImageNodeView : BaseNodeView<BackgroundImageNode>
     {
-        private const string UxmlPath = "UXML/BackgroundImageView";
+        private const string UxmlPath = "UXML/BackgroundImageNodeView";
 
         private readonly VisualElement _image;
         private readonly VisualElement _imageContainer;

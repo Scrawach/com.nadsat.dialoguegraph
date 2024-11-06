@@ -31,6 +31,12 @@ namespace Nadsat.DialogueGraph.Editor.Factories
         public DialogueNodeView CreateDialogue(DialogueNode node) =>
             _dialogueFactory.Create(node);
 
+        public BackgroundImageNodeView CreateBackgroundImageNode(BackgroundImageNode node)
+        {
+            var view = new BackgroundImageNodeView();
+            return _baseFactory.Create(view, node);
+        }
+
         public InterludeNodeView CreateInterlude(InterludeNode node) => 
             _dialogueFactory.CreateInterlude(node);
 

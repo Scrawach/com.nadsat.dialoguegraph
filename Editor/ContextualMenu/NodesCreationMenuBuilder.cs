@@ -22,6 +22,7 @@ namespace Nadsat.DialogueGraph.Editor.ContextualMenu
             _builders = new Dictionary<string, Action<Vector2>>
             {
                 ["Dialogue Node"] = position => nodeViewFactory.CreateDialogue(NewModel<DialogueNode>(position)),
+                ["Background Image Node"] = position => nodeViewFactory.CreateBackgroundImageNode(NewModel<BackgroundImageNode>(position)),
                 ["Interlude Node"] = position => nodeViewFactory.CreateInterlude(NewModel<InterludeNode>(position)),
                 ["Popup node"] = position => nodeViewFactory.CreatePopup(NewModel<PopupPhraseNode>(position)),
                 ["Choices Node"] = position => nodeViewFactory.CreateChoices(NewModel<ChoicesNode>(position)),
