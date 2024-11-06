@@ -35,6 +35,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             target switch
             {
                 DialogueNodeView dialogueView => CreateDialogueNodeInspector(dialogueView),
+                BackgroundImageNodeView imageView => CreateBackgroundImageNodeInspector(imageView),
                 InterludeNodeView interludeNodeView => CreateInterludeNodeInspector(interludeNodeView),
                 ChoicesNodeView choicesView => new ChoicesNodeInspectorView(choicesView.Model, _choices),
                 SwitchNodeView switchView => new SwitchNodeInspectorView(switchView.Model, _expressionVerifier, _searchWindow),
@@ -62,6 +63,12 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             var inspector = new DialogueNodeInspectorView(nodeView.Model, _phrases);
             _openedDialogueNodeInspector = inspector;
             inspector.UpdateDropdownChoices(_database.All());
+            return inspector;
+        }
+
+        private VisualElement CreateBackgroundImageNodeInspector(BackgroundImageNodeView view)
+        {
+            var inspector = new BackgroundImageNodeInspectorView(view.Model);
             return inspector;
         }
         
