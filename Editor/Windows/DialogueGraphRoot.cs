@@ -91,7 +91,8 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             _graphExporter = new DialogueGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             
             var csvImporter = new CsvImporter(languageProvider, multiTable);
-            _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, variables, csvImporter, dialogueGraphProvider, elementsFactory);
+            _graphImporter = new DialogueGraphImporter(DialogueGraphView, nodeFactory, nodesProvider, 
+                variables, csvImporter, dialogueGraphProvider, elementsFactory, dialoguesProvider);
 
             var backupExporter = new BackupGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             _backupService = new BackupService(backupExporter, 5f);

@@ -9,23 +9,27 @@ namespace Nadsat.DialogueGraph.Editor.Data
 {
     public class DialoguesProvider
     {
-        private const string RootFolder = "Assets/Resources/Dialogues/";
         private const string DialogueGraphContainer = "t:DialogueGraphContainer";
+        
+        private string _rootFolder = "Assets/Resources/Dialogues/";
+
+        public void SetupRootFolder(string path) => 
+            _rootFolder = path;
 
         public string GetRootPath() =>
-            RootFolder;
+            _rootFolder;
 
         public string GetDialoguePath(string dialogueName) =>
-            $"{GetDialogueFolder(dialogueName)}/{dialogueName}.asset";
+            $"{GetRootPath()}/{dialogueName}.asset";
 
         public string GetDialogueFolder(string dialogueName) =>
-            $"{RootFolder}{dialogueName}";
+            $"{_rootFolder}";
 
         public string GetBackupDialoguePath(string dialogueName) =>
             $"{GetBackupFolder(dialogueName)}/{dialogueName}.asset";
 
         public string GetBackupFolder(string dialogueName) =>
-            $"{RootFolder}{dialogueName}/Backup";
+            $"{_rootFolder}/Backup";
         
         public bool Contains(string dialogueName) =>
             AssetDatabase.AssetPathExists(GetDialoguePath(dialogueName));

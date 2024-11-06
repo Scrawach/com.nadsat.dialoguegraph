@@ -12,6 +12,7 @@ using Nadsat.DialogueGraph.Runtime;
 using Nadsat.DialogueGraph.Runtime.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nadsat.DialogueGraph.Editor.Serialization.Importers
@@ -25,10 +26,11 @@ namespace Nadsat.DialogueGraph.Editor.Serialization.Importers
         private readonly CsvImporter _csvImporter;
         private readonly DialogueGraphProvider _dialogueGraphProvider;
         private readonly ElementsFactory _elementsFactory;
+        private readonly DialoguesProvider _dialoguesProvider;
 
         public DialogueGraphImporter(DialogueGraphView graphView, INodeViewFactory factory, NodesProvider nodes, 
             VariablesProvider variables, CsvImporter csvImporter, DialogueGraphProvider dialogueProvider,
-            ElementsFactory elementsFactory)
+            ElementsFactory elementsFactory, DialoguesProvider dialoguesProvider)
         {
             _graphView = graphView;
             _factory = factory;
@@ -37,12 +39,16 @@ namespace Nadsat.DialogueGraph.Editor.Serialization.Importers
             _csvImporter = csvImporter;
             _dialogueGraphProvider = dialogueProvider;
             _elementsFactory = elementsFactory;
+            _dialoguesProvider = dialoguesProvider;
         }
 
         public void Import(DialogueGraphContainer container)
         {
             var pathToContainerFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(container));
             container = UnityEngine.Object.Instantiate(container);
+            Debug.Log($"Root: {pathToContainerFolder}");
+            _dialoguesProvider.SetupRootFolder(pathToContainerFolder + "/");
+            
             _dialogueGraphProvider.Graph = container.Graph;
             _csvImporter.Import(container.Graph.Name, pathToContainerFolder);
             ImportNodes(container.Graph);
