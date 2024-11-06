@@ -31,6 +31,7 @@ namespace Nadsat.DialogueGraph.Editor.Factories
             _audioService = audioService;
         }
 
+        // TODO: remove it, use REFLECTION with attributes instead.
         public VisualElement Build(VisualElement target) =>
             target switch
             {
