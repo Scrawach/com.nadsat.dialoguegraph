@@ -4,6 +4,7 @@ using Nadsat.DialogueGraph.Editor.Audios.Wwise;
 using Nadsat.DialogueGraph.Editor.Backup;
 using Nadsat.DialogueGraph.Editor.ContextualMenu;
 using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.DebugPlay;
 using Nadsat.DialogueGraph.Editor.Drawing;
 using Nadsat.DialogueGraph.Editor.Drawing.Controls;
 using Nadsat.DialogueGraph.Editor.Drawing.Inspector;
@@ -96,10 +97,12 @@ namespace Nadsat.DialogueGraph.Editor.Windows
 
             var backupExporter = new BackupGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             _backupService = new BackupService(backupExporter, 5f);
+
+            var debugLauncher = new DebugLauncher(_graphExporter, dialogueGraphProvider, dialoguesProvider);
             
             audioService.Initialize();
             dialogueDatabase.Initialize();
-            _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider);
+            _dialogueGraphToolbar.Initialize(variablesBlackboard, languageProvider, debugLauncher);
             dialogueWindowToolbar.Initialize(this, createWindow, dialoguesProvider, pngExporter);
             variablesBlackboard.Initialize();
             languageProvider.AddLanguage("Russian");

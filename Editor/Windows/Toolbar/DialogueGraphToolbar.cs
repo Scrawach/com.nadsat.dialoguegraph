@@ -1,8 +1,17 @@
+using System;
+using System.IO;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.AssetManagement;
+using Nadsat.DialogueGraph.Editor.DebugPlay;
 using Nadsat.DialogueGraph.Editor.Drawing.Controls;
 using Nadsat.DialogueGraph.Editor.Windows.Variables;
+using Nadsat.DialogueGraph.Runtime;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
+using Random = System.Random;
 
 namespace Nadsat.DialogueGraph.Editor.Windows.Toolbar
 {
@@ -12,9 +21,11 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Toolbar
 
         private readonly DropdownField _languageDropdown;
         private readonly Toggle _variablesToggle;
+        private readonly Button _playButton;
 
         private LanguageProvider _languageProvider;
         private VariablesBlackboard _variablesBlackboard;
+        private DebugLauncher _debugLauncher;
 
         public DialogueGraphToolbar() : base(Uxml)
         {
@@ -23,12 +34,19 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Toolbar
 
             _variablesToggle = this.Q<Toggle>("variables-toggle");
             _variablesToggle.RegisterValueChangedCallback(OnVariablesToggled);
-        }
 
-        public void Initialize(VariablesBlackboard variablesBlackboard, LanguageProvider languageProvider)
+            _playButton = this.Q<Button>("play-button");
+            _playButton.RegisterCallback<ClickEvent>(PlayCurrentDialogue);;
+        }
+        
+        public void Initialize(
+            VariablesBlackboard variablesBlackboard, 
+            LanguageProvider languageProvider,
+            DebugLauncher debugLauncher)
         {
             _languageProvider = languageProvider;
             _variablesBlackboard = variablesBlackboard;
+            _debugLauncher = debugLauncher;
 
             _languageProvider.Changed += () =>
             {
@@ -47,6 +65,9 @@ namespace Nadsat.DialogueGraph.Editor.Windows.Toolbar
             else
                 _variablesBlackboard.Hide();
         }
+        
+        private void PlayCurrentDialogue(ClickEvent click) => 
+            _debugLauncher.LaunchCurrentDialogue();
 
         public new class UxmlFactory : UxmlFactory<DialogueGraphToolbar, UxmlTraits> { }
     }

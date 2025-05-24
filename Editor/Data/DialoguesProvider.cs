@@ -73,6 +73,24 @@ namespace Nadsat.DialogueGraph.Editor.Data
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<DialogueGraphContainer>);
 
+        public List<TextAsset> GetLocalizationFor(string name)
+        {
+            var paths = AssetDatabase
+                .FindAssets(DialogueGraphContainer)
+                .Select(AssetDatabase.GUIDToAssetPath);
+
+            foreach (var path in paths)
+            {
+                var container = AssetDatabase.LoadAssetAtPath<DialogueGraphContainer>(path);
+
+                if (container.Graph.Name == name)
+                {
+                }
+            }
+
+            return null;
+        }
+        
         private static void CreateDirectoriesForFile(string path)
         {
             var relativePath = Path.GetRelativePath("Assets", path);
