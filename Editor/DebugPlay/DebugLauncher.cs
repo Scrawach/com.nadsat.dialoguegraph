@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Nadsat.DialogueGraph.Editor.Data;
+using Nadsat.DialogueGraph.Editor.Serialization;
 using Nadsat.DialogueGraph.Editor.Serialization.Exporters;
 using Nadsat.DialogueGraph.Runtime;
 using UnityEditor;
@@ -12,30 +13,31 @@ namespace Nadsat.DialogueGraph.Editor.DebugPlay
 {
     public class DebugLauncher
     {
-        private readonly DialogueGraphExporter _graphExporter;
-        private readonly DialogueGraphProvider _graphProvider;
+        private readonly DialogueGraphExporter _exporter;
+        private readonly DialogueGraphSerializer _serializer;
         private readonly DialoguesProvider _dialogues;
 
         public DebugLauncher(
-            DialogueGraphExporter graphExporter, 
-            DialogueGraphProvider graphProvider,
+            DialogueGraphExporter exporter,
+            DialogueGraphSerializer serializer,
             DialoguesProvider dialogues)
         {
-            _graphExporter = graphExporter;
-            _graphProvider = graphProvider;
+            _exporter = exporter;
+            _serializer = serializer;
             _dialogues = dialogues;
         }
 
         public void LaunchCurrentDialogue()
         {
-            _graphExporter.Export();
+            _exporter.Export();
+            var graph = _serializer.Serialize();
             
-            Debug.LogError($"{_graphProvider.Graph}");
-            var localization = GetLocalization(_dialogues.GetDialogueFolder(_graphProvider.Graph.Name)).ToList();
+            Debug.LogError($"{graph.Nodes.Count}");
+            var localization = GetLocalization(_dialogues.GetDialogueFolder(graph.Name)).ToList();
 
             if (localization.Count < 1)
             {
-                Debug.LogError($"Not found localization for {_graphProvider.Graph}");
+                Debug.LogError($"Not found localization for {graph.Name}");
                 return;
             }
             
@@ -49,10 +51,10 @@ namespace Nadsat.DialogueGraph.Editor.DebugPlay
 
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) 
                 return;
-            
+
             EditorSceneManager.OpenScene(testScenePath);
             var dialogueScene = Object.FindAnyObjectByType<DebugDialogueScene>();
-            dialogueScene.Graph = _graphProvider.Graph;
+            dialogueScene.Graph = graph;
             dialogueScene.Localization = localization;
             EditorApplication.isPlaying = true;
         }
@@ -62,14 +64,10 @@ namespace Nadsat.DialogueGraph.Editor.DebugPlay
 
         private IEnumerable<string> GetCsvFilesFromDirectory(string path)
         {
-            Debug.LogError($"START: {path}");
-            
             const string tableExtensions = ".csv";
             var filesInDirectory = Directory.GetFiles(path);
             foreach (var filePath in filesInDirectory)
             {
-                Debug.LogError($"File path: {filePath}");
-                
                 if (Path.GetExtension(filePath) == tableExtensions)
                     yield return filePath;
             }

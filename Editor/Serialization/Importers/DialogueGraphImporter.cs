@@ -47,7 +47,7 @@ namespace Nadsat.DialogueGraph.Editor.Serialization.Importers
             var pathToContainerFolder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(container));
             container = UnityEngine.Object.Instantiate(container);
             Debug.Log($"Root: {pathToContainerFolder}");
-            _dialoguesProvider.SetupRootFolder(pathToContainerFolder + "/");
+            //_dialoguesProvider.SetupRootFolder(pathToContainerFolder + "/");
             
             _dialogueGraphProvider.Graph = container.Graph;
             _csvImporter.Import(container.Graph.Name, pathToContainerFolder);

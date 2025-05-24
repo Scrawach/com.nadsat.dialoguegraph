@@ -98,7 +98,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             var backupExporter = new BackupGraphExporter(graphSerializer, csvExporter, dialoguesProvider);
             _backupService = new BackupService(backupExporter, 5f);
 
-            var debugLauncher = new DebugLauncher(_graphExporter, dialogueGraphProvider, dialoguesProvider);
+            var debugLauncher = new DebugLauncher(_graphExporter, graphSerializer, dialoguesProvider);
             
             audioService.Initialize();
             dialogueDatabase.Initialize();
@@ -145,6 +145,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
 
         public void Load(DialogueGraphContainer container)
         {
+            _backupService.Start();
             _graphImporter.Import(container);
             
             DialogueGraphView.Display(true);
