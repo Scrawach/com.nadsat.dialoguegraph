@@ -12,10 +12,12 @@ namespace Nadsat.DialogueGraph.Runtime.Localization
         public CsvAsset(string path) =>
             _path = path;
 
-        public IEnumerable<string[]> Rows()
+        public IEnumerable<string[]> Rows() => 
+            Rows(Resources.Load<TextAsset>(_path));
+
+        public static IEnumerable<string[]> Rows(TextAsset asset)
         {
-            var table = Resources.Load<TextAsset>(_path);
-            var rows = table.text.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var rows = asset.text.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var row in rows)
                 yield return CsvLineFieldsFrom(row);
