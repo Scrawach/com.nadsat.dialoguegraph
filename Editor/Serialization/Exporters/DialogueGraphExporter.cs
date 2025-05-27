@@ -7,8 +7,11 @@ namespace Nadsat.DialogueGraph.Editor.Serialization.Exporters
         private readonly DialogueGraphSerializer _graphSerializer;
         private readonly CsvExporter _csvExporter;
         private readonly DialoguesProvider _dialogues;
-
-        public DialogueGraphExporter(DialogueGraphSerializer graphSerializer, CsvExporter csvExporter, DialoguesProvider dialogues)
+        
+        public DialogueGraphExporter(
+            DialogueGraphSerializer graphSerializer, 
+            CsvExporter csvExporter, 
+            DialoguesProvider dialogues)
         {
             _graphSerializer = graphSerializer;
             _csvExporter = csvExporter;
