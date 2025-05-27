@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nadsat.DialogueGraph.Runtime.Localization;
+using UnityEngine;
 
 namespace Nadsat.DialogueGraph.Editor.Localization
 {
@@ -25,6 +26,10 @@ namespace Nadsat.DialogueGraph.Editor.Localization
         {
             var columnIndex = _headers.IndexOf(column) - 1;
             var contentTable = _content[row];
+            
+            if (columnIndex + 1 >= contentTable.Count)
+                return string.Empty;
+            
             return contentTable[columnIndex];
         }
 
