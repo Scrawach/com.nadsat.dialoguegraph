@@ -120,7 +120,7 @@ namespace Nadsat.DialogueGraph.Editor.Windows
             DialogueGraphView.Display(false);
 
             // commented because change language update all models, that mark editor window as dirty, because model updated
-            //languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
+            languageProvider.LanguageChanged += language => nodesProvider.UpdateLanguage();
         }
         
         private ShortcutsProfile CreateShortcuts(SearchWindowProvider searchWindow, IUndoHistory undoHistory, TemplateDialogueFactory templateFactory)
