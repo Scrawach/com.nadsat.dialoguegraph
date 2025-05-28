@@ -9,6 +9,8 @@ namespace Nadsat.DialogueGraph.Editor.Localization
 {
     public class Table
     {
+        public const string NotValidKey = "[ERR_NOT_FOUND]";
+        
         private readonly Dictionary<string, List<string>> _content = new();
         private List<string> _headers = new() {"Keys"};
 
@@ -27,8 +29,8 @@ namespace Nadsat.DialogueGraph.Editor.Localization
             var columnIndex = _headers.IndexOf(column) - 1;
             var contentTable = _content[row];
             
-            if (columnIndex + 1 >= contentTable.Count)
-                return string.Empty;
+            if (columnIndex + 1 > contentTable.Count)
+                return NotValidKey;
             
             return contentTable[columnIndex];
         }
